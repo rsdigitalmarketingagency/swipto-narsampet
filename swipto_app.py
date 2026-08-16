@@ -286,7 +286,7 @@ def main(page: ft.Page):
                     ft.Container(
                         content=ft.Text("Skip", color="white", weight=ft.FontWeight.BOLD, size=13),
                         bgcolor="#40000000",
-                        padding=ft.padding.symmetric(horizontal=14, vertical=6),
+                        padding=ft.Padding(14, 6, 14, 6),
                         border_radius=20,
                         on_click=lambda e: show_home_screen()
                     )
@@ -299,7 +299,7 @@ def main(page: ft.Page):
                         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=0),
                         ft.Text("One app for food, grocery, dining &\nmore in minutes!", color="white", size=15, weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.CENTER)
                     ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=8),
-                    padding=ft.padding.only(top=10, bottom=24)
+                    padding=ft.Padding(0, 10, 0, 24)
                 )
             ]),
             bgcolor=SWIGGY_ORANGE,
@@ -321,7 +321,7 @@ def main(page: ft.Page):
                     ], spacing=2),
                     border=ft.border.all(1.5, SWIGGY_ORANGE),
                     border_radius=12,
-                    padding=ft.padding.symmetric(horizontal=14, vertical=8),
+                    padding=ft.Padding(14, 8, 14, 8),
                     width=320
                 ),
                 otp_input,
@@ -368,21 +368,21 @@ def main(page: ft.Page):
                             ft.Icon(ft.icons.LUNCH_DINING, color="white", size=24),
                             ft.Text("Food", color="white", size=12, weight=ft.FontWeight.BOLD)
                         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=2),
-                        bgcolor="#1E5BCA", padding=ft.padding.symmetric(horizontal=24, vertical=6), border_radius=12
+                        bgcolor="#1E5BCA", padding=ft.Padding(24, 6, 24, 6), border_radius=12
                     ),
                     ft.Container(
                         content=ft.Column([
                             ft.Container(content=ft.Text("6 mins", color="white", size=9, weight=ft.FontWeight.BOLD), bgcolor="#0080FF", padding=2, border_radius=4),
                             ft.Text("Instamart", color="#B8D5FF", size=12)
                         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=2),
-                        padding=ft.padding.symmetric(horizontal=16, vertical=6)
+                        padding=ft.Padding(16, 6, 16, 6)
                     ),
                     ft.Container(
                         content=ft.Column([
                             ft.Icon(ft.icons.ROOM_SERVICE, color="#B8D5FF", size=20),
                             ft.Text("Dineout", color="#B8D5FF", size=12)
                         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=2),
-                        padding=ft.padding.symmetric(horizontal=16, vertical=6)
+                        padding=ft.Padding(16, 6, 16, 6)
                     )
                 ], alignment=ft.MainAxisAlignment.SPACE_AROUND)
             ], spacing=12),
@@ -415,7 +415,7 @@ def main(page: ft.Page):
                     ft.Container(
                         content=ft.Text("Enter PNR >", color="white", size=11, weight=ft.FontWeight.BOLD),
                         bgcolor=SWIGGY_ORANGE,
-                        padding=ft.padding.symmetric(horizontal=10, vertical=4),
+                        padding=ft.Padding(10, 4, 10, 4),
                         border_radius=12
                     )
                 ], spacing=4),
@@ -424,7 +424,7 @@ def main(page: ft.Page):
             bgcolor="#1E5BCA",
             border_radius=12,
             padding=12,
-            margin=ft.padding.symmetric(horizontal=14)
+            margin=ft.Padding(14, 0, 14, 0)
         )
 
         bolt_banner = ft.Container(
@@ -438,7 +438,7 @@ def main(page: ft.Page):
                     ft.Container(
                         content=ft.Text("ORDER NOW", color="white", size=11, weight=ft.FontWeight.BOLD),
                         bgcolor=SWIGGY_ORANGE,
-                        padding=ft.padding.symmetric(horizontal=10, vertical=4),
+                        padding=ft.Padding(10, 4, 10, 4),
                         border_radius=8
                     )
                 ], spacing=4),
@@ -447,7 +447,7 @@ def main(page: ft.Page):
             bgcolor="#7A111E",
             border_radius=12,
             padding=12,
-            margin=ft.padding.symmetric(horizontal=14)
+            margin=ft.Padding(14, 0, 14, 0)
         )
 
         fast_deliv_row = ft.Row(scroll=ft.ScrollMode.AUTO, spacing=12)
@@ -557,14 +557,14 @@ def main(page: ft.Page):
                             ft.Container(
                                 content=ft.Text(r["offer"], color="white", size=12, weight=ft.FontWeight.BOLD),
                                 bgcolor="#E0000000",
-                                padding=ft.padding.symmetric(horizontal=10, vertical=4),
+                                padding=ft.Padding(10, 4, 10, 4),
                                 border_radius=ft.border_radius.only(top_left=16, bottom_right=12),
                                 top=0, left=0
                             ),
                             ft.Container(
                                 content=ft.Text(r["time"], color="white", size=10, weight=ft.FontWeight.BOLD),
                                 bgcolor="#CC000000",
-                                padding=ft.padding.symmetric(horizontal=8, vertical=4),
+                                padding=ft.Padding(8, 4, 8, 4),
                                 border_radius=6,
                                 bottom=8, right=8
                             )
@@ -605,7 +605,7 @@ def main(page: ft.Page):
                 ft.Column([ft.Icon(ft.icons.PERSON, color=SWIGGY_GRAY, size=20), ft.Text("Profile", size=10, color=SWIGGY_GRAY)], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=2)
             ], alignment=ft.MainAxisAlignment.SPACE_AROUND),
             bgcolor="white",
-            padding=ft.padding.symmetric(vertical=8),
+            padding=ft.Padding(0, 8, 0, 8),
             border=ft.border.only(top=ft.BorderSide(1, "#E2E2E7"))
         )
 
@@ -624,7 +624,7 @@ def main(page: ft.Page):
 
         scroll_view = ft.ListView([
             blue_header,
-            ft.Container(content=search_field, padding=ft.padding.symmetric(horizontal=14, vertical=8), bgcolor=SWIGGY_HEADER_BLUE),
+            ft.Container(content=search_field, padding=ft.Padding(14, 8, 14, 8), bgcolor=SWIGGY_HEADER_BLUE),
             ft.Container(height=8),
             train_banner,
             ft.Container(height=8),
@@ -650,7 +650,7 @@ def main(page: ft.Page):
                 ], spacing=8),
                 padding=14,
                 bgcolor="white",
-                margin=ft.padding.symmetric(vertical=8)
+                margin=ft.Padding(0, 8, 0, 8)
             ),
             ft.Container(
                 content=ft.Column([
@@ -664,7 +664,7 @@ def main(page: ft.Page):
                     ft.Text("Explore Top Restaurants", size=15, weight=ft.FontWeight.BOLD, color=SWIGGY_DARK),
                     res_vertical_col
                 ], spacing=12),
-                padding=ft.padding.only(left=14, right=14, bottom=90)
+                padding=ft.Padding(14, 0, 14, 90)
             )
         ], expand=True)
 
@@ -778,7 +778,7 @@ def main(page: ft.Page):
             bgcolor=SWIGGY_OFFER_GREEN_BG,
             padding=10,
             border_radius=10,
-            margin=ft.padding.symmetric(horizontal=14)
+            margin=ft.Padding(14, 0, 14, 0)
         )
 
         cart_items_list = ft.Column(spacing=10)
@@ -880,8 +880,8 @@ def main(page: ft.Page):
                 bgcolor="white", padding=10
             ),
             savings_header,
-            ft.Container(content=cart_items_list, padding=ft.padding.symmetric(horizontal=14, vertical=6)),
-            ft.Container(content=savings_corner, padding=ft.padding.symmetric(horizontal=14, vertical=6)),
+            ft.Container(content=cart_items_list, padding=ft.Padding(14, 6, 14, 6)),
+            ft.Container(content=savings_corner, padding=ft.Padding(14, 6, 14, 6)),
             ft.Container(height=40)
         ], expand=True)
 
