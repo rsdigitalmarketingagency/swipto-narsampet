@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          flet build apk --project swipto --org com.swipto.narsampet --product "Swipto" --icon assets/icon.png swipto_app.py
+          flet build apk --project swipto --org com.swipto.narsampet --product "Swipto" swipto_app.py
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
