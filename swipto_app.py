@@ -204,7 +204,7 @@ def main(page: ft.Page):
         bs.open = False
         page.update()
 
-    # ----------------- 1. SCREEN: EXACT SWIGGY LOGIN -----------------
+    # ----------------- 1. SCREEN: LOGIN -----------------
     def show_login_screen():
         page.clean()
 
@@ -278,7 +278,6 @@ def main(page: ft.Page):
 
         login_btn.on_click = handle_auth
 
-        # Exact Swiggy Orange Banner UI
         top_orange_section = ft.Container(
             content=ft.Column([
                 ft.Row([
