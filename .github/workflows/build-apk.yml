@@ -27,18 +27,17 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.24.0'
         channel: 'stable'
 
-    - name: Install Flet CLI
+    - name: Install Dependencies
       run: |
-        pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install "flet[all]"
         pip install -r requirements.txt
 
     - name: Build Android APK
       run: |
-        echo "y" | flet build apk --project "Swipto" --org com.swipto.narsampet -y
+        flet build apk --project "Swipto" --org com.swipto.narsampet
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
