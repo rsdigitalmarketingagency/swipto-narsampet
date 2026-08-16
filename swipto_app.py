@@ -444,4 +444,8 @@ def main(page: ft.Page):
     show_home()
     page.add(ft.Column([content_area, bottom_bar], expand=True, spacing=0))
 
-ft.app(main, view=ft.AppView.WEB_BROWSER, port=8080, host="0.0.0.0")
+import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    ft.app(target=main, view=ft.AppView.WEB_BROWSER, host="0.0.0.0", port=port)
