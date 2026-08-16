@@ -13,7 +13,7 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Rename script to main.py
+    - name: Prepare main.py
       run: |
         cp swipto_app.py main.py
 
@@ -28,17 +28,7 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.24.0'
-        channel: 'stable'
-
-    - name: Accept Android Licenses
-      run: |
-        yes | sdkmanager --licenses || true
-
-    - name: Install Flet CLI
+    - name: Install Flet Build Tools
       run: |
         python -m pip install --upgrade pip
         pip install "flet[all]"
@@ -46,7 +36,7 @@ jobs:
 
     - name: Build Android APK
       run: |
-        flet build apk --project "Swipto" --org com.swipto.narsampet -v
+        flet build apk -v
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
