@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Swipto • Food delivered fast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#ff5a1f;--brand2:#ff7a18;--ink:#161616;--muted:#6b7280;--bg:#f7f7f8;--card:#fff;--line:#ececec;--green:#16803c}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input{font:inherit}.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:auto;height:72px;display:flex;align-items:center;gap:24px;padding:0 18px}.logo{font-size:27px;font-weight:800;letter-spacing:-1.4px;color:var(--brand)}.logo span{color:#222}
+.location{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;max-width:230px;white-space:nowrap;overflow:hidden}.location small{display:block;color:var(--muted);font-weight:500;overflow:hidden;text-overflow:ellipsis}
+.search{flex:1;max-width:520px;position:relative}.search input{width:100%;padding:14px 18px 14px 44px;border:1px solid var(--line);border-radius:14px;background:#f6f6f6;outline:none}.search input:focus{border-color:#ffb08e;background:#fff}.search i{position:absolute;left:16px;top:13px;font-style:normal}
+.nav-actions{margin-left:auto;display:flex;gap:10px}.iconbtn{border:0;background:#fff;padding:11px 13px;border-radius:12px;cursor:pointer}.iconbtn:hover{background:#f3f3f3}.cartbtn{background:var(--brand);color:#fff;font-weight:700}
+.hero{max-width:1180px;margin:22px auto 10px;padding:0 18px}.hero-box{min-height:270px;border-radius:24px;padding:38px 42px;display:flex;align-items:center;overflow:hidden;background:radial-gradient(circle at 82% 30%,#ffb46c,transparent 28%),linear-gradient(120deg,#ff5a1f,#ff7a18);color:white;position:relative}.hero-box:after{content:"🍛";font-size:190px;position:absolute;right:50px;bottom:-25px;filter:drop-shadow(0 20px 25px #a9340a55)}.hero h1{font-size:42px;line-height:1.05;margin:0 0 12px;max-width:570px;letter-spacing:-2px}.hero p{font-size:16px;max-width:500px;opacity:.92}.pill{display:inline-flex;padding:9px 13px;border-radius:999px;background:#fff;color:var(--brand);font-size:12px;font-weight:800}
+.wrap{max-width:1180px;margin:auto;padding:0 18px}.section{margin:28px 0}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.section h2{margin:0;font-size:22px;letter-spacing:-.5px}.categories{display:flex;gap:12px;overflow:auto;padding-bottom:4px}.cat{min-width:92px;border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px 12px;text-align:center;cursor:pointer}.cat.active{border-color:var(--brand);box-shadow:0 0 0 2px #ff5a1f12}.cat b{display:block;font-size:28px;margin-bottom:7px}.cat span{font-size:12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.food{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--line);transition:.2s;box-shadow:0 4px 15px #00000006}.food:hover{transform:translateY(-3px);box-shadow:0 12px 30px #00000012}.food-img{height:165px;background:#eee;position:relative}.food-img img{width:100%;height:100%;object-fit:cover}.badge{position:absolute;left:10px;top:10px;background:#fff;border-radius:8px;padding:5px 7px;font-size:11px;font-weight:800}.food-body{padding:13px}.food h3{font-size:15px;margin:0 0 5px}.restaurant{font-size:12px;color:var(--muted)}.meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}.rating{font-size:12px;font-weight:800}.price{font-weight:800}.add{border:1px solid var(--brand);color:var(--brand);background:#fff;border-radius:9px;padding:6px 12px;font-weight:800;cursor:pointer}.add:hover{background:var(--brand);color:#fff}
+.restaurants{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.rest{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;display:flex;gap:13px}.rest img{width:80px;height:80px;border-radius:14px;object-fit:cover}.rest h3{margin:5px 0;font-size:15px}.rest p{margin:0;color:var(--muted);font-size:12px}.green{color:var(--green);font-weight:800}
+.drawer{position:fixed;inset:0;background:#0006;z-index:50;display:none}.drawer.open{display:block}.panel{position:absolute;right:0;top:0;height:100%;width:min(430px,100%);background:#fff;padding:24px;overflow:auto}.panel-head{display:flex;justify-content:space-between;align-items:center}.panel h2{margin:0}.close{border:0;background:#f3f3f3;border-radius:10px;padding:9px;cursor:pointer}.cart-item{display:flex;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}.cart-item img{width:65px;height:65px;border-radius:12px;object-fit:cover}.cart-item h4{margin:3px 0;font-size:14px}.qty{display:flex;gap:8px;align-items:center;margin-top:7px}.qty button{border:1px solid var(--line);background:#fff;border-radius:7px;width:26px;height:26px}.total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;margin:20px 0}.primary{width:100%;border:0;border-radius:13px;padding:14px;background:var(--brand);color:#fff;font-weight:800;cursor:pointer}
+.modal{position:fixed;inset:0;background:#0007;z-index:60;display:none;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.modal-box{width:min(500px,100%);background:#fff;border-radius:20px;padding:24px}.form{display:grid;gap:11px}.form input{padding:13px;border:1px solid var(--line);border-radius:11px;outline:none}.status{display:flex;justify-content:space-between;margin:20px 0}.step{flex:1;text-align:center;font-size:11px;color:#aaa}.step.on{color:var(--brand);font-weight:800}.dot{width:30px;height:30px;border-radius:50%;margin:0 auto 6px;background:#eee;padding-top:7px}.on .dot{background:#ffeadf;color:var(--brand)}
+footer{margin-top:55px;background:#171717;color:#ddd;padding:40px 18px}.foot{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:20px}.foot strong{font-size:25px;color:#fff}.foot p{color:#999;font-size:13px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.restaurants{grid-template-columns:1fr 1fr}.location{display:none}.hero h1{font-size:34px}.hero-box:after{font-size:140px;right:-10px}}
+@media(max-width:600px){.nav{height:62px;gap:8px}.logo{font-size:23px}.search{display:none}.grid{grid-template-columns:1fr 1fr;gap:10px}.food-img{height:130px}.hero-box{min-height:250px;padding:28px 24px}.hero h1{font-size:30px}.hero-box:after{opacity:.45;right:-35px}.restaurants{grid-template-columns:1fr}.section{margin:22px 0}.wrap{padding:0 12px}.hero{padding:0 12px}}
+</style>
+</head>
+<body>
+<header class="top"><nav class="nav">
+<div class="logo">swi<span>pto</span></div>
+<div class="location">📍 <div><small>Deliver to</small>Narsampet, Telangana</div></div>
+<div class="search"><i>🔎</i><input id="search" placeholder="Search for food or restaurants"></div>
+<div class="nav-actions"><button class="iconbtn" onclick="showOrders()">📦</button><button class="iconbtn cartbtn" onclick="openCart()">🛒 <span id="cartCount">0</span></button></div>
+</nav></header>
+
+<main>
+<section class="hero"><div class="hero-box"><div><span class="pill">SWIPTO • NARSAMPET</span><h1>Good food.<br>Fast delivery.</h1><p>Discover local favourites, order in seconds and track your Swipto delivery from kitchen to doorstep.</p></div></div></section>
+<div class="wrap">
+<section class="section"><div class="section-head"><h2>What are you craving?</h2></div><div id="cats" class="categories"></div></section>
+<section class="section"><div class="section-head"><h2>Popular near you</h2><span id="resultText" style="font-size:12px;color:#777"></span></div><div id="foods" class="grid"></div></section>
+<section class="section"><div class="section-head"><h2>Top restaurants</h2></div><div id="restaurants" class="restaurants"></div></section>
+</div></main>
+
+<footer><div class="foot"><div><strong>swipto</strong><p>Hyperlocal food delivery for Narsampet.</p></div><p>Customer • Restaurant • Delivery Partner • Admin</p></div></footer>
+
+<div id="drawer" class="drawer" onclick="if(event.target.id==='drawer')closeCart()"><div class="panel"><div class="panel-head"><h2>Your cart</h2><button class="close" onclick="closeCart()">✕</button></div><div id="cartItems"></div><div class="total"><span>Total</span><span id="cartTotal">₹0</span></div><button class="primary" onclick="checkout()">Proceed to checkout</button></div></div>
+
+<div id="checkoutModal" class="modal"><div class="modal-box"><div class="panel-head"><h2>Checkout</h2><button class="close" onclick="closeCheckout()">✕</button></div><p style="color:#777;font-size:13px">Enter delivery details to place your demo order.</p><div class="form"><input id="name" placeholder="Full name"><input id="phone" placeholder="Mobile number"><input id="address" placeholder="Delivery address"><button class="primary" onclick="placeOrder()">Place order • ₹<span id="payTotal">0</span></button></div></div></div>
+
+<div id="orderModal" class="modal"><div class="modal-box"><div class="panel-head"><h2>Track order</h2><button class="close" onclick="closeOrders()">✕</button></div><div id="orderBody"></div></div></div>
+
+<script>
+let foods=[],cart=JSON.parse(localStorage.getItem('swipto_cart')||'[]'),currentOrder=localStorage.getItem('swipto_order')||'';
+const emojis={All:'🍽️',Biryani:'🍚',Starters:'🍗','South Indian':'🥞',Chinese:'🍜',Burgers:'🍔',Rolls:'🌯',Desserts:'🍰'};
+async function api(url,opts){let r=await fetch(url,opts);return r.json()}
+async function loadCats(){let cs=await api('/api/categories');document.getElementById('cats').innerHTML=cs.map((c,i)=>`<button class="cat ${i===0?'active':''}" onclick="filterCat('${c}',this)"><b>${emojis[c]||'🍴'}</b><span>${c}</span></button>`).join('')}
+async function loadFoods(q='',cat='All'){foods=await api('/api/foods?q='+encodeURIComponent(q)+'&category='+encodeURIComponent(cat));renderFoods();document.getElementById('resultText').textContent=foods.length+' items'}
+function renderFoods(){document.getElementById('foods').innerHTML=foods.map(f=>`<article class="food"><div class="food-img"><img src="${f.image}" loading="lazy"><span class="badge">★ ${f.rating}</span></div><div class="food-body"><h3>${f.name}</h3><div class="restaurant">${f.restaurant} • ${f.time}</div><div class="meta"><span class="price">₹${f.price}</span><button class="add" onclick='add(${JSON.stringify(f)})'>ADD +</button></div></div></article>`).join('')}
+async function loadRestaurants(){let rs=await api('/api/restaurants');document.getElementById('restaurants').innerHTML=rs.map(r=>`<div class="rest"><img src="${r.image}"><div><div class="green">★ ${r.rating}</div><h3>${r.name}</h3><p>${r.items} popular items • ${r.time}</p></div></div>`).join('')}
+function filterCat(c,el){document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));el.classList.add('active');loadFoods(document.getElementById('search').value,c)}
+document.getElementById('search').addEventListener('input',e=>loadFoods(e.target.value));
+function add(f){let x=cart.find(i=>i.id===f.id);if(x)x.qty++;else cart.push({...f,qty:1});save();openCart()}
+function save(){localStorage.setItem('swipto_cart',JSON.stringify(cart));document.getElementById('cartCount').textContent=cart.reduce((s,x)=>s+x.qty,0);renderCart()}
+function renderCart(){let el=document.getElementById('cartItems');if(!cart.length){el.innerHTML='<p style="color:#777;text-align:center;padding:40px 0">Your cart is empty 🍽️</p>';document.getElementById('cartTotal').textContent='₹0';return}el.innerHTML=cart.map(x=>`<div class="cart-item"><img src="${x.image}"><div style="flex:1"><h4>${x.name}</h4><div>₹${x.price}</div><div class="qty"><button onclick="change(${x.id},-1)">−</button><b>${x.qty}</b><button onclick="change(${x.id},1)">+</button></div></div></div>`).join('');document.getElementById('cartTotal').textContent='₹'+total()}
+function change(id,d){let x=cart.find(i=>i.id===id);x.qty+=d;if(x.qty<=0)cart=cart.filter(i=>i.id!==id);save()}
+function total(){return cart.reduce((s,x)=>s+x.price*x.qty,0)}
+function openCart(){document.getElementById('drawer').classList.add('open');renderCart()}function closeCart(){document.getElementById('drawer').classList.remove('open')}
+function checkout(){if(!cart.length)return alert('Add some food first');document.getElementById('payTotal').textContent=total();document.getElementById('checkoutModal').classList.add('open');closeCart()}
+function closeCheckout(){document.getElementById('checkoutModal').classList.remove('open')}
+async function placeOrder(){let customer=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim(),address=document.getElementById('address').value.trim();if(!customer||!phone||!address)return alert('Please fill all details');let r=await api('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customer,phone,address,items:cart,total:total()})});currentOrder=r.id;localStorage.setItem('swipto_order',currentOrder);cart=[];save();closeCheckout();showOrders()}
+async function showOrders(){document.getElementById('orderModal').classList.add('open');let b=document.getElementById('orderBody');if(!currentOrder){b.innerHTML='<p>No recent order found.</p>';return}let o=await api('/api/orders/'+currentOrder);b.innerHTML=`<h3 style="margin-bottom:4px">${o.id}</h3><p style="color:#777">₹${o.total} • ${o.address}</p><div class="status">${['Confirmed','Preparing','Out for delivery','Delivered'].map((s,i)=>`<div class="step ${i===0?'on':''}"><div class="dot">${i+1}</div>${s}</div>`).join('')}</div><p><b>Status:</b> ${o.status}</p>`}
+function closeOrders(){document.getElementById('orderModal').classList.remove('open')}
+loadCats();loadFoods();loadRestaurants();save();
+</script>
+</body></html>
