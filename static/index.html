@@ -1,317 +1,1446 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Swipto - Food Delivery</title>
+<meta charset="UTF-8">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Swipto - Food Delivery</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    color:#222;
+    padding-bottom:80px;
+}
+
+/* ================= LOGIN SCREEN ================= */
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9500,#ff4b1f);
+    padding:20px;
+}
+
+.login-card{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:25px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 10px 35px rgba(0,0,0,.2);
+}
+
+.login-logo{
+    font-size:42px;
+    font-weight:bold;
+    color:#ff5a1f;
+    margin-bottom:10px;
+}
+
+.login-card h2{
+    margin-bottom:10px;
+}
+
+.login-card p{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.google-btn{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    background:white;
+    color:#333;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.google-btn:hover{
+    background:#f5f5f5;
+    transform:translateY(-2px);
+}
+
+#errorMsg{
+    color:red;
+    margin-top:15px;
+    font-size:14px;
+}
+
+.small-text{
+    font-size:13px;
+    margin-top:20px;
+    color:#888;
+}
+
+/* ================= APP ================= */
+
+#app{
+    display:none;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    background:linear-gradient(135deg,#ff9500,#ff4b1f);
+    color:white;
+    padding:20px 10%;
+    min-height:250px;
+    border-radius:0 0 30px 30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo-box{
+    display:flex;
+    align-items:center;
+}
+
+.logo-img{
+    width:150px;
+    height:70px;
+    object-fit:contain;
+    display:block;
+}
+
+.cart{
+    font-size:25px;
+    cursor:pointer;
+}
+
+.cart span{
+    font-size:18px;
+    margin-left:5px;
+}
+
+.location{
+    margin-top:25px;
+    font-size:16px;
+}
+
+.location h3{
+    margin-top:5px;
+    font-size:20px;
+}
+
+.search-box{
+    margin-top:20px;
+    background:white;
+    border-radius:15px;
+    padding:17px 20px;
+    display:flex;
+    align-items:center;
+}
+
+.search-box input{
+    border:none;
+    outline:none;
+    width:100%;
+    margin-left:10px;
+    font-size:16px;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+    width:75%;
+    margin:auto;
+}
+
+/* ================= OFFER ================= */
+
+.offer{
+    margin-top:25px;
+    padding:28px;
+    border-radius:22px;
+    background:linear-gradient(90deg,#ff9500,#ff4b1f);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.offer h1{
+    font-size:30px;
+}
+
+.offer p{
+    margin-top:7px;
+}
+
+.offer b{
+    display:block;
+    margin-top:7px;
+}
+
+.offer-icon{
+    font-size:60px;
+}
+
+/* ================= SECTION ================= */
+
+.section-title{
+    margin-top:30px;
+    margin-bottom:18px;
+    font-size:26px;
+}
+
+/* ================= CATEGORIES ================= */
+
+.categories{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    padding-bottom:10px;
+}
+
+.category{
+    min-width:85px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.category-circle{
+    width:78px;
+    height:78px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    font-size:35px;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+}
+
+.category p{
+    margin-top:8px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+/* ================= RESTAURANTS ================= */
+
+.restaurant-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.restaurant{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.restaurant:hover{
+    transform:translateY(-5px);
+}
+
+.restaurant-image{
+    height:150px;
+    background:linear-gradient(135deg,#ffe8cc,#fff4e8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:65px;
+}
+
+.restaurant-info{
+    padding:16px;
+}
+
+.restaurant-info h3{
+    font-size:19px;
+}
+
+.restaurant-info p{
+    margin-top:7px;
+    color:#666;
+    font-size:14px;
+}
+
+.rating{
+    margin-top:10px;
+    color:#138a36;
+    font-weight:bold;
+}
+
+.add-btn{
+    margin-top:12px;
+    border:none;
+    background:#ff5a1f;
+    color:white;
+    padding:10px 16px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#e34712;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-top:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    display:none;
+}
+
+.profile-box h3{
+    margin-bottom:10px;
+}
+
+.logout-btn{
+    margin-top:15px;
+    border:none;
+    background:#222;
+    color:white;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* ================= CART ================= */
+
+.cart-box{
+    display:none;
+    background:white;
+    position:fixed;
+    top:80px;
+    right:20px;
+    width:300px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    z-index:2000;
+}
+
+.cart-item{
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:75px;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    box-shadow:0 -3px 15px rgba(0,0,0,.12);
+    z-index:999;
+}
+
+.nav-item{
+    text-align:center;
+    color:#555;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.nav-item span{
+    display:block;
+    font-size:23px;
+    margin-bottom:4px;
+}
+
+.nav-item.active{
+    color:#ff5a1f;
+    font-weight:bold;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px){
+
+    .header{
+        padding:20px 5%;
     }
 
-    body{
-      min-height:100vh;
-      background:linear-gradient(135deg,#ff9800,#ff3d00);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:20px;
+    .container{
+        width:90%;
     }
 
-    .login-box{
-      width:100%;
-      max-width:440px;
-      background:#ffffff;
-      border-radius:25px;
-      padding:40px 35px;
-      text-align:center;
-      box-shadow:0 15px 40px rgba(0,0,0,0.25);
+    .restaurant-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .logo{
-      font-size:44px;
-      font-weight:bold;
-      color:#f4511e;
-      margin-bottom:12px;
+}
+
+@media(max-width:550px){
+
+    .restaurant-grid{
+        grid-template-columns:1fr;
     }
 
-    .logo span{
-      font-size:40px;
-      margin-right:10px;
+    .logo-img{
+        width:120px;
+        height:55px;
     }
 
-    h2{
-      font-size:28px;
-      color:#222;
-      margin-bottom:12px;
+    .offer h1{
+        font-size:24px;
     }
 
-    .subtitle{
-      color:#666;
-      font-size:16px;
-      margin-bottom:30px;
-    }
+}
 
-    .google-btn{
-      width:100%;
-      padding:16px;
-      border:none;
-      border-radius:12px;
-      background:#ffffff;
-      color:#333;
-      font-size:17px;
-      font-weight:bold;
-      cursor:pointer;
-      border:1px solid #ddd;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      transition:0.3s;
-    }
+</style>
 
-    .google-btn:hover{
-      background:#f5f5f5;
-      transform:translateY(-2px);
-    }
-
-    .google-icon{
-      width:24px;
-      height:24px;
-    }
-
-    .status{
-      margin-top:20px;
-      font-size:15px;
-      color:#d32f2f;
-      min-height:22px;
-    }
-
-    .terms{
-      margin-top:25px;
-      color:#777;
-      font-size:13px;
-      line-height:1.5;
-    }
-
-    .user-info{
-      display:none;
-    }
-
-    .logout-btn{
-      width:100%;
-      margin-top:15px;
-      padding:14px;
-      background:#f4511e;
-      color:white;
-      border:none;
-      border-radius:12px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .logout-btn:hover{
-      background:#d84315;
-    }
-
-    .loading{
-      display:none;
-      margin-top:15px;
-      color:#666;
-    }
-  </style>
 </head>
+
 
 <body>
 
-  <!-- LOGIN PAGE -->
-  <div class="login-box" id="loginBox">
 
-    <div class="logo">
-      <span>🍔</span>SWIPTO
+<!-- ================= LOGIN PAGE ================= -->
+
+<div class="login-page" id="loginPage">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            🍔 SWIPTO
+        </div>
+
+        <h2>Welcome to Swipto</h2>
+
+        <p>
+            Login with your Google account to order food
+        </p>
+
+
+        <button class="google-btn" onclick="googleLogin()">
+
+            <span style="font-size:20px;">🔵</span>
+            Continue with Google
+
+        </button>
+
+
+        <div id="errorMsg"></div>
+
+
+        <div class="small-text">
+
+            By continuing, you agree to Swipto terms and conditions.
+
+        </div>
+
     </div>
 
-    <h2>Welcome to Swipto</h2>
+</div>
 
-    <p class="subtitle">
-      Login with your Google account to continue
-    </p>
 
-    <button class="google-btn" onclick="googleLogin()">
+<!-- ================= MAIN APP ================= -->
 
-      <svg class="google-icon" viewBox="0 0 48 48">
-        <path fill="#EA4335"
-        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.61l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.2C12.43 13.72 17.74 9.5 24 9.5z"/>
+<div id="app">
 
-        <path fill="#4285F4"
-        d="M46.5 24.5c0-1.55-.14-3.04-.4-4.5H24v8.52h12.65c-.55 2.88-2.18 5.32-4.65 6.96l7.17 5.56C43.36 37.18 46.5 31.4 46.5 24.5z"/>
 
-        <path fill="#FBBC05"
-        d="M10.54 28.58A14.5 14.5 0 0 1 9.5 24c0-1.59.27-3.13.74-4.58l-7.98-6.2A23.94 23.94 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.98-6.2z"/>
+<div class="header">
 
-        <path fill="#34A853"
-        d="M24 48c6.48 0 11.93-2.14 15.9-5.84l-7.17-5.56c-2 1.34-4.56 2.13-8.73 2.13-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.2C6.51 42.62 14.62 48 24 48z"/>
-      </svg>
+    <div class="topbar">
 
-      Continue with Google
+        <div class="logo-box">
 
-    </button>
+            <img
+                src="/static/swipto-logo.png"
+                alt="SWIPTO"
+                class="logo-img"
+            >
 
-    <div class="loading" id="loading">
-      Please wait... Signing in
+        </div>
+
+
+        <div class="cart" onclick="toggleCart()">
+
+            🛒 <span id="cartCount">0</span>
+
+        </div>
+
     </div>
 
-    <div class="status" id="status"></div>
 
-    <p class="terms">
-      By continuing, you agree to Swipto terms and conditions.
-    </p>
+    <div class="location">
 
-  </div>
+        📍 Delivering to
 
+        <h3>Narsampet, Telangana</h3>
 
-  <!-- USER PAGE -->
-  <div class="login-box user-info" id="userBox">
-
-    <div class="logo">
-      <span>🍔</span>SWIPTO
     </div>
 
-    <h2 id="welcomeText">Welcome</h2>
 
-    <p class="subtitle" id="emailText"></p>
+    <div class="search-box">
 
-    <button class="logout-btn" onclick="logoutUser()">
-      Logout
-    </button>
+        🔍
 
-  </div>
+        <input
+            type="text"
+            id="search"
+            placeholder="Search for biryani, pizza, burger..."
+            onkeyup="searchFood()"
+        >
 
+    </div>
 
-  <!-- FIREBASE -->
-  <script type="module">
-
-    import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      signOut,
-      onAuthStateChanged
-    }
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+</div>
 
 
-    // YOUR FIREBASE CONFIG
-    const firebaseConfig = {
 
-      apiKey: "AIzaSyB1CVXK70adafUvF9KH3Lv1fp-SaKDBVKc",
-
-      authDomain: "swipto-7a20a.firebaseapp.com",
-
-      projectId: "swipto-7a20a",
-
-      storageBucket: "swipto-7a20a.firebasestorage.app",
-
-      messagingSenderId: "56502022616",
-
-      appId: "1:56502022616:web:d3bb24a5838f5baa2b42ad",
-
-      measurementId: "G-PDXQPCJR5N"
-
-    };
+<div class="container">
 
 
-    // INITIALIZE FIREBASE
-    const app = initializeApp(firebaseConfig);
+    <!-- OFFER -->
 
-    const auth = getAuth(app);
+    <div class="offer">
 
-    const provider = new GoogleAuthProvider();
+        <div>
 
+            <h1>50% OFF 🎉</h1>
 
-    // GOOGLE LOGIN
-    window.googleLogin = async function(){
+            <p>On your first Swipto order</p>
 
-      const status = document.getElementById("status");
+            <b>Use Code: SWIPTO50</b>
 
-      const loading = document.getElementById("loading");
+        </div>
 
-      status.innerText = "";
+        <div class="offer-icon">
+            🍔
+        </div>
 
-      loading.style.display = "block";
-
-      try{
-
-        await signInWithPopup(auth, provider);
-
-      }
-
-      catch(error){
-
-        console.error(error);
-
-        status.innerText =
-          "Login Error: " + error.message;
-
-      }
-
-      loading.style.display = "none";
-
-    };
+    </div>
 
 
-    // LOGOUT
-    window.logoutUser = async function(){
 
-      await signOut(auth);
+    <!-- CATEGORIES -->
 
-    };
+    <h2 class="section-title">
 
+        What's on your mind?
 
-    // CHECK LOGIN STATUS
-    onAuthStateChanged(auth, (user) => {
-
-      const loginBox =
-        document.getElementById("loginBox");
-
-      const userBox =
-        document.getElementById("userBox");
+    </h2>
 
 
-      if(user){
+    <div class="categories">
 
-        loginBox.style.display = "none";
 
-        userBox.style.display = "block";
+        <div class="category" onclick="showCategory('Biryani')">
 
-        document.getElementById("welcomeText").innerText =
-          "Welcome, " + (user.displayName || "Swipto User");
+            <div class="category-circle">🍛</div>
 
-        document.getElementById("emailText").innerText =
-          user.email;
+            <p>Biryani</p>
 
-      }
+        </div>
 
-      else{
 
-        loginBox.style.display = "block";
+        <div class="category" onclick="showCategory('Pizza')">
 
-        userBox.style.display = "none";
+            <div class="category-circle">🍕</div>
 
-      }
+            <p>Pizza</p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('Burger')">
+
+            <div class="category-circle">🍔</div>
+
+            <p>Burger</p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('Chicken')">
+
+            <div class="category-circle">🍗</div>
+
+            <p>Chicken</p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('Meals')">
+
+            <div class="category-circle">🍱</div>
+
+            <p>Meals</p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('Drinks')">
+
+            <div class="category-circle">🥤</div>
+
+            <p>Drinks</p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('Desserts')">
+
+            <div class="category-circle">🍰</div>
+
+            <p>Desserts</p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- RESTAURANTS -->
+
+    <h2 class="section-title">
+
+        Popular restaurants in Narsampet
+
+    </h2>
+
+
+    <div class="restaurant-grid" id="restaurants">
+
+
+        <!-- BIRYANI -->
+
+        <div class="restaurant" data-name="Biryani House Biryani">
+
+            <div class="restaurant-image">
+
+                🍛
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <h3>Biryani House</h3>
+
+                <p>Biryani • Indian • Fast Food</p>
+
+                <div class="rating">
+
+                    ⭐ 4.5 • 25 min
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addCart('Biryani')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PIZZA -->
+
+        <div class="restaurant" data-name="Pizza Point Pizza">
+
+            <div class="restaurant-image">
+
+                🍕
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <h3>Pizza Point</h3>
+
+                <p>Pizza • Italian • Snacks</p>
+
+                <div class="rating">
+
+                    ⭐ 4.3 • 30 min
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addCart('Pizza')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BURGER -->
+
+        <div class="restaurant" data-name="Burger Corner Burger">
+
+            <div class="restaurant-image">
+
+                🍔
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <h3>Burger Corner</h3>
+
+                <p>Burgers • Fries • Fast Food</p>
+
+                <div class="rating">
+
+                    ⭐ 4.6 • 20 min
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addCart('Burger')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CHICKEN -->
+
+        <div class="restaurant" data-name="Chicken Hub Chicken">
+
+            <div class="restaurant-image">
+
+                🍗
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <h3>Chicken Hub</h3>
+
+                <p>Chicken • Grill • Fast Food</p>
+
+                <div class="rating">
+
+                    ⭐ 4.4 • 30 min
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addCart('Chicken')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MEALS -->
+
+        <div class="restaurant" data-name="Andhra Meals Meals">
+
+            <div class="restaurant-image">
+
+                🍱
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <h3>Andhra Meals</h3>
+
+                <p>Meals • South Indian</p>
+
+                <div class="rating">
+
+                    ⭐ 4.7 • 25 min
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addCart('Meals')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DRINKS -->
+
+        <div class="restaurant" data-name="Cool Drinks Drinks">
+
+            <div class="restaurant-image">
+
+                🥤
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <h3>Cool Drinks</h3>
+
+                <p>Juices • Drinks • Shakes</p>
+
+                <div class="rating">
+
+                    ⭐ 4.2 • 15 min
+
+                </div>
+
+                <button
+                    class="add-btn"
+                    onclick="addCart('Drinks')"
+                >
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- PROFILE -->
+
+    <div class="profile-box" id="profileBox">
+
+        <h3>👤 My Profile</h3>
+
+        <p id="userPhone"></p>
+
+        <br>
+
+        <p id="userEmail"></p>
+
+
+        <button
+            class="logout-btn"
+            onclick="logoutUser()"
+        >
+
+            Logout
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= CART POPUP ================= -->
+
+<div class="cart-box" id="cartBox">
+
+    <h3>🛒 Your Cart</h3>
+
+    <br>
+
+    <div id="cartItems"></div>
+
+</div>
+
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<div class="bottom-nav">
+
+
+    <div
+        class="nav-item active"
+        onclick="goHome()"
+    >
+
+        <span>🏠</span>
+
+        Home
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="focusSearch()"
+    >
+
+        <span>🔎</span>
+
+        Search
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="toggleCart()"
+    >
+
+        <span>🛒</span>
+
+        Cart
+
+    </div>
+
+
+    <div class="nav-item">
+
+        <span>📦</span>
+
+        Orders
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="showProfile()"
+    >
+
+        <span>👤</span>
+
+        Profile
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- ================= FIREBASE GOOGLE AUTH ================= -->
+
+<script type="module">
+
+
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+
+    getAuth,
+
+    GoogleAuthProvider,
+
+    signInWithPopup,
+
+    onAuthStateChanged,
+
+    signOut
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyB1CVXK70adafUvF9KH3Lv1fp-SaKDBVKc",
+
+  authDomain: "swipto-7a20a.firebaseapp.com",
+
+  projectId: "swipto-7a20a",
+
+  storageBucket: "swipto-7a20a.firebasestorage.app",
+
+  messagingSenderId: "56502022616",
+
+  appId: "1:56502022616:web:d3bb24a5838f5baa2b42ad",
+
+  measurementId: "G-PDXQPCJR5N"
+
+};
+
+
+
+/* ================= INITIALIZE FIREBASE ================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const provider = new GoogleAuthProvider();
+
+
+
+/* ================= GOOGLE LOGIN ================= */
+
+window.googleLogin = function(){
+
+
+    document.getElementById("errorMsg").innerText =
+    "Opening Google Login...";
+
+
+    signInWithPopup(auth, provider)
+
+
+    .then(function(result){
+
+
+        console.log("Login successful");
+
+
+        document.getElementById("errorMsg").innerText =
+        "";
+
+
+    })
+
+
+    .catch(function(error){
+
+
+        console.log(error);
+
+
+        document.getElementById("errorMsg").style.color =
+        "red";
+
+
+        document.getElementById("errorMsg").innerText =
+        "Login Error: " + error.message;
+
 
     });
 
-  </script>
+
+};
+
+
+
+/* ================= AUTH STATE ================= */
+
+onAuthStateChanged(auth,function(user){
+
+
+    if(user){
+
+
+        /* HIDE LOGIN PAGE */
+
+        document.getElementById("loginPage")
+        .style.display = "none";
+
+
+        /* SHOW FOOD DELIVERY APP */
+
+        document.getElementById("app")
+        .style.display = "block";
+
+
+        /* SHOW USER NAME */
+
+        document.getElementById("userPhone")
+        .innerText =
+        "👤 " + (user.displayName || "Swipto User");
+
+
+        /* SHOW EMAIL */
+
+        document.getElementById("userEmail")
+        .innerText =
+        "📧 " + (user.email || "");
+
+
+    }
+
+
+    else{
+
+
+        /* SHOW LOGIN PAGE */
+
+        document.getElementById("loginPage")
+        .style.display = "flex";
+
+
+        /* HIDE APP */
+
+        document.getElementById("app")
+        .style.display = "none";
+
+
+    }
+
+
+});
+
+
+
+/* ================= LOGOUT ================= */
+
+window.logoutUser = function(){
+
+
+    signOut(auth)
+
+
+    .then(function(){
+
+
+        alert("Logged out successfully");
+
+
+    })
+
+
+    .catch(function(error){
+
+
+        alert("Logout Error: " + error.message);
+
+
+    });
+
+
+};
+
+
+
+/* ================= CART ================= */
+
+let cart = [];
+
+
+
+window.addCart = function(item){
+
+
+    cart.push(item);
+
+
+    document.getElementById("cartCount")
+    .innerText = cart.length;
+
+
+    updateCart();
+
+
+    alert(item + " added to cart 🛒");
+
+
+};
+
+
+
+function updateCart(){
+
+
+    let cartItems =
+    document.getElementById("cartItems");
+
+
+    cartItems.innerHTML = "";
+
+
+    if(cart.length === 0){
+
+
+        cartItems.innerHTML =
+        "<p>Your cart is empty</p>";
+
+
+        return;
+
+
+    }
+
+
+    cart.forEach(function(item,index){
+
+
+        cartItems.innerHTML +=
+
+
+        '<div class="cart-item">' +
+
+        item +
+
+        '</div>';
+
+
+    });
+
+
+}
+
+
+
+/* ================= TOGGLE CART ================= */
+
+window.toggleCart = function(){
+
+
+    let cartBox =
+    document.getElementById("cartBox");
+
+
+    if(
+        cartBox.style.display === "block"
+    ){
+
+
+        cartBox.style.display = "none";
+
+
+    }
+
+
+    else{
+
+
+        cartBox.style.display = "block";
+
+
+    }
+
+
+};
+
+
+
+/* ================= SEARCH ================= */
+
+window.searchFood = function(){
+
+
+    let input =
+
+    document.getElementById("search")
+
+    .value
+
+    .toLowerCase();
+
+
+
+    let restaurants =
+
+    document.querySelectorAll(".restaurant");
+
+
+
+    restaurants.forEach(function(restaurant){
+
+
+        let name =
+
+        restaurant
+
+        .getAttribute("data-name")
+
+        .toLowerCase();
+
+
+
+        if(name.includes(input)){
+
+
+            restaurant.style.display = "block";
+
+
+        }
+
+
+        else{
+
+
+            restaurant.style.display = "none";
+
+
+        }
+
+
+    });
+
+
+};
+
+
+
+/* ================= CATEGORY ================= */
+
+window.showCategory = function(category){
+
+
+    document.getElementById("search")
+
+    .value = category;
+
+
+    searchFood();
+
+
+};
+
+
+
+/* ================= PROFILE ================= */
+
+window.showProfile = function(){
+
+
+    let profile =
+
+    document.getElementById("profileBox");
+
+
+    if(profile.style.display === "block"){
+
+
+        profile.style.display = "none";
+
+
+    }
+
+
+    else{
+
+
+        profile.style.display = "block";
+
+
+        profile.scrollIntoView({
+
+
+            behavior:"smooth"
+
+
+        });
+
+
+    }
+
+
+};
+
+
+
+/* ================= HOME ================= */
+
+window.goHome = function(){
+
+
+    window.scrollTo({
+
+
+        top:0,
+
+
+        behavior:"smooth"
+
+
+    });
+
+
+};
+
+
+
+/* ================= SEARCH FOCUS ================= */
+
+window.focusSearch = function(){
+
+
+    document
+
+    .getElementById("search")
+
+    .focus();
+
+
+
+    window.scrollTo({
+
+
+        top:0,
+
+
+        behavior:"smooth"
+
+
+    });
+
+
+};
+
+
+</script>
+
 
 </body>
+
 </html>
