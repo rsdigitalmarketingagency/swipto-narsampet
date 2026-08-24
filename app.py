@@ -1,7 +1,7 @@
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, send_from_directory
+import os
 
-app = Flask(__name__, static_folder="static")
-
+app = Flask(__name__)
 
 # Home page
 @app.route("/")
@@ -10,28 +10,16 @@ def home():
 
 
 # Health check for Render
-@app.route("/api/health")
+@app.route("/health")
 def health():
-    return jsonify({
-        "status": "success",
-        "message": "Swipto is running 🚀"
-    })
-
-
-# App information
-@app.route("/api/info")
-def info():
-    return jsonify({
+    return {
+        "status": "ok",
         "app": "Swipto",
-        "location": "Narsampet",
-        "service": "Food Delivery"
-    })
+        "message": "Swipto is running successfully!"
+    }
 
 
-# Run locally / Render
 if __name__ == "__main__":
-    import os
-
     port = int(os.environ.get("PORT", 5000))
 
     app.run(
