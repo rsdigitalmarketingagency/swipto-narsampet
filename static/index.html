@@ -1,1009 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Swipto - Food Delivery</title>
+<title>SWIPTO - Food Delivery</title>
 
 <style>
-
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    background:#f5f5f5;
-    color:#222;
-    padding-bottom:80px;
+  background:#f5f5f5;
+  color:#222;
+  padding-bottom:90px;
 }
 
-/* ================= LOGIN SCREEN ================= */
-
-.login-page{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ff9500,#ff4b1f);
-    padding:20px;
+.hidden{
+  display:none !important;
 }
 
-.login-card{
-    width:100%;
-    max-width:420px;
-    background:white;
-    border-radius:25px;
-    padding:35px;
-    text-align:center;
-    box-shadow:0 10px 35px rgba(0,0,0,.2);
+/* ================= LOGIN ================= */
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#ff9800,#ff4b1f);
+  padding:20px;
+}
+
+.login-box{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:35px 28px;
+  border-radius:24px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
 }
 
 .login-logo{
-    font-size:42px;
-    font-weight:bold;
-    color:#ff5a1f;
-    margin-bottom:10px;
+  font-size:42px;
+  font-weight:bold;
+  color:#ff4b1f;
+  margin-bottom:15px;
 }
 
-.login-card h2{
-    margin-bottom:10px;
+.login-box h2{
+  margin-bottom:10px;
 }
 
-.login-card p{
-    color:#666;
-    margin-bottom:25px;
+.login-box p{
+  color:#666;
+  margin-bottom:25px;
 }
 
 .google-btn{
-    width:100%;
-    padding:15px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    background:white;
-    color:#333;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.3s;
-    box-shadow:0 3px 10px rgba(0,0,0,.08);
+  width:100%;
+  border:none;
+  background:white;
+  border:1px solid #ddd;
+  padding:15px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
 }
 
 .google-btn:hover{
-    background:#f5f5f5;
-    transform:translateY(-2px);
-}
-
-#errorMsg{
-    color:red;
-    margin-top:15px;
-    font-size:14px;
-}
-
-.small-text{
-    font-size:13px;
-    margin-top:20px;
-    color:#888;
-}
-
-/* ================= APP ================= */
-
-#app{
-    display:none;
+  background:#f5f5f5;
 }
 
 /* ================= HEADER ================= */
 
-.header{
-    background:linear-gradient(135deg,#ff9500,#ff4b1f);
-    color:white;
-    padding:20px 10%;
-    min-height:250px;
-    border-radius:0 0 30px 30px;
+header{
+  background:linear-gradient(90deg,#ff9800,#ff4b1f);
+  color:white;
+  padding:15px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 10px rgba(0,0,0,.2);
 }
 
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.header-top{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
 }
 
-.logo-box{
-    display:flex;
-    align-items:center;
+.logo{
+  font-size:26px;
+  font-weight:bold;
 }
 
-.logo-img{
-    width:150px;
-    height:70px;
-    object-fit:contain;
-    display:block;
+.user-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.cart{
-    font-size:25px;
-    cursor:pointer;
+.user-name{
+  font-size:14px;
+  font-weight:bold;
+  max-width:150px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
-.cart span{
-    font-size:18px;
-    margin-left:5px;
+.logout-btn{
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  background:white;
+  color:#ff4b1f;
+  font-weight:bold;
 }
 
-.location{
-    margin-top:25px;
-    font-size:16px;
-}
+/* ================= MAIN ================= */
 
-.location h3{
-    margin-top:5px;
-    font-size:20px;
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px 15px;
 }
 
 .search-box{
-    margin-top:20px;
-    background:white;
-    border-radius:15px;
-    padding:17px 20px;
-    display:flex;
-    align-items:center;
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.1);
+  margin-bottom:20px;
 }
 
-.search-box input{
-    border:none;
-    outline:none;
-    width:100%;
-    margin-left:10px;
-    font-size:16px;
+.banner{
+  background:linear-gradient(135deg,#ff9800,#ff4b1f);
+  color:white;
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:25px;
 }
 
-/* ================= CONTAINER ================= */
-
-.container{
-    width:75%;
-    margin:auto;
+.banner h2{
+  margin-bottom:8px;
 }
-
-/* ================= OFFER ================= */
-
-.offer{
-    margin-top:25px;
-    padding:28px;
-    border-radius:22px;
-    background:linear-gradient(90deg,#ff9500,#ff4b1f);
-    color:white;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.offer h1{
-    font-size:30px;
-}
-
-.offer p{
-    margin-top:7px;
-}
-
-.offer b{
-    display:block;
-    margin-top:7px;
-}
-
-.offer-icon{
-    font-size:60px;
-}
-
-/* ================= SECTION ================= */
 
 .section-title{
-    margin-top:30px;
-    margin-bottom:18px;
-    font-size:26px;
+  margin:25px 0 15px;
+  font-size:23px;
 }
 
 /* ================= CATEGORIES ================= */
 
 .categories{
-    display:flex;
-    gap:20px;
-    overflow-x:auto;
-    padding-bottom:10px;
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding-bottom:5px;
 }
 
 .category{
-    min-width:85px;
-    text-align:center;
-    cursor:pointer;
+  min-width:95px;
+  background:white;
+  border-radius:15px;
+  padding:15px 10px;
+  text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+  cursor:pointer;
 }
 
-.category-circle{
-    width:78px;
-    height:78px;
-    background:white;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:auto;
-    font-size:35px;
-    box-shadow:0 5px 15px rgba(0,0,0,.12);
+.category:hover{
+  transform:translateY(-2px);
 }
 
-.category p{
-    margin-top:8px;
-    font-weight:bold;
-    font-size:14px;
+.category span{
+  display:block;
+  font-size:26px;
+}
+
+.category small{
+  font-weight:bold;
 }
 
 /* ================= RESTAURANTS ================= */
 
 .restaurant-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
 }
 
-.restaurant{
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-    transition:.3s;
-}
-
-.restaurant:hover{
-    transform:translateY(-5px);
+.restaurant-card{
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.1);
 }
 
 .restaurant-image{
-    height:150px;
-    background:linear-gradient(135deg,#ffe8cc,#fff4e8);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:65px;
+  height:150px;
+  background:linear-gradient(135deg,#ff9800,#ff5722);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:70px;
 }
 
-.restaurant-info{
-    padding:16px;
+.restaurant-content{
+  padding:18px;
 }
 
-.restaurant-info h3{
-    font-size:19px;
+.restaurant-content h3{
+  margin-bottom:8px;
 }
 
-.restaurant-info p{
-    margin-top:7px;
-    color:#666;
-    font-size:14px;
+.restaurant-content p{
+  color:#666;
+  margin-bottom:12px;
 }
 
-.rating{
-    margin-top:10px;
-    color:#138a36;
-    font-weight:bold;
+.menu-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#ff4b1f;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* ================= FOOD ================= */
+
+.food-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+
+.food-card{
+  background:white;
+  border-radius:18px;
+  padding:15px;
+  box-shadow:0 3px 15px rgba(0,0,0,.1);
+}
+
+.food-img{
+  height:130px;
+  background:#fff3e0;
+  border-radius:14px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:60px;
+  margin-bottom:12px;
+}
+
+.food-card h3{
+  margin-bottom:8px;
+}
+
+.price{
+  color:#ff4b1f;
+  font-size:20px;
+  font-weight:bold;
+  margin:10px 0;
 }
 
 .add-btn{
-    margin-top:12px;
-    border:none;
-    background:#ff5a1f;
-    color:white;
-    padding:10px 16px;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.add-btn:hover{
-    background:#e34712;
-}
-
-/* ================= PROFILE ================= */
-
-.profile-box{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    margin-top:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-    display:none;
-}
-
-.profile-box h3{
-    margin-bottom:10px;
-}
-
-.logout-btn{
-    margin-top:15px;
-    border:none;
-    background:#222;
-    color:white;
-    padding:10px 20px;
-    border-radius:8px;
-    cursor:pointer;
+  width:100%;
+  padding:11px;
+  background:#ff4b1f;
+  border:none;
+  border-radius:10px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 /* ================= CART ================= */
 
-.cart-box{
-    display:none;
-    background:white;
-    position:fixed;
-    top:80px;
-    right:20px;
-    width:300px;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 10px 30px rgba(0,0,0,.2);
-    z-index:2000;
+.cart-btn{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#ff4b1f;
+  color:white;
+  border:none;
+  border-radius:50px;
+  padding:15px 22px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 5px 20px rgba(0,0,0,.25);
+  z-index:200;
+}
+
+.cart-panel{
+  position:fixed;
+  right:-450px;
+  top:0;
+  width:420px;
+  max-width:100%;
+  height:100vh;
+  background:white;
+  z-index:500;
+  box-shadow:-5px 0 25px rgba(0,0,0,.25);
+  transition:.3s;
+  padding:20px;
+  overflow-y:auto;
+}
+
+.cart-panel.active{
+  right:0;
+}
+
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close-btn{
+  border:none;
+  background:#eee;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:18px;
 }
 
 .cart-item{
-    padding:10px 0;
-    border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:15px 0;
+  border-bottom:1px solid #eee;
 }
 
-/* ================= BOTTOM NAV ================= */
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+}
 
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
+.qty-btn{
+  width:30px;
+  height:30px;
+  border:none;
+  border-radius:7px;
+  background:#ff4b1f;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.remove-btn{
+  border:none;
+  background:#ffdddd;
+  color:red;
+  padding:6px 9px;
+  border-radius:7px;
+  cursor:pointer;
+  margin-top:8px;
+}
+
+.bill{
+  margin-top:20px;
+  background:#fff5f2;
+  padding:18px;
+  border-radius:15px;
+}
+
+.bill-row{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
+}
+
+.grand-total{
+  font-size:20px;
+  font-weight:bold;
+  border-top:1px solid #ddd;
+  padding-top:12px;
+}
+
+.checkout-btn{
+  width:100%;
+  margin-top:15px;
+  padding:15px;
+  border:none;
+  background:#25D366;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+/* ================= CHECKOUT ================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+  padding:15px;
+}
+
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:500px;
+  border-radius:20px;
+  padding:25px;
+  max-height:90vh;
+  overflow-y:auto;
+}
+
+.modal-box h2{
+  margin-bottom:20px;
+}
+
+.input-group{
+  margin-bottom:15px;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:bold;
+}
+
+.input-group input,
+.input-group textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:16px;
+}
+
+.input-group textarea{
+  min-height:80px;
+}
+
+.place-order-btn{
+  width:100%;
+  padding:15px;
+  background:#ff4b1f;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:600px){
+
+  .logo{
+    font-size:22px;
+  }
+
+  .user-name{
+    display:none;
+  }
+
+  .banner h2{
+    font-size:20px;
+  }
+
+  .cart-panel{
     width:100%;
-    height:75px;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    box-shadow:0 -3px 15px rgba(0,0,0,.12);
-    z-index:999;
-}
-
-.nav-item{
-    text-align:center;
-    color:#555;
-    font-size:13px;
-    cursor:pointer;
-}
-
-.nav-item span{
-    display:block;
-    font-size:23px;
-    margin-bottom:4px;
-}
-
-.nav-item.active{
-    color:#ff5a1f;
-    font-weight:bold;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:900px){
-
-    .header{
-        padding:20px 5%;
-    }
-
-    .container{
-        width:90%;
-    }
-
-    .restaurant-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
+  }
 
 }
-
-@media(max-width:550px){
-
-    .restaurant-grid{
-        grid-template-columns:1fr;
-    }
-
-    .logo-img{
-        width:120px;
-        height:55px;
-    }
-
-    .offer h1{
-        font-size:24px;
-    }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
+<!-- LOGIN -->
 
-<!-- ================= LOGIN PAGE ================= -->
+<div id="loginPage">
 
-<div class="login-page" id="loginPage">
+  <div class="login-box">
 
-    <div class="login-card">
-
-        <div class="login-logo">
-            🍔 SWIPTO
-        </div>
-
-        <h2>Welcome to Swipto</h2>
-
-        <p>
-            Login with your Google account to order food
-        </p>
-
-
-        <button class="google-btn" onclick="googleLogin()">
-
-            <span style="font-size:20px;">🔵</span>
-            Continue with Google
-
-        </button>
-
-
-        <div id="errorMsg"></div>
-
-
-        <div class="small-text">
-
-            By continuing, you agree to Swipto terms and conditions.
-
-        </div>
-
+    <div class="login-logo">
+      🍔 SWIPTO
     </div>
+
+    <h2>Welcome to Swipto</h2>
+
+    <p>Fast Food Delivery in Narsampet</p>
+
+    <button class="google-btn" onclick="googleLogin()">
+      🔵 Continue with Google
+    </button>
+
+  </div>
 
 </div>
 
 
-<!-- ================= MAIN APP ================= -->
+<!-- APP -->
 
-<div id="app">
+<div id="appPage" class="hidden">
 
+<header>
 
-<div class="header">
+  <div class="header-top">
 
-    <div class="topbar">
+    <div class="logo">
+      🍔 SWIPTO
+    </div>
 
-        <div class="logo-box">
+    <div class="user-info">
 
-            <img
-                src="/static/swipto-logo.png"
-                alt="SWIPTO"
-                class="logo-img"
-            >
+      <span class="user-name" id="userName">
+        Guest
+      </span>
 
-        </div>
-
-
-        <div class="cart" onclick="toggleCart()">
-
-            🛒 <span id="cartCount">0</span>
-
-        </div>
+      <button class="logout-btn" onclick="logout()">
+        Logout
+      </button>
 
     </div>
 
+  </div>
 
-    <div class="location">
-
-        📍 Delivering to
-
-        <h3>Narsampet, Telangana</h3>
-
-    </div>
-
-
-    <div class="search-box">
-
-        🔍
-
-        <input
-            type="text"
-            id="search"
-            placeholder="Search for biryani, pizza, burger..."
-            onkeyup="searchFood()"
-        >
-
-    </div>
-
-</div>
-
+</header>
 
 
 <div class="container">
 
+  <input
+    type="text"
+    class="search-box"
+    placeholder="🔍 Search restaurants or food..."
+    oninput="searchFood(this.value)"
+  >
 
-    <!-- OFFER -->
 
-    <div class="offer">
+  <div class="banner">
 
-        <div>
+    <h2>🍔 Food Delivery in Narsampet</h2>
 
-            <h1>50% OFF 🎉</h1>
+    <p>
+      Order your favourite food and get fast delivery 🚀
+    </p>
 
-            <p>On your first Swipto order</p>
+  </div>
 
-            <b>Use Code: SWIPTO50</b>
 
-        </div>
+  <h2 class="section-title">
+    Categories
+  </h2>
 
-        <div class="offer-icon">
-            🍔
-        </div>
+  <div class="categories">
 
+    <div class="category">
+      <span>🍛</span>
+      <small>Biryani</small>
     </div>
 
-
-
-    <!-- CATEGORIES -->
-
-    <h2 class="section-title">
-
-        What's on your mind?
-
-    </h2>
-
-
-    <div class="categories">
-
-
-        <div class="category" onclick="showCategory('Biryani')">
-
-            <div class="category-circle">🍛</div>
-
-            <p>Biryani</p>
-
-        </div>
-
-
-        <div class="category" onclick="showCategory('Pizza')">
-
-            <div class="category-circle">🍕</div>
-
-            <p>Pizza</p>
-
-        </div>
-
-
-        <div class="category" onclick="showCategory('Burger')">
-
-            <div class="category-circle">🍔</div>
-
-            <p>Burger</p>
-
-        </div>
-
-
-        <div class="category" onclick="showCategory('Chicken')">
-
-            <div class="category-circle">🍗</div>
-
-            <p>Chicken</p>
-
-        </div>
-
-
-        <div class="category" onclick="showCategory('Meals')">
-
-            <div class="category-circle">🍱</div>
-
-            <p>Meals</p>
-
-        </div>
-
-
-        <div class="category" onclick="showCategory('Drinks')">
-
-            <div class="category-circle">🥤</div>
-
-            <p>Drinks</p>
-
-        </div>
-
-
-        <div class="category" onclick="showCategory('Desserts')">
-
-            <div class="category-circle">🍰</div>
-
-            <p>Desserts</p>
-
-        </div>
-
-
+    <div class="category">
+      <span>🍕</span>
+      <small>Pizza</small>
     </div>
 
-
-
-    <!-- RESTAURANTS -->
-
-    <h2 class="section-title">
-
-        Popular restaurants in Narsampet
-
-    </h2>
-
-
-    <div class="restaurant-grid" id="restaurants">
-
-
-        <!-- BIRYANI -->
-
-        <div class="restaurant" data-name="Biryani House Biryani">
-
-            <div class="restaurant-image">
-
-                🍛
-
-            </div>
-
-            <div class="restaurant-info">
-
-                <h3>Biryani House</h3>
-
-                <p>Biryani • Indian • Fast Food</p>
-
-                <div class="rating">
-
-                    ⭐ 4.5 • 25 min
-
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addCart('Biryani')"
-                >
-
-                    Add to Cart
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- PIZZA -->
-
-        <div class="restaurant" data-name="Pizza Point Pizza">
-
-            <div class="restaurant-image">
-
-                🍕
-
-            </div>
-
-            <div class="restaurant-info">
-
-                <h3>Pizza Point</h3>
-
-                <p>Pizza • Italian • Snacks</p>
-
-                <div class="rating">
-
-                    ⭐ 4.3 • 30 min
-
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addCart('Pizza')"
-                >
-
-                    Add to Cart
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- BURGER -->
-
-        <div class="restaurant" data-name="Burger Corner Burger">
-
-            <div class="restaurant-image">
-
-                🍔
-
-            </div>
-
-            <div class="restaurant-info">
-
-                <h3>Burger Corner</h3>
-
-                <p>Burgers • Fries • Fast Food</p>
-
-                <div class="rating">
-
-                    ⭐ 4.6 • 20 min
-
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addCart('Burger')"
-                >
-
-                    Add to Cart
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- CHICKEN -->
-
-        <div class="restaurant" data-name="Chicken Hub Chicken">
-
-            <div class="restaurant-image">
-
-                🍗
-
-            </div>
-
-            <div class="restaurant-info">
-
-                <h3>Chicken Hub</h3>
-
-                <p>Chicken • Grill • Fast Food</p>
-
-                <div class="rating">
-
-                    ⭐ 4.4 • 30 min
-
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addCart('Chicken')"
-                >
-
-                    Add to Cart
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- MEALS -->
-
-        <div class="restaurant" data-name="Andhra Meals Meals">
-
-            <div class="restaurant-image">
-
-                🍱
-
-            </div>
-
-            <div class="restaurant-info">
-
-                <h3>Andhra Meals</h3>
-
-                <p>Meals • South Indian</p>
-
-                <div class="rating">
-
-                    ⭐ 4.7 • 25 min
-
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addCart('Meals')"
-                >
-
-                    Add to Cart
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- DRINKS -->
-
-        <div class="restaurant" data-name="Cool Drinks Drinks">
-
-            <div class="restaurant-image">
-
-                🥤
-
-            </div>
-
-            <div class="restaurant-info">
-
-                <h3>Cool Drinks</h3>
-
-                <p>Juices • Drinks • Shakes</p>
-
-                <div class="rating">
-
-                    ⭐ 4.2 • 15 min
-
-                </div>
-
-                <button
-                    class="add-btn"
-                    onclick="addCart('Drinks')"
-                >
-
-                    Add to Cart
-
-                </button>
-
-            </div>
-
-        </div>
-
-
+    <div class="category">
+      <span>🍔</span>
+      <small>Burgers</small>
     </div>
 
-
-
-    <!-- PROFILE -->
-
-    <div class="profile-box" id="profileBox">
-
-        <h3>👤 My Profile</h3>
-
-        <p id="userPhone"></p>
-
-        <br>
-
-        <p id="userEmail"></p>
-
-
-        <button
-            class="logout-btn"
-            onclick="logoutUser()"
-        >
-
-            Logout
-
-        </button>
-
+    <div class="category">
+      <span>🍗</span>
+      <small>Chicken</small>
     </div>
 
+    <div class="category">
+      <span>🥤</span>
+      <small>Drinks</small>
+    </div>
+
+  </div>
+
+
+  <h2 class="section-title">
+    Popular Restaurants
+  </h2>
+
+  <div id="restaurantList" class="restaurant-grid"></div>
+
+
+  <h2 class="section-title">
+    Popular Food
+  </h2>
+
+  <div id="foodList" class="food-grid"></div>
 
 </div>
 
 
+<button class="cart-btn" onclick="openCart()">
+  🛒 Cart (<span id="cartCount">0</span>)
+</button>
 
-<!-- ================= CART POPUP ================= -->
 
-<div class="cart-box" id="cartBox">
+<!-- CART -->
 
-    <h3>🛒 Your Cart</h3>
+<div id="cartPanel" class="cart-panel">
 
-    <br>
+  <div class="cart-header">
 
-    <div id="cartItems"></div>
+    <h2>🛒 Your Cart</h2>
+
+    <button class="close-btn" onclick="closeCart()">
+      ✕
+    </button>
+
+  </div>
+
+
+  <div id="cartItems"></div>
+
+
+  <div id="cartBill" class="bill hidden">
+
+    <div class="bill-row">
+      <span>Item Total</span>
+      <span id="itemTotal">₹0</span>
+    </div>
+
+    <div class="bill-row">
+      <span>🛵 Delivery Fee</span>
+      <span id="deliveryFee">₹25</span>
+    </div>
+
+    <div class="bill-row grand-total">
+      <span>Grand Total</span>
+      <span id="grandTotal">₹0</span>
+    </div>
+
+
+    <button class="checkout-btn" onclick="openCheckout()">
+      Proceed to Checkout
+    </button>
+
+  </div>
 
 </div>
 
 
+<!-- CHECKOUT -->
 
-<!-- ================= BOTTOM NAV ================= -->
+<div id="checkoutModal" class="modal hidden">
 
-<div class="bottom-nav">
+  <div class="modal-box">
 
+    <div class="cart-header">
 
-    <div
-        class="nav-item active"
-        onclick="goHome()"
-    >
+      <h2>📍 Delivery Details</h2>
 
-        <span>🏠</span>
-
-        Home
-
-    </div>
-
-
-    <div
-        class="nav-item"
-        onclick="focusSearch()"
-    >
-
-        <span>🔎</span>
-
-        Search
+      <button class="close-btn" onclick="closeCheckout()">
+        ✕
+      </button>
 
     </div>
 
 
-    <div
-        class="nav-item"
-        onclick="toggleCart()"
-    >
+    <div class="input-group">
 
-        <span>🛒</span>
+      <label>Customer Name</label>
 
-        Cart
+      <input id="customerName" placeholder="Enter your name">
 
     </div>
 
 
-    <div class="nav-item">
+    <div class="input-group">
 
-        <span>📦</span>
+      <label>Mobile Number</label>
 
-        Orders
+      <input id="customerPhone" placeholder="Enter mobile number">
+
+    </div>
+
+
+    <div class="input-group">
+
+      <label>Delivery Address</label>
+
+      <textarea id="customerAddress" placeholder="Enter delivery address"></textarea>
 
     </div>
 
 
-    <div
-        class="nav-item"
-        onclick="showProfile()"
-    >
+    <div class="input-group">
 
-        <span>👤</span>
+      <label>Payment Mode</label>
 
-        Profile
+      <input value="Cash on Delivery (COD)" disabled>
 
     </div>
 
+
+    <button class="place-order-btn" onclick="placeOrder()">
+      🚀 Place Order
+    </button>
+
+  </div>
 
 </div>
-
-
-</div>
-
-
-<!-- ================= FIREBASE GOOGLE AUTH ================= -->
 
 <script type="module">
 
+/* ================= FIREBASE ================= */
 
 import { initializeApp } from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-
 import {
-
-    getAuth,
-
-    GoogleAuthProvider,
-
-    signInWithPopup,
-
-    onAuthStateChanged,
-
-    signOut
-
-}
-
-from
-
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
-
-/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
 
@@ -1024,9 +774,6 @@ const firebaseConfig = {
 };
 
 
-
-/* ================= INITIALIZE FIREBASE ================= */
-
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
@@ -1034,413 +781,599 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 
+/* ================= LOGIN ================= */
 
-/* ================= GOOGLE LOGIN ================= */
+window.googleLogin = async function(){
 
-window.googleLogin = function(){
+  try{
 
+    await signInWithPopup(auth,provider);
 
-    document.getElementById("errorMsg").innerText =
-    "Opening Google Login...";
+  }catch(error){
 
+    alert("Login Error: " + error.message);
 
-    signInWithPopup(auth, provider)
-
-
-    .then(function(result){
-
-
-        console.log("Login successful");
-
-
-        document.getElementById("errorMsg").innerText =
-        "";
-
-
-    })
-
-
-    .catch(function(error){
-
-
-        console.log(error);
-
-
-        document.getElementById("errorMsg").style.color =
-        "red";
-
-
-        document.getElementById("errorMsg").innerText =
-        "Login Error: " + error.message;
-
-
-    });
-
+  }
 
 };
 
 
+window.logout = async function(){
 
-/* ================= AUTH STATE ================= */
+  await signOut(auth);
 
-onAuthStateChanged(auth,function(user){
-
-
-    if(user){
+};
 
 
-        /* HIDE LOGIN PAGE */
+onAuthStateChanged(auth,(user)=>{
 
-        document.getElementById("loginPage")
-        .style.display = "none";
+  if(user){
 
+    document.getElementById("loginPage").classList.add("hidden");
 
-        /* SHOW FOOD DELIVERY APP */
+    document.getElementById("appPage").classList.remove("hidden");
 
-        document.getElementById("app")
-        .style.display = "block";
+    document.getElementById("userName").innerText =
+      user.displayName || "SWIPTO User";
 
+    document.getElementById("customerName").value =
+      user.displayName || "";
 
-        /* SHOW USER NAME */
+  }else{
 
-        document.getElementById("userPhone")
-        .innerText =
-        "👤 " + (user.displayName || "Swipto User");
+    document.getElementById("loginPage").classList.remove("hidden");
 
+    document.getElementById("appPage").classList.add("hidden");
 
-        /* SHOW EMAIL */
-
-        document.getElementById("userEmail")
-        .innerText =
-        "📧 " + (user.email || "");
-
-
-    }
-
-
-    else{
-
-
-        /* SHOW LOGIN PAGE */
-
-        document.getElementById("loginPage")
-        .style.display = "flex";
-
-
-        /* HIDE APP */
-
-        document.getElementById("app")
-        .style.display = "none";
-
-
-    }
-
+  }
 
 });
 
 
+/* ================= DATA ================= */
 
-/* ================= LOGOUT ================= */
+const restaurants = [
 
-window.logoutUser = function(){
+  {
+    id:1,
+    name:"Ruchulu Family Restaurant & Biryani Point",
+    emoji:"🍛",
+    rating:"⭐ 4.5",
+    time:"25-35 mins",
+    whatsapp:"919000000001"
+  },
+
+  {
+    id:2,
+    name:"Narsampet Food Hub",
+    emoji:"🍔",
+    rating:"⭐ 4.3",
+    time:"20-30 mins",
+    whatsapp:"919000000002"
+  },
+
+  {
+    id:3,
+    name:"Pizza Corner Narsampet",
+    emoji:"🍕",
+    rating:"⭐ 4.4",
+    time:"30-40 mins",
+    whatsapp:"919000000003"
+  }
+
+];
 
 
-    signOut(auth)
+const foods = [
 
+  {
+    id:1,
+    restaurantId:1,
+    name:"Single Chicken Biryani",
+    price:130,
+    emoji:"🍛"
+  },
 
-    .then(function(){
+  {
+    id:2,
+    restaurantId:1,
+    name:"Chicken Dum Biryani",
+    price:220,
+    emoji:"🍗"
+  },
 
+  {
+    id:3,
+    restaurantId:1,
+    name:"Veg Biryani",
+    price:100,
+    emoji:"🥗"
+  },
 
-        alert("Logged out successfully");
+  {
+    id:4,
+    restaurantId:2,
+    name:"Chicken Burger",
+    price:120,
+    emoji:"🍔"
+  },
 
+  {
+    id:5,
+    restaurantId:2,
+    name:"French Fries",
+    price:80,
+    emoji:"🍟"
+  },
 
-    })
+  {
+    id:6,
+    restaurantId:3,
+    name:"Chicken Pizza",
+    price:199,
+    emoji:"🍕"
+  }
 
+];
 
-    .catch(function(error){
-
-
-        alert("Logout Error: " + error.message);
-
-
-    });
-
-
-};
-
-
-
-/* ================= CART ================= */
 
 let cart = [];
 
 
+/* ================= RENDER ================= */
 
-window.addCart = function(item){
+function renderRestaurants(){
 
+  const list =
+    document.getElementById("restaurantList");
 
-    cart.push(item);
+  list.innerHTML = restaurants.map(r=>`
 
+    <div class="restaurant-card">
 
-    document.getElementById("cartCount")
-    .innerText = cart.length;
+      <div class="restaurant-image">
+        ${r.emoji}
+      </div>
 
+      <div class="restaurant-content">
 
-    updateCart();
+        <h3>${r.name}</h3>
 
+        <p>${r.rating} • ${r.time}</p>
 
-    alert(item + " added to cart 🛒");
+        <button
+          class="menu-btn"
+          onclick="showRestaurantFood(${r.id})"
+        >
+          View Menu
+        </button>
 
+      </div>
 
-};
+    </div>
 
-
-
-function updateCart(){
-
-
-    let cartItems =
-    document.getElementById("cartItems");
-
-
-    cartItems.innerHTML = "";
-
-
-    if(cart.length === 0){
-
-
-        cartItems.innerHTML =
-        "<p>Your cart is empty</p>";
-
-
-        return;
-
-
-    }
-
-
-    cart.forEach(function(item,index){
-
-
-        cartItems.innerHTML +=
-
-
-        '<div class="cart-item">' +
-
-        item +
-
-        '</div>';
-
-
-    });
-
+  `).join("");
 
 }
 
 
+function renderFoods(foodData = foods){
 
-/* ================= TOGGLE CART ================= */
+  const list =
+    document.getElementById("foodList");
 
-window.toggleCart = function(){
+  list.innerHTML = foodData.map(food=>`
 
+    <div class="food-card">
 
-    let cartBox =
-    document.getElementById("cartBox");
+      <div class="food-img">
+        ${food.emoji}
+      </div>
 
+      <h3>${food.name}</h3>
 
-    if(
-        cartBox.style.display === "block"
-    ){
+      <div class="price">
+        ₹${food.price}
+      </div>
 
+      <button
+        class="add-btn"
+        onclick="addToCart(${food.id})"
+      >
+        + Add to Cart
+      </button>
 
-        cartBox.style.display = "none";
+    </div>
 
+  `).join("");
 
-    }
-
-
-    else{
-
-
-        cartBox.style.display = "block";
-
-
-    }
-
-
-};
-
-
-
-/* ================= SEARCH ================= */
-
-window.searchFood = function(){
+}
 
 
-    let input =
+window.showRestaurantFood = function(id){
 
-    document.getElementById("search")
+  const filtered =
+    foods.filter(f=>f.restaurantId === id);
 
-    .value
+  renderFoods(filtered);
 
-    .toLowerCase();
-
-
-
-    let restaurants =
-
-    document.querySelectorAll(".restaurant");
-
-
-
-    restaurants.forEach(function(restaurant){
-
-
-        let name =
-
-        restaurant
-
-        .getAttribute("data-name")
-
-        .toLowerCase();
-
-
-
-        if(name.includes(input)){
-
-
-            restaurant.style.display = "block";
-
-
-        }
-
-
-        else{
-
-
-            restaurant.style.display = "none";
-
-
-        }
-
-
+  document
+    .getElementById("foodList")
+    .scrollIntoView({
+      behavior:"smooth"
     });
 
+};
+
+
+window.searchFood = function(text){
+
+  text = text.toLowerCase();
+
+  const filtered = foods.filter(food=>
+    food.name.toLowerCase().includes(text)
+  );
+
+  renderFoods(filtered);
 
 };
 
 
+/* ================= CART ================= */
 
-/* ================= CATEGORY ================= */
+window.addToCart = function(id){
 
-window.showCategory = function(category){
+  const food =
+    foods.find(f=>f.id === id);
 
+  const existing =
+    cart.find(item=>item.id === id);
 
-    document.getElementById("search")
+  if(existing){
 
-    .value = category;
+    existing.qty++;
 
+  }else{
 
-    searchFood();
-
-
-};
-
-
-
-/* ================= PROFILE ================= */
-
-window.showProfile = function(){
-
-
-    let profile =
-
-    document.getElementById("profileBox");
-
-
-    if(profile.style.display === "block"){
-
-
-        profile.style.display = "none";
-
-
-    }
-
-
-    else{
-
-
-        profile.style.display = "block";
-
-
-        profile.scrollIntoView({
-
-
-            behavior:"smooth"
-
-
-        });
-
-
-    }
-
-
-};
-
-
-
-/* ================= HOME ================= */
-
-window.goHome = function(){
-
-
-    window.scrollTo({
-
-
-        top:0,
-
-
-        behavior:"smooth"
-
-
+    cart.push({
+      ...food,
+      qty:1
     });
 
+  }
+
+  updateCart();
 
 };
 
 
+window.updateCart = function(){
 
-/* ================= SEARCH FOCUS ================= */
+  const items =
+    document.getElementById("cartItems");
 
-window.focusSearch = function(){
+  const count =
+    document.getElementById("cartCount");
 
+
+  let totalItems =
+    cart.reduce((sum,item)=>
+      sum + item.qty,0);
+
+
+  count.innerText = totalItems;
+
+
+  if(cart.length === 0){
+
+    items.innerHTML = `
+      <p style="text-align:center;color:#777;padding:30px;">
+        Your cart is empty 🛒
+      </p>
+    `;
 
     document
+      .getElementById("cartBill")
+      .classList.add("hidden");
 
-    .getElementById("search")
+    return;
 
-    .focus();
-
-
-
-    window.scrollTo({
+  }
 
 
-        top:0,
+  items.innerHTML = cart.map(item=>`
+
+    <div class="cart-item">
+
+      <div>
+
+        <strong>${item.name}</strong>
+
+        <div>
+          ₹${item.price} × ${item.qty}
+        </div>
 
 
-        behavior:"smooth"
+        <div class="qty-controls">
+
+          <button
+            class="qty-btn"
+            onclick="changeQty(${item.id},-1)"
+          >
+            −
+          </button>
+
+          <strong>${item.qty}</strong>
+
+          <button
+            class="qty-btn"
+            onclick="changeQty(${item.id},1)"
+          >
+            +
+          </button>
+
+        </div>
 
 
-    });
+        <button
+          class="remove-btn"
+          onclick="removeItem(${item.id})"
+        >
+          Remove
+        </button>
 
+      </div>
+
+
+      <strong>
+        ₹${item.price * item.qty}
+      </strong>
+
+    </div>
+
+  `).join("");
+
+
+  const itemTotal =
+    cart.reduce((sum,item)=>
+      sum + item.price * item.qty,0);
+
+
+  const deliveryFee = 25;
+
+  const grandTotal =
+    itemTotal + deliveryFee;
+
+
+  document
+    .getElementById("itemTotal")
+    .innerText = "₹" + itemTotal;
+
+
+  document
+    .getElementById("deliveryFee")
+    .innerText = "₹" + deliveryFee;
+
+
+  document
+    .getElementById("grandTotal")
+    .innerText = "₹" + grandTotal;
+
+
+  document
+    .getElementById("cartBill")
+    .classList.remove("hidden");
 
 };
 
+
+window.changeQty = function(id,value){
+
+  const item =
+    cart.find(item=>item.id === id);
+
+  if(!item) return;
+
+  item.qty += value;
+
+  if(item.qty <= 0){
+
+    cart =
+      cart.filter(item=>item.id !== id);
+
+  }
+
+  updateCart();
+
+};
+
+
+window.removeItem = function(id){
+
+  cart =
+    cart.filter(item=>item.id !== id);
+
+  updateCart();
+
+};
+
+
+window.openCart = function(){
+
+  document
+    .getElementById("cartPanel")
+    .classList.add("active");
+
+};
+
+
+window.closeCart = function(){
+
+  document
+    .getElementById("cartPanel")
+    .classList.remove("active");
+
+};
+
+
+/* ================= CHECKOUT ================= */
+
+window.openCheckout = function(){
+
+  if(cart.length === 0){
+
+    alert("Your cart is empty");
+
+    return;
+
+  }
+
+  document
+    .getElementById("checkoutModal")
+    .classList.remove("hidden");
+
+};
+
+
+window.closeCheckout = function(){
+
+  document
+    .getElementById("checkoutModal")
+    .classList.add("hidden");
+
+};
+
+
+/* ================= PLACE ORDER ================= */
+
+window.placeOrder = function(){
+
+  const customerName =
+    document
+      .getElementById("customerName")
+      .value
+      .trim();
+
+
+  const customerPhone =
+    document
+      .getElementById("customerPhone")
+      .value
+      .trim();
+
+
+  const customerAddress =
+    document
+      .getElementById("customerAddress")
+      .value
+      .trim();
+
+
+  if(!customerName ||
+     !customerPhone ||
+     !customerAddress){
+
+    alert("Please fill all delivery details");
+
+    return;
+
+  }
+
+
+  const restaurantId =
+    cart[0].restaurantId;
+
+
+  const restaurant =
+    restaurants.find(r=>r.id === restaurantId);
+
+
+  const itemTotal =
+    cart.reduce((sum,item)=>
+      sum + item.price * item.qty,0);
+
+
+  const deliveryFee = 25;
+
+  const grandTotal =
+    itemTotal + deliveryFee;
+
+
+  let itemsText = "";
+
+  cart.forEach(item=>{
+
+    itemsText +=
+`• ${item.name} x ${item.qty} = ₹${item.price * item.qty}
+
+`;
+
+  });
+
+
+  const orderMessage =
+
+`🛵 *NEW SWIPTO ORDER - NARSAMPET*
+
+🏪 *Restaurant:* ${restaurant.name}
+👤 *Customer:* ${customerName}
+📞 *Phone:* ${customerPhone}
+📍 *Address:* ${customerAddress}
+
+📦 *Ordered Items:*
+
+${itemsText}
+
+💵 *Item Total:* ₹${itemTotal}
+🛵 *Delivery Fee:* ₹${deliveryFee}
+💰 *Grand Total:* ₹${grandTotal}
+💳 *Payment Mode:* COD
+
+⚡ *Delivering via SWIPTO Express*`;
+
+
+  const whatsappNumber =
+    restaurant.whatsapp;
+
+
+  const whatsappURL =
+    "https://wa.me/" +
+    whatsappNumber +
+    "?text=" +
+    encodeURIComponent(orderMessage);
+
+
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
+
+  alert(
+    "Order placed successfully! 🎉\nRestaurant WhatsApp is opening now."
+  );
+
+
+  cart = [];
+
+  updateCart();
+
+  closeCheckout();
+
+  closeCart();
+
+};
+
+
+/* ================= START ================= */
+
+renderRestaurants();
+
+renderFoods();
+
+updateCart();
 
 </script>
 
-
 </body>
-
 </html>
