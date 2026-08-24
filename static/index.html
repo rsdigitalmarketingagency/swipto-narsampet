@@ -248,6 +248,22 @@ body{
     font-weight:bold;
 }
 
+/* BUTTON */
+
+button{
+    border:none;
+    background:#ff5a1f;
+    color:white;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#e44712;
+}
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -293,7 +309,7 @@ body{
     <div class="topbar">
 
         <div class="logo-box">
-            <img src=../swipto-logo.png"
+            <img src="swipto-logo.png"
                  alt="SWIPTO Logo"
                  class="logo-img">
         </div>
@@ -508,25 +524,6 @@ body{
 </div>
 
 
-<style>
-
-button{
-    border:none;
-    background:#ff5a1f;
-    color:white;
-    padding:10px 16px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-button:hover{
-    background:#e44712;
-}
-
-</style>
-
-
 <script>
 
 let cart = 0;
@@ -577,7 +574,7 @@ function showCategory(category){
 
     document.getElementById("search").value = category;
 
-    alert("Showing " + category + " items");
+    searchFood();
 
 }
 
