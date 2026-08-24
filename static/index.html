@@ -7,315 +7,504 @@
 <title>Swipto - Food Delivery</title>
 
 <style>
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-    background: #f5f5f5;
-    color: #222;
-    padding-bottom: 80px;
+body{
+    background:#f5f5f5;
+    color:#222;
+    padding-bottom:80px;
+}
+
+/* LOGIN SCREEN */
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9500,#ff4b1f);
+    padding:20px;
+}
+
+.login-card{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:25px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 10px 35px rgba(0,0,0,.2);
+}
+
+.login-logo{
+    font-size:42px;
+    font-weight:bold;
+    color:#ff5a1f;
+    margin-bottom:10px;
+}
+
+.login-card h2{
+    margin-bottom:10px;
+}
+
+.login-card p{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.login-input{
+    width:100%;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:16px;
+    margin-bottom:15px;
+    outline:none;
+}
+
+.login-input:focus{
+    border-color:#ff5a1f;
+}
+
+.login-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#ff5a1f;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#e34712;
+}
+
+#otpBox{
+    display:none;
+}
+
+.small-text{
+    font-size:13px;
+    margin-top:15px;
+    color:#888;
+}
+
+#errorMsg{
+    color:red;
+    margin-top:10px;
+    font-size:14px;
+}
+
+/* APP */
+
+#app{
+    display:none;
 }
 
 /* HEADER */
 
-.header {
-    background: linear-gradient(135deg, #ff9500, #ff4b1f);
-    color: white;
-    padding: 20px 10%;
-    min-height: 250px;
-    border-radius: 0 0 30px 30px;
+.header{
+    background:linear-gradient(135deg,#ff9500,#ff4b1f);
+    color:white;
+    padding:20px 10%;
+    min-height:250px;
+    border-radius:0 0 30px 30px;
 }
 
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-/* LOGO */
-
-.logo-box {
-    display: flex;
-    align-items: center;
+.logo-box{
+    display:flex;
+    align-items:center;
 }
 
-.logo-img {
-    width: 160px;
-    height: 70px;
-    object-fit: contain;
-    display: block;
+.logo-img{
+    width:150px;
+    height:70px;
+    object-fit:contain;
+    display:block;
 }
 
-.cart {
-    font-size: 25px;
-    cursor: pointer;
+.cart{
+    font-size:25px;
+    cursor:pointer;
 }
 
-.cart span {
-    font-size: 18px;
-    margin-left: 5px;
+.cart span{
+    font-size:18px;
+    margin-left:5px;
 }
 
-.location {
-    margin-top: 25px;
-    font-size: 16px;
+.location{
+    margin-top:25px;
+    font-size:16px;
 }
 
-.location h3 {
-    margin-top: 5px;
-    font-size: 20px;
+.location h3{
+    margin-top:5px;
+    font-size:20px;
 }
 
-.search-box {
-    margin-top: 20px;
-    background: white;
-    border-radius: 15px;
-    padding: 17px 20px;
-    display: flex;
-    align-items: center;
+.search-box{
+    margin-top:20px;
+    background:white;
+    border-radius:15px;
+    padding:17px 20px;
+    display:flex;
+    align-items:center;
 }
 
-.search-box input {
-    border: none;
-    outline: none;
-    width: 100%;
-    margin-left: 10px;
-    font-size: 16px;
+.search-box input{
+    border:none;
+    outline:none;
+    width:100%;
+    margin-left:10px;
+    font-size:16px;
 }
 
-/* MAIN CONTAINER */
+/* CONTAINER */
 
-.container {
-    width: 75%;
-    margin: auto;
+.container{
+    width:75%;
+    margin:auto;
 }
 
 /* OFFER */
 
-.offer {
-    margin-top: 25px;
-    padding: 28px;
-    border-radius: 22px;
-    background: linear-gradient(90deg, #ff9500, #ff4b1f);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.offer{
+    margin-top:25px;
+    padding:28px;
+    border-radius:22px;
+    background:linear-gradient(90deg,#ff9500,#ff4b1f);
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.offer h1 {
-    font-size: 30px;
+.offer h1{
+    font-size:30px;
 }
 
-.offer p {
-    margin-top: 7px;
+.offer p{
+    margin-top:7px;
 }
 
-.offer b {
-    display: block;
-    margin-top: 7px;
+.offer b{
+    display:block;
+    margin-top:7px;
 }
 
-.offer-icon {
-    font-size: 60px;
+.offer-icon{
+    font-size:60px;
 }
 
 /* SECTION */
 
-.section-title {
-    margin-top: 30px;
-    margin-bottom: 18px;
-    font-size: 26px;
+.section-title{
+    margin-top:30px;
+    margin-bottom:18px;
+    font-size:26px;
 }
 
 /* CATEGORIES */
 
-.categories {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding-bottom: 10px;
+.categories{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    padding-bottom:10px;
 }
 
-.category {
-    min-width: 85px;
-    text-align: center;
-    cursor: pointer;
+.category{
+    min-width:85px;
+    text-align:center;
+    cursor:pointer;
 }
 
-.category-circle {
-    width: 78px;
-    height: 78px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    font-size: 35px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+.category-circle{
+    width:78px;
+    height:78px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    font-size:35px;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
 }
 
-.category p {
-    margin-top: 8px;
-    font-weight: bold;
-    font-size: 14px;
+.category p{
+    margin-top:8px;
+    font-weight:bold;
+    font-size:14px;
 }
 
 /* RESTAURANTS */
 
-.restaurant-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
+.restaurant-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
 }
 
-.restaurant {
-    background: white;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: 0.3s;
+.restaurant{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    transition:.3s;
 }
 
-.restaurant:hover {
-    transform: translateY(-5px);
+.restaurant:hover{
+    transform:translateY(-5px);
 }
 
-.restaurant-image {
-    height: 150px;
-    background: linear-gradient(135deg, #ffe8cc, #fff4e8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 65px;
+.restaurant-image{
+    height:150px;
+    background:linear-gradient(135deg,#ffe8cc,#fff4e8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:65px;
 }
 
-.restaurant-info {
-    padding: 16px;
+.restaurant-info{
+    padding:16px;
 }
 
-.restaurant-info h3 {
-    font-size: 19px;
+.restaurant-info h3{
+    font-size:19px;
 }
 
-.restaurant-info p {
-    margin-top: 7px;
-    color: #666;
-    font-size: 14px;
+.restaurant-info p{
+    margin-top:7px;
+    color:#666;
+    font-size:14px;
 }
 
-.rating {
-    margin-top: 10px;
-    color: #138a36;
-    font-weight: bold;
+.rating{
+    margin-top:10px;
+    color:#138a36;
+    font-weight:bold;
 }
 
-/* BUTTON */
-
-button {
-    margin-top: 12px;
-    border: none;
-    background: #ff5a1f;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
+.add-btn{
+    margin-top:12px;
+    border:none;
+    background:#ff5a1f;
+    color:white;
+    padding:10px 16px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-button:hover {
-    background: #e34712;
+.add-btn:hover{
+    background:#e34712;
+}
+
+/* PROFILE */
+
+.profile-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-top:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    display:none;
+}
+
+.profile-box h3{
+    margin-bottom:10px;
+}
+
+.logout-btn{
+    margin-top:15px;
+    border:none;
+    background:#222;
+    color:white;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* CART BOX */
+
+.cart-box{
+    display:none;
+    background:white;
+    position:fixed;
+    top:80px;
+    right:20px;
+    width:300px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    z-index:2000;
+}
+
+.cart-item{
+    padding:10px 0;
+    border-bottom:1px solid #eee;
 }
 
 /* BOTTOM NAV */
 
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 75px;
-    background: white;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 -3px 15px rgba(0,0,0,0.12);
-    z-index: 999;
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:75px;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    box-shadow:0 -3px 15px rgba(0,0,0,.12);
+    z-index:999;
 }
 
-.nav-item {
-    text-align: center;
-    color: #555;
-    font-size: 13px;
-    cursor: pointer;
+.nav-item{
+    text-align:center;
+    color:#555;
+    font-size:13px;
+    cursor:pointer;
 }
 
-.nav-item span {
-    display: block;
-    font-size: 23px;
-    margin-bottom: 4px;
+.nav-item span{
+    display:block;
+    font-size:23px;
+    margin-bottom:4px;
 }
 
-.nav-item.active {
-    color: #ff5a1f;
-    font-weight: bold;
+.nav-item.active{
+    color:#ff5a1f;
+    font-weight:bold;
 }
 
 /* MOBILE */
 
-@media(max-width: 900px) {
+@media(max-width:900px){
 
-    .header {
-        padding: 20px 5%;
+    .header{
+        padding:20px 5%;
     }
 
-    .container {
-        width: 90%;
+    .container{
+        width:90%;
     }
 
-    .restaurant-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-@media(max-width: 550px) {
-
-    .restaurant-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .logo-img {
-        width: 120px;
-        height: 55px;
-    }
-
-    .offer h1 {
-        font-size: 24px;
+    .restaurant-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
 }
 
+@media(max-width:550px){
+
+    .restaurant-grid{
+        grid-template-columns:1fr;
+    }
+
+    .logo-img{
+        width:120px;
+        height:55px;
+    }
+
+    .offer h1{
+        font-size:24px;
+    }
+
+}
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
+
+<!-- LOGIN PAGE -->
+
+<div class="login-page" id="loginPage">
+
+    <div class="login-card">
+
+        <div class="login-logo">🍔 SWIPTO</div>
+
+        <h2>Welcome to Swipto</h2>
+
+        <p>Enter your mobile number to continue</p>
+
+
+        <div id="phoneBox">
+
+            <input
+                type="tel"
+                id="phoneNumber"
+                class="login-input"
+                placeholder="+91 9876543210"
+            >
+
+            <button class="login-btn" onclick="sendOTP()">
+                Send OTP
+            </button>
+
+        </div>
+
+
+        <div id="otpBox">
+
+            <input
+                type="number"
+                id="otp"
+                class="login-input"
+                placeholder="Enter 6 digit OTP"
+            >
+
+            <button class="login-btn" onclick="verifyOTP()">
+                Verify OTP
+            </button>
+
+        </div>
+
+
+        <div id="recaptcha-container"></div>
+
+        <div id="errorMsg"></div>
+
+        <div class="small-text">
+            By continuing, you agree to Swipto terms and conditions.
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- MAIN APP -->
+
+<div id="app">
+
 
 <div class="header">
 
     <div class="topbar">
 
         <div class="logo-box">
-
-            <!-- IMPORTANT LOGO PATH -->
 
             <img
                 src="/static/swipto-logo.png"
@@ -325,8 +514,11 @@ button:hover {
 
         </div>
 
-        <div class="cart">
+
+        <div class="cart" onclick="toggleCart()">
+
             🛒 <span id="cartCount">0</span>
+
         </div>
 
     </div>
@@ -357,7 +549,6 @@ button:hover {
 </div>
 
 
-<!-- MAIN -->
 
 <div class="container">
 
@@ -381,6 +572,7 @@ button:hover {
         </div>
 
     </div>
+
 
 
     <!-- CATEGORIES -->
@@ -459,6 +651,7 @@ button:hover {
     </div>
 
 
+
     <!-- RESTAURANTS -->
 
     <h2 class="section-title">
@@ -485,13 +678,14 @@ button:hover {
                     ⭐ 4.5 • 25 min
                 </div>
 
-                <button onclick="addCart('Biryani')">
+                <button class="add-btn" onclick="addCart('Biryani')">
                     Add to Cart
                 </button>
 
             </div>
 
         </div>
+
 
 
         <div class="restaurant" data-name="Pizza Point Pizza">
@@ -510,13 +704,14 @@ button:hover {
                     ⭐ 4.3 • 30 min
                 </div>
 
-                <button onclick="addCart('Pizza')">
+                <button class="add-btn" onclick="addCart('Pizza')">
                     Add to Cart
                 </button>
 
             </div>
 
         </div>
+
 
 
         <div class="restaurant" data-name="Burger Corner Burger">
@@ -535,13 +730,14 @@ button:hover {
                     ⭐ 4.6 • 20 min
                 </div>
 
-                <button onclick="addCart('Burger')">
+                <button class="add-btn" onclick="addCart('Burger')">
                     Add to Cart
                 </button>
 
             </div>
 
         </div>
+
 
 
         <div class="restaurant" data-name="Chicken Hub Chicken">
@@ -560,13 +756,14 @@ button:hover {
                     ⭐ 4.4 • 30 min
                 </div>
 
-                <button onclick="addCart('Chicken')">
+                <button class="add-btn" onclick="addCart('Chicken')">
                     Add to Cart
                 </button>
 
             </div>
 
         </div>
+
 
 
         <div class="restaurant" data-name="Andhra Meals Meals">
@@ -585,13 +782,14 @@ button:hover {
                     ⭐ 4.7 • 25 min
                 </div>
 
-                <button onclick="addCart('Meals')">
+                <button class="add-btn" onclick="addCart('Meals')">
                     Add to Cart
                 </button>
 
             </div>
 
         </div>
+
 
 
         <div class="restaurant" data-name="Cool Drinks Drinks">
@@ -610,7 +808,7 @@ button:hover {
                     ⭐ 4.2 • 15 min
                 </div>
 
-                <button onclick="addCart('Drinks')">
+                <button class="add-btn" onclick="addCart('Drinks')">
                     Add to Cart
                 </button>
 
@@ -621,14 +819,44 @@ button:hover {
 
     </div>
 
+
+
+    <!-- PROFILE -->
+
+    <div class="profile-box" id="profileBox">
+
+        <h3>👤 My Profile</h3>
+
+        <p id="userPhone"></p>
+
+        <button class="logout-btn" onclick="logoutUser()">
+            Logout
+        </button>
+
+    </div>
+
+
 </div>
 
 
-<!-- BOTTOM NAVIGATION -->
+
+<!-- CART POPUP -->
+
+<div class="cart-box" id="cartBox">
+
+    <h3>🛒 Your Cart</h3>
+
+    <div id="cartItems"></div>
+
+</div>
+
+
+
+<!-- BOTTOM NAV -->
 
 <div class="bottom-nav">
 
-    <div class="nav-item active">
+    <div class="nav-item active" onclick="goHome()">
 
         <span>🏠</span>
 
@@ -637,7 +865,7 @@ button:hover {
     </div>
 
 
-    <div class="nav-item">
+    <div class="nav-item" onclick="focusSearch()">
 
         <span>🔎</span>
 
@@ -646,7 +874,7 @@ button:hover {
     </div>
 
 
-    <div class="nav-item">
+    <div class="nav-item" onclick="toggleCart()">
 
         <span>🛒</span>
 
@@ -664,7 +892,7 @@ button:hover {
     </div>
 
 
-    <div class="nav-item">
+    <div class="nav-item" onclick="showProfile()">
 
         <span>👤</span>
 
@@ -675,38 +903,342 @@ button:hover {
 </div>
 
 
-<script>
-
-let cart = 0;
+</div>
 
 
-/* ADD TO CART */
 
-function addCart(item) {
+<!-- FIREBASE -->
 
-    cart++;
+<script type="module">
 
-    document.getElementById("cartCount").innerText = cart;
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getAuth,
+    RecaptchaVerifier,
+    signInWithPhoneNumber,
+    onAuthStateChanged,
+    signOut
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyB1CVKX70adaUvF9KH3Lv1fp-SaKDBVKc",
+
+    authDomain: "swipto-7a20a.firebaseapp.com",
+
+    projectId: "swipto-7a20a",
+
+    storageBucket: "swipto-7a20a.firebasestorage.app",
+
+    messagingSenderId: "56502022616",
+
+    appId: "1:56502022616:web:d3bb24a5838f5baa2b42ad",
+
+    measurementId: "G-PDXPCJR5N"
+
+};
+
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+let confirmationResult;
+
+
+
+/* RECAPTCHA */
+
+window.recaptchaVerifier = new RecaptchaVerifier(
+    auth,
+    "recaptcha-container",
+    {
+        size:"invisible"
+    }
+);
+
+
+
+/* SEND OTP */
+
+window.sendOTP = function(){
+
+    let phoneNumber =
+        document.getElementById("phoneNumber")
+        .value
+        .trim();
+
+
+    document.getElementById("errorMsg").innerText = "";
+
+
+    if(!phoneNumber.startsWith("+")){
+
+        document.getElementById("errorMsg").innerText =
+        "Country code tho number enter cheyandi. Example: +919876543210";
+
+        return;
+
+    }
+
+
+    const appVerifier =
+        window.recaptchaVerifier;
+
+
+    signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+    )
+
+    .then(function(result){
+
+        confirmationResult = result;
+
+        document.getElementById("phoneBox")
+        .style.display = "none";
+
+
+        document.getElementById("otpBox")
+        .style.display = "block";
+
+
+        document.getElementById("errorMsg")
+        .style.color = "green";
+
+
+        document.getElementById("errorMsg")
+        .innerText = "OTP sent successfully 📱";
+
+    })
+
+    .catch(function(error){
+
+        console.log(error);
+
+
+        document.getElementById("errorMsg")
+        .style.color = "red";
+
+
+        document.getElementById("errorMsg")
+        .innerText =
+        "OTP send avvaledu: " + error.message;
+
+    });
+
+};
+
+
+
+/* VERIFY OTP */
+
+window.verifyOTP = function(){
+
+    let otp =
+        document.getElementById("otp")
+        .value
+        .trim();
+
+
+    if(!confirmationResult){
+
+        document.getElementById("errorMsg")
+        .innerText = "Please send OTP first";
+
+        return;
+
+    }
+
+
+    confirmationResult.confirm(otp)
+
+    .then(function(){
+
+        document.getElementById("errorMsg")
+        .style.color = "green";
+
+
+        document.getElementById("errorMsg")
+        .innerText = "Login successful 🎉";
+
+    })
+
+    .catch(function(error){
+
+        console.log(error);
+
+
+        document.getElementById("errorMsg")
+        .style.color = "red";
+
+
+        document.getElementById("errorMsg")
+        .innerText = "Invalid OTP. Please try again.";
+
+    });
+
+};
+
+
+
+/* AUTH STATE */
+
+onAuthStateChanged(auth,function(user){
+
+    if(user){
+
+        document.getElementById("loginPage")
+        .style.display = "none";
+
+
+        document.getElementById("app")
+        .style.display = "block";
+
+
+        document.getElementById("userPhone")
+        .innerText =
+        "Mobile Number: " + user.phoneNumber;
+
+    }
+
+    else{
+
+        document.getElementById("loginPage")
+        .style.display = "flex";
+
+
+        document.getElementById("app")
+        .style.display = "none";
+
+    }
+
+});
+
+
+
+/* LOGOUT */
+
+window.logoutUser = function(){
+
+    signOut(auth)
+
+    .then(function(){
+
+        alert("Logged out successfully");
+
+    });
+
+};
+
+
+
+/* CART */
+
+let cart = [];
+
+
+
+window.addCart = function(item){
+
+    cart.push(item);
+
+
+    document.getElementById("cartCount")
+    .innerText = cart.length;
+
+
+    updateCart();
+
 
     alert(item + " added to cart 🛒");
+
+};
+
+
+
+function updateCart(){
+
+    let cartItems =
+        document.getElementById("cartItems");
+
+
+    cartItems.innerHTML = "";
+
+
+    if(cart.length === 0){
+
+        cartItems.innerHTML =
+        "<p>Your cart is empty</p>";
+
+        return;
+
+    }
+
+
+    cart.forEach(function(item,index){
+
+        cartItems.innerHTML +=
+
+        '<div class="cart-item">' +
+        item +
+        '</div>';
+
+    });
 
 }
 
 
+
+window.toggleCart = function(){
+
+    let cartBox =
+        document.getElementById("cartBox");
+
+
+    if(
+        cartBox.style.display === "block"
+    ){
+
+        cartBox.style.display = "none";
+
+    }
+
+    else{
+
+        cartBox.style.display = "block";
+
+    }
+
+};
+
+
+
 /* SEARCH */
 
-function searchFood() {
+window.searchFood = function(){
 
-    let input = document
-        .getElementById("search")
+    let input =
+        document.getElementById("search")
         .value
         .toLowerCase();
+
 
     let restaurants =
         document.querySelectorAll(".restaurant");
 
 
-    restaurants.forEach(function(restaurant) {
+    restaurants.forEach(function(restaurant){
 
         let name =
             restaurant
@@ -714,11 +1246,13 @@ function searchFood() {
             .toLowerCase();
 
 
-        if (name.includes(input)) {
+        if(name.includes(input)){
 
             restaurant.style.display = "block";
 
-        } else {
+        }
+
+        else{
 
             restaurant.style.display = "none";
 
@@ -726,18 +1260,80 @@ function searchFood() {
 
     });
 
-}
+};
 
 
-/* CATEGORY CLICK */
 
-function showCategory(category) {
+/* CATEGORY */
 
-    document.getElementById("search").value = category;
+window.showCategory = function(category){
+
+    document.getElementById("search")
+    .value = category;
+
 
     searchFood();
 
-}
+};
+
+
+
+/* PROFILE */
+
+window.showProfile = function(){
+
+    let profile =
+        document.getElementById("profileBox");
+
+
+    if(profile.style.display === "block"){
+
+        profile.style.display = "none";
+
+    }
+
+    else{
+
+        profile.style.display = "block";
+
+        profile.scrollIntoView({
+            behavior:"smooth"
+        });
+
+    }
+
+};
+
+
+
+/* HOME */
+
+window.goHome = function(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+};
+
+
+
+/* SEARCH FOCUS */
+
+window.focusSearch = function(){
+
+    document
+    .getElementById("search")
+    .focus();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+};
 
 </script>
 
