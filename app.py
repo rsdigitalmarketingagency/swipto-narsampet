@@ -1,29 +1,16 @@
 from flask import Flask, send_from_directory
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 
-# Home page
 @app.route("/")
 def home():
     return send_from_directory("static", "index.html")
 
-
-# Health check for Render
 @app.route("/health")
 def health():
-    return {
-        "status": "ok",
-        "app": "Swipto",
-        "message": "Swipto is running successfully!"
-    }
-
+    return {"status": "ok", "app": "Swipto"}
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-
-    app.run(
-        host="0.0.0.0",
-        port=port,
-        debug=False
-    )
+    app.run(host="0.0.0.0", port=port, debug=False)
