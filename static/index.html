@@ -1,232 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SWIPTO - Narsampet Food Delivery</title>
 
-<style>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
+<style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-    background:#f7f7f7;
+    background:#f5f5f5;
     color:#222;
 }
 
 /* HEADER */
-
-.header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-
-    background:#ff5200;
-
+header{
+    background:linear-gradient(135deg,#ff5200,#ff7a00);
+    color:white;
+    padding:14px 6%;
     display:flex;
     align-items:center;
     justify-content:space-between;
-
-    padding:12px 6%;
-
-    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
 
 .logo-area{
     display:flex;
     align-items:center;
-    gap:10px;
-}
-
-.logo{
-    width:52px;
-    height:52px;
-    object-fit:contain;
-    border-radius:50%;
-    background:white;
-    padding:4px;
-}
-
-.brand{
-    font-size:26px;
-    font-weight:bold;
-    letter-spacing:1px;
-}
-
-.location{
-    font-size:12px;
-}
-
-.header-right{
-    display:flex;
-    gap:10px;
-}
-
-.header button{
-    border:none;
-    background:white;
-    color:#ff5200;
-    padding:10px 15px;
-    border-radius:20px;
-    font-weight:bold;
+    gap:12px;
     cursor:pointer;
 }
 
-/* HERO */
-
-.hero{
-    background:linear-gradient(135deg,#ff5200,#ff8a00);
-
-    color:white;
-
-    padding:45px 15px;
-
-    text-align:center;
+.logo-area img{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    object-fit:cover;
+    background:white;
+    border:2px solid white;
 }
 
-.hero h1{
-    font-size:34px;
+.logo-text h1{
+    font-size:28px;
+    letter-spacing:1px;
+}
+
+.logo-text p{
+    font-size:13px;
+    margin-top:3px;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    padding:11px 18px;
+    border-radius:25px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:scale(1.04);
+}
+
+.login-btn{
+    background:white;
+    color:#ff5200;
+}
+
+.owner-btn{
+    background:#222;
+    color:white;
+}
+
+/* HERO */
+.hero{
+    background:linear-gradient(135deg,#ff5200,#ff8700);
+    padding:55px 20px 70px;
+    text-align:center;
+    color:white;
+}
+
+.hero h2{
+    font-size:38px;
+    margin-bottom:12px;
 }
 
 .hero p{
-    margin-top:10px;
-    font-size:17px;
+    font-size:18px;
 }
 
 /* SEARCH */
-
 .search-box{
     max-width:850px;
-    margin:20px auto;
-
+    margin:-28px auto 35px;
     padding:0 15px;
 }
 
 .search-box input{
-
     width:100%;
-
-    padding:16px;
-
     border:none;
-
-    border-radius:12px;
-
-    font-size:16px;
-
-    box-shadow:0 3px 12px rgba(0,0,0,.15);
-}
-
-/* CONTAINER */
-
-.container{
-
-    max-width:1200px;
-
-    margin:auto;
-
     padding:20px;
+    border-radius:15px;
+    font-size:17px;
+    outline:none;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 
-.title{
-    font-size:24px;
-    margin:25px 0 15px;
+/* MAIN */
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding-bottom:100px;
 }
 
-/* CATEGORY */
+.section-title{
+    font-size:27px;
+    margin:30px 0 18px;
+}
 
+/* CATEGORIES */
 .categories{
-
     display:flex;
-
     gap:12px;
-
-    overflow-x:auto;
-
-    padding-bottom:10px;
+    flex-wrap:wrap;
 }
 
 .category{
-
-    min-width:110px;
-
     background:white;
-
-    padding:15px;
-
+    padding:15px 22px;
     border-radius:15px;
-
-    text-align:center;
-
-    box-shadow:0 2px 8px #ddd;
-
     cursor:pointer;
-
-    font-size:14px;
-
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
     font-weight:bold;
+    transition:.2s;
 }
 
-.category:hover{
-    background:#fff1e9;
+.category:hover,
+.category.active{
+    background:#ff5200;
+    color:white;
+    transform:translateY(-3px);
 }
 
-/* RESTAURANT */
-
-.restaurant-card{
-
-    background:white;
-
-    padding:20px;
-
-    border-radius:18px;
-
-    box-shadow:0 3px 12px #ddd;
-
-    margin-bottom:25px;
-}
-
-.restaurant-card h2{
-    color:#ff5200;
-}
-
-.restaurant-card p{
-    margin-top:8px;
-    color:#555;
-}
-
-/* FOOD GRID */
-
-.food-grid{
-
+/* RESTAURANTS */
+.restaurant-grid{
     display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:20px;
+}
 
-    grid-template-columns:
-    repeat(auto-fit,minmax(220px,1fr));
+.restaurant{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 18px rgba(0,0,0,.09);
+    cursor:pointer;
+    transition:.25s;
+}
 
+.restaurant:hover{
+    transform:translateY(-5px);
+}
+
+.restaurant-image{
+    height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    background:linear-gradient(135deg,#ffe3d2,#fff);
+}
+
+.restaurant-info{
+    padding:17px;
+}
+
+.restaurant-info h3{
+    color:#e64a00;
+    margin-bottom:8px;
+}
+
+.rating{
+    color:#444;
+    margin-bottom:8px;
+}
+
+.location{
+    color:#777;
+    font-size:14px;
+}
+
+/* FOOD */
+.food-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
 }
 
 .food-card{
-
     background:white;
-
-    border-radius:16px;
-
+    border-radius:18px;
     overflow:hidden;
-
-    box-shadow:0 3px 12px #ddd;
-
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
     transition:.2s;
 }
 
@@ -235,18 +231,12 @@ body{
 }
 
 .food-image{
-
     height:150px;
-
+    background:#fff3ec;
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
-    font-size:65px;
-
-    background:linear-gradient(135deg,#ffcfb4,#ff5200);
+    font-size:70px;
 }
 
 .food-info{
@@ -257,1383 +247,932 @@ body{
     margin-bottom:8px;
 }
 
-.rating{
-    color:#168342;
-    font-size:14px;
+.food-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:12px;
 }
 
 .price{
-
-    margin-top:8px;
-
-    font-size:18px;
-
+    color:#ff5200;
     font-weight:bold;
+    font-size:18px;
 }
 
 .add-btn{
-
-    width:100%;
-
-    margin-top:12px;
-
     border:none;
-
     background:#ff5200;
-
     color:white;
-
-    padding:11px;
-
-    border-radius:8px;
-
-    font-weight:bold;
-
+    padding:9px 14px;
+    border-radius:10px;
     cursor:pointer;
-}
-
-/* OWNER */
-
-.owner-card{
-
-    margin-top:35px;
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:25px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:25px;
-
-    box-shadow:0 3px 12px #ddd;
-}
-
-.owner-photo{
-
-    width:110px;
-
-    height:110px;
-
-    object-fit:cover;
-
-    border-radius:50%;
-
-    border:4px solid #ff5200;
-}
-
-.owner-details h2{
-    color:#ff5200;
-    margin-top:5px;
-}
-
-.owner-details p{
-    margin-top:8px;
-}
-
-.owner-details a{
-
-    color:#168342;
-
-    text-decoration:none;
-
     font-weight:bold;
 }
 
-/* CART BUTTON */
-
+/* FLOATING CART */
 .cart-button{
-
     position:fixed;
-
-    bottom:20px;
-
-    right:20px;
-
-    z-index:1500;
-
+    bottom:25px;
+    right:25px;
     background:#ff5200;
-
     color:white;
-
     border:none;
-
-    padding:16px 22px;
-
     border-radius:30px;
-
-    font-size:16px;
-
+    padding:17px 25px;
+    font-size:17px;
     font-weight:bold;
-
     cursor:pointer;
-
-    box-shadow:0 4px 15px #888;
+    z-index:100;
+    box-shadow:0 5px 20px rgba(255,82,0,.4);
 }
 
-.cart-count{
-
-    background:white;
-
-    color:#ff5200;
-
-    border-radius:50%;
-
-    padding:3px 8px;
-
-    margin-left:5px;
-}
-
-/* MODAL */
-
+/* MODALS */
 .modal{
-
     display:none;
-
     position:fixed;
-
-    z-index:3000;
-
+    z-index:5000;
     left:0;
-
     top:0;
-
     width:100%;
-
     height:100%;
-
     background:rgba(0,0,0,.55);
-
-    overflow:auto;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
 }
 
 .modal-content{
-
     background:white;
-
-    max-width:520px;
-
-    margin:40px auto;
-
-    padding:25px;
-
-    border-radius:20px;
+    width:100%;
+    max-width:480px;
+    border-radius:22px;
+    padding:28px;
+    position:relative;
+    max-height:90vh;
+    overflow-y:auto;
 }
 
 .close{
-
-    float:right;
-
-    font-size:28px;
-
+    position:absolute;
+    right:20px;
+    top:15px;
+    font-size:32px;
     cursor:pointer;
 }
 
+.modal h2{
+    margin-bottom:18px;
+}
+
+.google-btn{
+    width:100%;
+    background:#4285f4;
+    color:white;
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+/* CART */
 .cart-item{
-
-    padding:12px 0;
-
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     border-bottom:1px solid #eee;
+    padding:12px 0;
 }
 
 .qty-box{
-
-    margin-top:8px;
-
     display:flex;
-
     align-items:center;
-
-    gap:10px;
+    gap:8px;
 }
 
-.qty-btn{
-
+.qty-box button{
     width:30px;
-
     height:30px;
-
     border:none;
-
-    border-radius:50%;
-
-    background:#ff5200;
-
-    color:white;
-
-    font-size:18px;
-
-    cursor:pointer;
-}
-
-.remove-btn{
-
-    float:right;
-
-    background:#e53935;
-
-    color:white;
-
-    border:none;
-
-    padding:6px 10px;
-
-    border-radius:6px;
-
-    cursor:pointer;
-}
-
-input,textarea{
-
-    width:100%;
-
-    padding:13px;
-
-    margin-top:12px;
-
-    border:1px solid #ddd;
-
     border-radius:8px;
-
-    font-size:15px;
+    background:#ff5200;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
 }
 
-textarea{
-    height:90px;
-}
-
-.order-btn{
-
+.checkout{
     width:100%;
-
-    margin-top:15px;
-
     background:#25D366;
-
     color:white;
-
     border:none;
-
-    padding:15px;
-
-    border-radius:10px;
-
+    padding:16px;
+    border-radius:12px;
     font-size:17px;
-
     font-weight:bold;
-
     cursor:pointer;
+    margin-top:18px;
 }
 
-.login-btn{
+/* OWNER */
+.owner-profile{
+    text-align:center;
+}
 
-    width:100%;
+.owner-profile img{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #ff5200;
+    margin-bottom:15px;
+}
 
+.owner-profile h2{
+    color:#ff5200;
+}
+
+.owner-phone{
+    display:inline-block;
     margin-top:15px;
-
-    background:#4285F4;
-
+    background:#25D366;
     color:white;
-
-    border:none;
-
-    padding:15px;
-
-    border-radius:10px;
-
-    font-size:16px;
-
+    padding:13px 20px;
+    border-radius:25px;
+    text-decoration:none;
     font-weight:bold;
+}
 
-    cursor:pointer;
+/* USER */
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:white;
+    color:#333;
+    padding:5px 12px 5px 5px;
+    border-radius:25px;
+}
+
+.user-info img{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+}
+
+.logout-btn{
+    background:#333;
+    color:white;
 }
 
 /* FOOTER */
-
 footer{
-
     background:#222;
-
     color:white;
-
+    padding:35px 10%;
     text-align:center;
+}
 
-    margin-top:40px;
-
-    padding:30px;
+footer p{
+    margin:8px;
+    color:#ddd;
 }
 
 /* MOBILE */
-
 @media(max-width:600px){
 
-    .brand{
-        font-size:20px;
+    header{
+        padding:10px 15px;
     }
 
-    .hero h1{
-        font-size:25px;
+    .logo-text h1{
+        font-size:22px;
     }
 
-    .owner-card{
-        flex-direction:column;
-        text-align:center;
+    .owner-btn{
+        display:none;
     }
 
-    .header{
-        padding:10px;
+    .hero{
+        padding:40px 15px 55px;
     }
 
-    .header button{
-        padding:8px 12px;
+    .hero h2{
+        font-size:28px;
     }
 
+    .hero p{
+        font-size:15px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .section-title{
+        font-size:24px;
+    }
+
+    .category{
+        padding:12px 16px;
+    }
+
+    .cart-button{
+        right:15px;
+        bottom:18px;
+        padding:15px 20px;
+    }
+
+    .restaurant-grid,
+    .food-grid{
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+    }
+
+    .restaurant-info h3,
+    .food-info h3{
+        font-size:15px;
+    }
+
+    .food-image{
+        font-size:50px;
+        height:110px;
+    }
+
+    .restaurant-image{
+        height:110px;
+        font-size:55px;
+    }
 }
-
 </style>
-
 </head>
 
 <body>
 
+<header>
 
-<!-- HEADER -->
+    <div class="logo-area" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <img src="swipto-logo.png" alt="SWIPTO Logo">
+        <div class="logo-text">
+            <h1>SWIPTO</h1>
+            <p>📍 Narsampet Food Delivery</p>
+        </div>
+    </div>
 
-<div class="header">
+    <div class="header-actions" id="authArea">
+        <button class="btn owner-btn" onclick="openOwner()">Owner</button>
+        <button class="btn login-btn" onclick="openLogin()">Login</button>
+    </div>
 
-<div class="logo-area">
-
-<img
-src="swipto-logo.png"
-class="logo"
-alt="SWIPTO Logo">
-
-<div>
-
-<div class="brand">
-SWIPTO
-</div>
-
-<div class="location">
-📍 Narsampet Food Delivery
-</div>
-
-</div>
-
-</div>
-
-<div class="header-right">
-
-<button onclick="openLogin()">
-Login
-</button>
-
-</div>
-
-</div>
-
-
-<!-- HERO -->
+</header>
 
 <section class="hero">
-
-<h1>
-🍔 Narsampet Food Delivery
-</h1>
-
-<p>
-Fast delivery from your favourite restaurants 🛵
-</p>
-
+    <h2>🍔 Narsampet Food Delivery</h2>
+    <p>Fast delivery from your favourite restaurants 🛵</p>
 </section>
 
-
-<!-- SEARCH -->
-
 <div class="search-box">
-
-<input
-type="text"
-id="searchInput"
-placeholder="🔍 Search food..."
-onkeyup="searchFood()">
-
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Search food, restaurant..."
+        onkeyup="searchFood()">
 </div>
 
+<main class="container">
 
-<div class="container">
+    <h2 class="section-title">Explore Categories</h2>
 
+    <div class="categories">
+        <div class="category active" onclick="filterCategory('all',this)">🍽️ All</div>
+        <div class="category" onclick="filterCategory('biryani',this)">🍚 Biryani</div>
+        <div class="category" onclick="filterCategory('chicken',this)">🍗 Chicken</div>
+        <div class="category" onclick="filterCategory('burger',this)">🍔 Burgers</div>
+        <div class="category" onclick="filterCategory('pizza',this)">🍕 Pizza</div>
+        <div class="category" onclick="filterCategory('veg',this)">🥗 Veg</div>
+        <div class="category" onclick="filterCategory('drinks',this)">🥤 Drinks</div>
+    </div>
 
-<!-- CATEGORIES -->
+    <h2 class="section-title">🔥 Popular Restaurants</h2>
 
-<h2 class="title">
-Explore Categories
-</h2>
+    <div class="restaurant-grid">
 
-<div class="categories">
+        <div class="restaurant">
+            <div class="restaurant-image">🍛</div>
+            <div class="restaurant-info">
+                <h3>Ruchulu Family Restaurant & Biryani Point</h3>
+                <div class="rating">⭐ 4.5 Rating</div>
+                <div>🍗 Biryani • Chicken • Indian Food</div>
+                <div class="location">📍 Narsampet</div>
+            </div>
+        </div>
 
-<div class="category">🍚 Biryani</div>
+        <div class="restaurant">
+            <div class="restaurant-image">🍕</div>
+            <div class="restaurant-info">
+                <h3>SWIPTO Food Corner</h3>
+                <div class="rating">⭐ 4.3 Rating</div>
+                <div>🍔 Burgers • Pizza • Snacks</div>
+                <div class="location">📍 Narsampet</div>
+            </div>
+        </div>
 
-<div class="category">🍗 Chicken</div>
+        <div class="restaurant">
+            <div class="restaurant-image">🍗</div>
+            <div class="restaurant-info">
+                <h3>Narsampet Chicken Point</h3>
+                <div class="rating">⭐ 4.4 Rating</div>
+                <div>🍗 Chicken • Fry • Biryani</div>
+                <div class="location">📍 Narsampet</div>
+            </div>
+        </div>
 
-<div class="category">🍔 Burgers</div>
+    </div>
 
-<div class="category">🍕 Pizza</div>
+    <h2 class="section-title">🍽️ Popular Food</h2>
 
-<div class="category">🥗 Veg</div>
+    <div class="food-grid" id="foodGrid">
 
-<div class="category">🥤 Drinks</div>
+        <div class="food-card" data-category="biryani">
+            <div class="food-image">🍚</div>
+            <div class="food-info">
+                <h3>Chicken Biryani</h3>
+                <div>🍗 Delicious Dum Biryani</div>
+                <div class="food-bottom">
+                    <span class="price">₹180</span>
+                    <button class="add-btn" onclick="addToCart('Chicken Biryani',180)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <div class="food-card" data-category="biryani">
+            <div class="food-image">🍛</div>
+            <div class="food-info">
+                <h3>Special Biryani</h3>
+                <div>🔥 SWIPTO Special</div>
+                <div class="food-bottom">
+                    <span class="price">₹220</span>
+                    <button class="add-btn" onclick="addToCart('Special Biryani',220)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
+        <div class="food-card" data-category="chicken">
+            <div class="food-image">🍗</div>
+            <div class="food-info">
+                <h3>Chicken Fry</h3>
+                <div>🌶️ Spicy & Crispy</div>
+                <div class="food-bottom">
+                    <span class="price">₹160</span>
+                    <button class="add-btn" onclick="addToCart('Chicken Fry',160)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
-<!-- RESTAURANT -->
+        <div class="food-card" data-category="burger">
+            <div class="food-image">🍔</div>
+            <div class="food-info">
+                <h3>Chicken Burger</h3>
+                <div>🍔 Fresh & Tasty</div>
+                <div class="food-bottom">
+                    <span class="price">₹120</span>
+                    <button class="add-btn" onclick="addToCart('Chicken Burger',120)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
-<h2 class="title">
-🔥 Popular Restaurant
-</h2>
+        <div class="food-card" data-category="pizza">
+            <div class="food-image">🍕</div>
+            <div class="food-info">
+                <h3>Cheese Pizza</h3>
+                <div>🧀 Loaded Cheese</div>
+                <div class="food-bottom">
+                    <span class="price">₹199</span>
+                    <button class="add-btn" onclick="addToCart('Cheese Pizza',199)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
-<div class="restaurant-card">
+        <div class="food-card" data-category="veg">
+            <div class="food-image">🥗</div>
+            <div class="food-info">
+                <h3>Veg Meals</h3>
+                <div>🥬 Fresh Vegetarian Food</div>
+                <div class="food-bottom">
+                    <span class="price">₹120</span>
+                    <button class="add-btn" onclick="addToCart('Veg Meals',120)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
-<h2>
-🍛 Ruchulu Family Restaurant & Biryani Point
-</h2>
+        <div class="food-card" data-category="drinks">
+            <div class="food-image">🥤</div>
+            <div class="food-info">
+                <h3>Cool Drinks</h3>
+                <div>❄️ Refreshing Drink</div>
+                <div class="food-bottom">
+                    <span class="price">₹40</span>
+                    <button class="add-btn" onclick="addToCart('Cool Drink',40)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
-<p>
-⭐ 4.5 Rating
-</p>
+        <div class="food-card" data-category="chicken">
+            <div class="food-image">🍗</div>
+            <div class="food-info">
+                <h3>Chicken 65</h3>
+                <div>🔥 Hot & Spicy</div>
+                <div class="food-bottom">
+                    <span class="price">₹170</span>
+                    <button class="add-btn" onclick="addToCart('Chicken 65',170)">ADD +</button>
+                </div>
+            </div>
+        </div>
 
-<p>
-🍗 Biryani • Chicken • Indian Food
-</p>
+    </div>
 
-<p>
-📍 Narsampet
-</p>
+</main>
 
-</div>
-
-
-<!-- FOOD -->
-
-<h2 class="title">
-🍽️ Popular Food
-</h2>
-
-
-<div
-class="food-grid"
-id="foodGrid">
-
-
-<div
-class="food-card"
-data-name="single chicken biryani">
-
-<div class="food-image">
-🍗🍚
-</div>
-
-<div class="food-info">
-
-<h3>
-Single Chicken Biryani
-</h3>
-
-<div class="rating">
-⭐ 4.6
-</div>
-
-<div class="price">
-₹130
-</div>
-
-<button
-class="add-btn"
-onclick="addToCart('Single Chicken Biryani',130)">
-
-ADD
-
+<button class="cart-button" onclick="openCart()">
+    🛒 Cart (<span id="cartCount">0</span>)
 </button>
-
-</div>
-
-</div>
-
-
-<div
-class="food-card"
-data-name="chicken fried rice">
-
-<div class="food-image">
-🍛
-</div>
-
-<div class="food-info">
-
-<h3>
-Chicken Fried Rice
-</h3>
-
-<div class="rating">
-⭐ 4.4
-</div>
-
-<div class="price">
-₹120
-</div>
-
-<button
-class="add-btn"
-onclick="addToCart('Chicken Fried Rice',120)">
-
-ADD
-
-</button>
-
-</div>
-
-</div>
-
-
-<div
-class="food-card"
-data-name="veg biryani">
-
-<div class="food-image">
-🥗🍚
-</div>
-
-<div class="food-info">
-
-<h3>
-Veg Biryani
-</h3>
-
-<div class="rating">
-⭐ 4.3
-</div>
-
-<div class="price">
-₹100
-</div>
-
-<button
-class="add-btn"
-onclick="addToCart('Veg Biryani',100)">
-
-ADD
-
-</button>
-
-</div>
-
-</div>
-
-
-<div
-class="food-card"
-data-name="chicken 65">
-
-<div class="food-image">
-🍗
-</div>
-
-<div class="food-info">
-
-<h3>
-Chicken 65
-</h3>
-
-<div class="rating">
-⭐ 4.7
-</div>
-
-<div class="price">
-₹150
-</div>
-
-<button
-class="add-btn"
-onclick="addToCart('Chicken 65',150)">
-
-ADD
-
-</button>
-
-</div>
-
-</div>
-
-
-<div
-class="food-card"
-data-name="egg fried rice">
-
-<div class="food-image">
-🍳🍚
-</div>
-
-<div class="food-info">
-
-<h3>
-Egg Fried Rice
-</h3>
-
-<div class="rating">
-⭐ 4.2
-</div>
-
-<div class="price">
-₹110
-</div>
-
-<button
-class="add-btn"
-onclick="addToCart('Egg Fried Rice',110)">
-
-ADD
-
-</button>
-
-</div>
-
-</div>
-
-
-<div
-class="food-card"
-data-name="chicken noodles">
-
-<div class="food-image">
-🍜
-</div>
-
-<div class="food-info">
-
-<h3>
-Chicken Noodles
-</h3>
-
-<div class="rating">
-⭐ 4.5
-</div>
-
-<div class="price">
-₹130
-</div>
-
-<button
-class="add-btn"
-onclick="addToCart('Chicken Noodles',130)">
-
-ADD
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- OWNER -->
-
-<div class="owner-card">
-
-<img
-src="owner.jpg"
-class="owner-photo"
-alt="SWIPTO Owner">
-
-<div class="owner-details">
-
-<p>
-Founder & Owner
-</p>
-
-<h2>
-NIMMANABOINA RAJESH
-</h2>
-
-<p>
-📞 Customer Support
-</p>
-
-<p>
-
-📱
-
-<a href="tel:9705586797">
-
-9705586797
-
-</a>
-
-</p>
-
-<p>
-
-💬
-
-<a
-href="https://wa.me/919705586797"
-target="_blank">
-
-WhatsApp SWIPTO
-
-</a>
-
-</p>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<!-- CART BUTTON -->
-
-<button
-class="cart-button"
-onclick="openCart()">
-
-🛒 Cart
-
-<span
-class="cart-count"
-id="cartCount">
-
-0
-
-</span>
-
-</button>
-
-
-<!-- CART MODAL -->
-
-<div
-class="modal"
-id="cartModal">
-
-<div class="modal-content">
-
-<span
-class="close"
-onclick="closeCart()">
-
-&times;
-
-</span>
-
-<h2>
-🛒 Your Order
-</h2>
-
-<br>
-
-<div
-id="cartItems">
-</div>
-
-<br>
-
-<h3
-id="itemTotal">
-
-Item Total: ₹0
-
-</h3>
-
-<p>
-🛵 Delivery Fee: ₹25
-</p>
-
-<h2
-id="grandTotal">
-
-Grand Total: ₹0
-
-</h2>
-
-<hr
-style="margin:15px 0">
-
-
-<input
-id="customerName"
-placeholder="Your Name">
-
-
-<input
-id="customerPhone"
-placeholder="Your Mobile Number"
-type="tel">
-
-
-<textarea
-id="customerAddress"
-placeholder="Complete Delivery Address"></textarea>
-
-
-<button
-class="order-btn"
-onclick="placeOrder()">
-
-🟢 Place Order on WhatsApp
-
-</button>
-
-</div>
-
-</div>
-
 
 <!-- LOGIN MODAL -->
 
-<div
-class="modal"
-id="loginModal">
+<div class="modal" id="loginModal">
 
-<div class="modal-content">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('loginModal')">&times;</span>
 
-<span
-class="close"
-onclick="closeLogin()">
+        <h2>🍔 Welcome to SWIPTO</h2>
 
-&times;
+        <p style="color:#666;margin-bottom:15px;">
+            Sign in to save your account and orders.
+        </p>
 
-</span>
+        <button class="google-btn" onclick="googleLogin()">
+            G &nbsp; Continue with Google
+        </button>
 
-<h2>
-🍔 Welcome to SWIPTO
-</h2>
-
-<p
-style="margin-top:12px">
-
-Sign in to save your account.
-
-</p>
-
-<button
-class="login-btn"
-onclick="googleLogin()">
-
-G &nbsp; Continue with Google
-
-</button>
-
-<p
-style="margin-top:15px;color:#666;font-size:13px">
-
-Phone OTP is disabled.
-
-</p>
+    </div>
 
 </div>
 
+<!-- CART MODAL -->
+
+<div class="modal" id="cartModal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal('cartModal')">&times;</span>
+
+        <h2>🛒 Your Cart</h2>
+
+        <div id="cartItems"></div>
+
+        <h3 id="cartTotal" style="margin-top:20px;"></h3>
+
+        <button class="checkout" onclick="placeOrder()">
+            💬 Order on WhatsApp
+        </button>
+
+    </div>
+
 </div>
 
+<!-- OWNER MODAL -->
 
-<!-- FOOTER -->
+<div class="modal" id="ownerModal">
+
+    <div class="modal-content owner-profile">
+
+        <span class="close" onclick="closeModal('ownerModal')">&times;</span>
+
+        <img src="owner.jpg" alt="Owner">
+
+        <h2>Rajesh</h2>
+
+        <p>Founder & Owner of SWIPTO</p>
+
+        <p style="margin-top:10px;color:#666;">
+            Narsampet Food Delivery
+        </p>
+
+        <a class="owner-phone" href="tel:9705586797">
+            📞 9705586797
+        </a>
+
+        <br>
+
+        <button
+            class="btn"
+            style="margin-top:15px;background:#25D366;color:white;"
+            onclick="window.open('https://wa.me/919705586797','_blank')">
+
+            💬 WhatsApp Owner
+
+        </button>
+
+    </div>
+
+</div>
 
 <footer>
 
-<h2>
-🍔 SWIPTO
-</h2>
+    <h2>SWIPTO 🍔</h2>
 
-<p>
-Narsampet Food Delivery
-</p>
+    <p>Narsampet's Food Delivery App</p>
 
-<br>
+    <p>📞 Owner: 9705586797</p>
 
-<p>
-Customer Support: 9705586797
-</p>
-
-<br>
-
-<p>
-© 2026 SWIPTO
-</p>
+    <p>© 2026 SWIPTO. All Rights Reserved.</p>
 
 </footer>
 
-
 <script>
 
-/* CART */
-
-let cart=[];
-
-
-/* ADD */
-
-function addToCart(name,price){
-
-let existing=
-cart.find(
-item=>item.name===name
-);
-
-if(existing){
-
-existing.qty++;
-
-}else{
-
-cart.push({
-
-name:name,
-price:price,
-qty:1
-
-});
-
-}
-
-updateCartCount();
-
-}
-
-
-/* COUNT */
-
-function updateCartCount(){
-
-let count=0;
-
-cart.forEach(item=>{
-
-count+=item.qty;
-
-});
-
-document
-.getElementById("cartCount")
-.innerText=count;
-
-}
-
-
-/* OPEN CART */
-
-function openCart(){
-
-document
-.getElementById("cartModal")
-.style.display="block";
-
-renderCart();
-
-}
-
-
-/* RENDER CART */
-
-function renderCart(){
-
-let html="";
-
-let total=0;
-
-
-if(cart.length===0){
-
-html=
-"<p>Your cart is empty 🛒</p>";
-
-}
-
-
-cart.forEach((item,index)=>{
-
-let itemTotal=
-item.price*item.qty;
-
-total+=itemTotal;
-
-html+=`
-
-<div class="cart-item">
-
-<b>
-${item.name}
-</b>
-
-<button
-class="remove-btn"
-onclick="removeItem(${index})">
-
-Remove
-
-</button>
-
-<div class="qty-box">
-
-<button
-class="qty-btn"
-onclick="decreaseQty(${index})">
-
--
-
-</button>
-
-<span>
-${item.qty}
-</span>
-
-<button
-class="qty-btn"
-onclick="increaseQty(${index})">
-
-+
-
-</button>
-
-<span>
-
-₹${itemTotal}
-
-</span>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-
-document
-.getElementById("cartItems")
-.innerHTML=html;
-
-
-document
-.getElementById("itemTotal")
-.innerText=
-"Item Total: ₹"+total;
-
-
-let grand=
-cart.length>0
-?total+25
-:0;
-
-
-document
-.getElementById("grandTotal")
-.innerText=
-"Grand Total: ₹"+grand;
-
-}
-
-
-/* INCREASE */
-
-function increaseQty(index){
-
-cart[index].qty++;
-
-updateCartCount();
-
-renderCart();
-
-}
-
-
-/* DECREASE */
-
-function decreaseQty(index){
-
-if(cart[index].qty>1){
-
-cart[index].qty--;
-
-}else{
-
-cart.splice(index,1);
-
-}
-
-updateCartCount();
-
-renderCart();
-
-}
-
-
-/* REMOVE */
-
-function removeItem(index){
-
-cart.splice(index,1);
-
-updateCartCount();
-
-renderCart();
-
-}
-
-
-/* CLOSE */
-
-function closeCart(){
-
-document
-.getElementById("cartModal")
-.style.display="none";
-
-}
-
-
-/* WHATSAPP ORDER */
-
-function placeOrder(){
-
-if(cart.length===0){
-
-alert(
-"Please add food first!"
-);
-
-return;
-
-}
-
-
-let name=
-document
-.getElementById("customerName")
-.value
-.trim();
-
-
-let phone=
-document
-.getElementById("customerPhone")
-.value
-.trim();
-
-
-let address=
-document
-.getElementById("customerAddress")
-.value
-.trim();
-
-
-if(
-name==="" ||
-phone==="" ||
-address===""){
-
-alert(
-"Please fill all customer details."
-);
-
-return;
-
-}
-
-
-let items="";
-
-let total=0;
-
-
-cart.forEach(item=>{
-
-let itemPrice=
-item.price*item.qty;
-
-
-items+=
-"• "+
-item.name+
-" x "+
-item.qty+
-" = ₹"+
-itemPrice+
-"\n";
-
-
-total+=itemPrice;
-
-});
-
-
-let grandTotal=
-total+25;
-
-
-let message=`
-
-🛵 *NEW SWIPTO ORDER - NARSAMPET*
-
-🏪 *Restaurant:* Ruchulu Family Restaurant & Biryani Point
-
-👤 *Customer:* ${name}
-
-📞 *Phone:* ${phone}
-
-📍 *Address:* ${address}
-
-
-📦 *ORDERED ITEMS*
-
-${items}
-
-💵 *Item Total:* ₹${total}
-
-🛵 *Delivery Fee:* ₹25
-
-💰 *Grand Total:* ₹${grandTotal}
-
-💳 *Payment Mode:* COD
-
-
-⚡ *Delivering via SWIPTO Express*
-
-`;
-
-
-/* OWNER WHATSAPP */
-
-let ownerNumber=
-"919705586797";
-
-
-let url=
-
-"https://wa.me/"+
-ownerNumber+
-"?text="+
-encodeURIComponent(message);
-
-
-window.open(
-url,
-"_blank"
-);
-
-}
-
-
-/* SEARCH */
-
-function searchFood(){
-
-let search=
-document
-.getElementById("searchInput")
-.value
-.toLowerCase();
-
-
-let cards=
-document
-.querySelectorAll(".food-card");
-
-
-cards.forEach(card=>{
-
-let name=
-card
-.getAttribute("data-name")
-.toLowerCase();
-
-
-if(
-name.includes(search)
-){
-
-card.style.display="block";
-
-}else{
-
-card.style.display="none";
-
-}
-
-});
-
-}
-
-
-/* LOGIN */
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyB1CVXK70adafUvF9KH3Lv1fp-SaKDBVKc",
+    authDomain: "swipto-7a20a.firebaseapp.com",
+    projectId: "swipto-7a20a",
+    storageBucket: "swipto-7a20a.firebasestorage.app",
+    messagingSenderId: "56502022616",
+    appId: "1:56502022616:web:d3bb24a5838f5baa2b42ad",
+    measurementId: "G-PDXQPCJR5N"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+
+/* =========================
+   GOOGLE LOGIN
+========================= */
 
 function openLogin(){
-
-document
-.getElementById("loginModal")
-.style.display="block";
-
+    document.getElementById("loginModal").style.display="flex";
 }
-
-
-function closeLogin(){
-
-document
-.getElementById("loginModal")
-.style.display="none";
-
-}
-
-
-/* GOOGLE LOGIN PLACEHOLDER */
 
 function googleLogin(){
 
-alert(
-"Google Login setup can be connected through your existing Firebase Authentication project."
-);
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.signInWithPopup(provider)
+
+    .then((result)=>{
+
+        const user = result.user;
+
+        closeModal("loginModal");
+
+        updateUserUI(user);
+
+        alert("Welcome " + user.displayName + "! 🎉");
+
+    })
+
+    .catch((error)=>{
+
+        console.error(error);
+
+        alert(
+            "Google Login problem: " +
+            error.message
+        );
+
+    });
 
 }
 
 
-/* CLOSE MODALS */
+/* =========================
+   AUTH STATE
+========================= */
 
-window.onclick=
-function(event){
+auth.onAuthStateChanged((user)=>{
 
-let cartModal=
-document.getElementById("cartModal");
+    if(user){
 
-let loginModal=
-document.getElementById("loginModal");
+        updateUserUI(user);
+
+    }else{
+
+        document.getElementById("authArea").innerHTML = `
+            <button class="btn owner-btn" onclick="openOwner()">Owner</button>
+            <button class="btn login-btn" onclick="openLogin()">Login</button>
+        `;
+
+    }
+
+});
 
 
-if(event.target===cartModal){
+function updateUserUI(user){
 
-closeCart();
+    const photo = user.photoURL || "";
+
+    document.getElementById("authArea").innerHTML = `
+
+        <div class="user-info">
+
+            <img src="${photo}" alt="User">
+
+            <span>${user.displayName.split(" ")[0]}</span>
+
+        </div>
+
+        <button class="btn logout-btn" onclick="logout()">
+            Logout
+        </button>
+
+    `;
 
 }
 
 
-if(event.target===loginModal){
+function logout(){
 
-closeLogin();
+    auth.signOut();
+
+    alert("Logged out successfully");
 
 }
 
-};
+
+/* =========================
+   MODALS
+========================= */
+
+function closeModal(id){
+
+    document.getElementById(id).style.display="none";
+
+}
+
+function openOwner(){
+
+    document.getElementById("ownerModal").style.display="flex";
+
+}
+
+
+/* =========================
+   CART SYSTEM
+========================= */
+
+let cart = [];
+
+
+function addToCart(name,price){
+
+    const existing = cart.find(item => item.name === name);
+
+    if(existing){
+
+        existing.qty++;
+
+    }else{
+
+        cart.push({
+            name:name,
+            price:price,
+            qty:1
+        });
+
+    }
+
+    updateCart();
+
+}
+
+
+function updateCart(){
+
+    let count = 0;
+
+    cart.forEach(item => {
+        count += item.qty;
+    });
+
+    document.getElementById("cartCount").innerText = count;
+
+}
+
+
+function openCart(){
+
+    document.getElementById("cartModal").style.display="flex";
+
+    renderCart();
+
+}
+
+
+function renderCart(){
+
+    const container =
+        document.getElementById("cartItems");
+
+    container.innerHTML = "";
+
+    if(cart.length === 0){
+
+        container.innerHTML =
+        "<p>Your cart is empty 🛒</p>";
+
+        document.getElementById("cartTotal").innerText = "";
+
+        return;
+
+    }
+
+    let total = 0;
+
+    cart.forEach((item,index)=>{
+
+        total += item.price * item.qty;
+
+        container.innerHTML += `
+
+        <div class="cart-item">
+
+            <div>
+
+                <strong>${item.name}</strong>
+
+                <br>
+
+                ₹${item.price}
+
+            </div>
+
+            <div class="qty-box">
+
+                <button onclick="changeQty(${index},-1)">−</button>
+
+                <strong>${item.qty}</strong>
+
+                <button onclick="changeQty(${index},1)">+</button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    document.getElementById("cartTotal").innerText =
+        "Total: ₹" + total;
+
+}
+
+
+function changeQty(index,change){
+
+    cart[index].qty += change;
+
+    if(cart[index].qty <= 0){
+
+        cart.splice(index,1);
+
+    }
+
+    updateCart();
+
+    renderCart();
+
+}
+
+
+/* =========================
+   WHATSAPP ORDER
+========================= */
+
+function placeOrder(){
+
+    if(cart.length === 0){
+
+        alert("Cart is empty!");
+
+        return;
+
+    }
+
+    let message =
+        "🍔 *NEW SWIPTO ORDER*%0A%0A";
+
+    let total = 0;
+
+    cart.forEach(item=>{
+
+        message +=
+        "• " +
+        item.name +
+        " x " +
+        item.qty +
+        " = ₹" +
+        (item.price * item.qty) +
+        "%0A";
+
+        total += item.price * item.qty;
+
+    });
+
+    message +=
+    "%0A💰 *Total: ₹" +
+    total;
+
+    message +=
+    "%0A%0A📍 Please send delivery address.";
+
+    window.open(
+        "https://wa.me/919705586797?text=" +
+        message,
+        "_blank"
+    );
+
+}
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+function filterCategory(category,element){
+
+    document
+    .querySelectorAll(".category")
+    .forEach(cat=>cat.classList.remove("active"));
+
+    element.classList.add("active");
+
+    const foods =
+        document.querySelectorAll(".food-card");
+
+    foods.forEach(food=>{
+
+        if(
+            category === "all" ||
+            food.dataset.category === category
+        ){
+
+            food.style.display="block";
+
+        }else{
+
+            food.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchFood(){
+
+    const value =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const foods =
+        document.querySelectorAll(".food-card");
+
+    foods.forEach(food=>{
+
+        const text =
+            food.innerText.toLowerCase();
+
+        if(text.includes(value)){
+
+            food.style.display="block";
+
+        }else{
+
+            food.style.display="none";
+
+        }
+
+    });
+
+}
 
 </script>
 
 </body>
-
 </html>
