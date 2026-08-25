@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>SWIPTO - Narsampet Food Delivery</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -18,6 +25,13 @@
             background: #f5f5f5;
             color: #222;
         }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        /* ================= HEADER ================= */
 
         header {
             background: #ff5a1f;
@@ -41,29 +55,32 @@
         .logo {
             font-size: 30px;
             font-weight: bold;
-            cursor: pointer;
+            white-space: nowrap;
         }
 
         .location {
-            font-size: 14px;
+            font-size: 15px;
+            white-space: nowrap;
         }
 
         .search-box {
             flex: 1;
-            max-width: 450px;
+            max-width: 470px;
         }
 
         .search-box input {
             width: 100%;
-            padding: 13px;
+            padding: 14px 16px;
             border: none;
             border-radius: 8px;
             font-size: 15px;
+            outline: none;
         }
 
         .nav-buttons {
             display: flex;
-            gap: 15px;
+            gap: 18px;
+            align-items: center;
         }
 
         .nav-buttons button {
@@ -74,10 +91,17 @@
             cursor: pointer;
         }
 
+        /* ================= HERO ================= */
+
         .hero {
-            background: linear-gradient(135deg, #ff5a1f, #ff8a50);
+            background: linear-gradient(
+                135deg,
+                #ff5a1f,
+                #ff8a50
+            );
+
             color: white;
-            padding: 60px 5%;
+            padding: 65px 5%;
         }
 
         .hero-content {
@@ -86,38 +110,42 @@
         }
 
         .hero h1 {
-            font-size: 42px;
-            margin-bottom: 15px;
+            font-size: 45px;
+            margin-bottom: 16px;
         }
 
         .hero p {
-            font-size: 18px;
-            opacity: 0.95;
+            font-size: 19px;
         }
+
+        /* ================= CONTAINER ================= */
 
         .container {
             max-width: 1200px;
             margin: auto;
-            padding: 30px 20px;
+            padding: 35px 20px;
         }
 
         h2 {
             margin-bottom: 20px;
         }
 
+        /* ================= FILTER ================= */
+
         .filters {
             display: flex;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
             flex-wrap: wrap;
         }
 
         .filters button {
-            padding: 10px 18px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 22px;
             border: 1px solid #ddd;
             background: white;
             cursor: pointer;
+            font-size: 14px;
         }
 
         .filters button.active {
@@ -126,61 +154,79 @@
             border-color: #ff5a1f;
         }
 
+        /* ================= RESTAURANTS ================= */
+
         .restaurants {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(260px, 1fr)
+                );
+
+            gap: 22px;
         }
 
         .restaurant-card {
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+
             transition: 0.2s;
             cursor: pointer;
         }
 
         .restaurant-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
         }
 
         .restaurant-card img {
             width: 100%;
-            height: 170px;
+            height: 175px;
             object-fit: cover;
+            display: block;
         }
 
         .restaurant-info {
-            padding: 15px;
+            padding: 16px;
         }
 
         .restaurant-info h3 {
             margin-bottom: 8px;
+            font-size: 20px;
         }
 
         .restaurant-info p {
             color: #666;
+            margin-bottom: 10px;
             font-size: 14px;
-            margin-bottom: 8px;
         }
 
         .rating {
             display: inline-block;
-            background: #1b8f3b;
+            background: #168d3a;
             color: white;
-            padding: 5px 8px;
+            padding: 6px 9px;
             border-radius: 5px;
             font-size: 13px;
         }
 
+        /* ================= FOOD ================= */
+
         .food-section {
-            margin-top: 45px;
+            margin-top: 50px;
         }
 
         .food-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(255px, 1fr)
+                );
+
             gap: 20px;
         }
 
@@ -188,10 +234,12 @@
             background: white;
             border-radius: 15px;
             padding: 18px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
         }
 
         .food-card h3 {
+            font-size: 18px;
             margin-bottom: 8px;
         }
 
@@ -205,10 +253,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
         .price {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: bold;
         }
 
@@ -216,10 +265,16 @@
             background: #ff5a1f;
             color: white;
             border: none;
-            padding: 9px 15px;
-            border-radius: 7px;
+            padding: 10px 17px;
+            border-radius: 8px;
             cursor: pointer;
         }
+
+        .add-btn:hover {
+            background: #e84810;
+        }
+
+        /* ================= CART FLOAT ================= */
 
         .cart {
             position: fixed;
@@ -231,20 +286,25 @@
             border-radius: 30px;
             cursor: pointer;
             z-index: 200;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.3);
         }
+
+        /* ================= CART PANEL ================= */
 
         .cart-panel {
             position: fixed;
-            right: -450px;
+            right: -470px;
             top: 0;
-            width: 400px;
+            width: 430px;
             max-width: 100%;
             height: 100vh;
             background: white;
             z-index: 500;
             padding: 25px;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            box-shadow:
+                -5px 0 20px rgba(0,0,0,0.2);
+
             transition: 0.3s;
             overflow-y: auto;
         }
@@ -256,29 +316,59 @@
         .close-cart {
             float: right;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 25px;
+            font-weight: bold;
         }
 
         .cart-item {
-            padding: 15px 0;
+            padding: 17px 0;
             border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .cart-item-price {
+            margin-top: 5px;
+            color: #555;
         }
 
         .quantity-controls {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .quantity-controls button {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border: none;
             border-radius: 50%;
             cursor: pointer;
             background: #ff5a1f;
             color: white;
+            font-size: 18px;
+        }
+
+        .bill {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 15px;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .bill-total {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 15px;
         }
 
         .checkout-btn {
@@ -286,18 +376,30 @@
             background: #ff5a1f;
             color: white;
             border: none;
-            padding: 15px;
+            padding: 16px;
             margin-top: 20px;
-            border-radius: 8px;
+            border-radius: 9px;
             font-size: 17px;
             cursor: pointer;
         }
+
+        .checkout-btn:hover {
+            background: #e84810;
+        }
+
+        .empty-cart {
+            color: #666;
+            text-align: center;
+            padding: 40px 10px;
+        }
+
+        /* ================= LOGIN ================= */
 
         .login-modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.65);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -307,59 +409,83 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            width: 350px;
-            max-width: 90%;
+            width: 380px;
+            max-width: 92%;
         }
 
         .login-box h2 {
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .login-box input {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             margin: 8px 0;
             border: 1px solid #ddd;
-            border-radius: 7px;
+            border-radius: 8px;
+            outline: none;
         }
 
         .login-box button {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             border: none;
             background: #ff5a1f;
             color: white;
-            border-radius: 7px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 10px;
+        }
+
+        .google-btn {
+            background: #4285f4 !important;
         }
 
         .close-login {
             text-align: right;
             cursor: pointer;
+            font-size: 22px;
         }
+
+        /* ================= FOOTER ================= */
 
         footer {
             margin-top: 50px;
             background: #222;
             color: white;
             text-align: center;
-            padding: 30px;
+            padding: 32px;
         }
 
-        @media(max-width: 700px) {
+        /* ================= LOADING ================= */
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 800px) {
 
             .nav {
                 flex-wrap: wrap;
             }
 
             .search-box {
-                order: 3;
-                min-width: 100%;
+                order: 5;
+                width: 100%;
+                max-width: 100%;
             }
 
             .hero h1 {
-                font-size: 30px;
+                font-size: 31px;
+            }
+
+            .hero p {
+                font-size: 16px;
             }
 
             .cart-panel {
@@ -367,33 +493,58 @@
             }
 
         }
+
     </style>
+
 </head>
 
+
 <body>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
 
 <header>
 
     <div class="nav">
 
-        <div class="logo">🛵 SWIPTO</div>
+        <div class="logo">
+            🛵 SWIPTO
+        </div>
 
         <div class="location">
             📍 Narsampet
         </div>
 
         <div class="search-box">
+
             <input
                 type="text"
                 id="searchInput"
                 placeholder="Search for biryani, pizza, burger..."
-                onkeyup="searchFood()"
+                oninput="searchFood()"
             >
+
         </div>
 
         <div class="nav-buttons">
-            <button onclick="openLogin()">👤 Login</button>
-            <button onclick="openCart()">🛒 Cart</button>
+
+            <button
+                type="button"
+                onclick="openLogin()"
+            >
+                👤 Login
+            </button>
+
+            <button
+                type="button"
+                onclick="openCart()"
+            >
+                🛒 Cart
+            </button>
+
         </div>
 
     </div>
@@ -401,11 +552,17 @@
 </header>
 
 
+<!-- =======================================================
+     HERO
+======================================================= -->
+
 <section class="hero">
 
     <div class="hero-content">
 
-        <h1>Delicious Food Delivered Fast 🍔</h1>
+        <h1>
+            Delicious Food Delivered Fast 🍔
+        </h1>
 
         <p>
             Order your favourite food from the best restaurants in Narsampet.
@@ -416,24 +573,42 @@
 </section>
 
 
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
 <div class="container">
 
-    <h2>🍽️ Explore Restaurants</h2>
+
+    <h2>
+        🍽️ Explore Restaurants
+    </h2>
+
 
     <div class="filters">
 
         <button
+            id="allFilter"
             class="active"
+            type="button"
             onclick="loadRestaurants()"
         >
             All
         </button>
 
-        <button onclick="filterFood('Veg')">
+        <button
+            id="vegFilter"
+            type="button"
+            onclick="filterFood('Veg')"
+        >
             🟢 Veg
         </button>
 
-        <button onclick="filterFood('Non-Veg')">
+        <button
+            id="nonVegFilter"
+            type="button"
+            onclick="filterFood('Non-Veg')"
+        >
             🔴 Non-Veg
         </button>
 
@@ -441,39 +616,60 @@
 
 
     <div
-        class="restaurants"
         id="restaurants"
+        class="restaurants"
     >
-        Loading restaurants...
+        <div class="loading">
+            Loading restaurants...
+        </div>
     </div>
 
 
+    <!-- POPULAR FOOD -->
+
     <section class="food-section">
 
-        <h2>🔥 Popular Food</h2>
+        <h2>
+            🔥 Popular Food
+        </h2>
 
         <div
-            class="food-grid"
             id="foodGrid"
+            class="food-grid"
         >
         </div>
 
     </section>
 
+
 </div>
 
+
+<!-- =======================================================
+     FLOAT CART
+======================================================= -->
 
 <div
     class="cart"
     onclick="openCart()"
 >
-    🛒 Cart (<span id="cartCount">0</span>)
+
+    🛒 Cart (
+    <span id="cartCount">
+        0
+    </span>
+    )
+
 </div>
 
 
+<!-- =======================================================
+     CART PANEL
+======================================================= -->
+
 <div
-    class="cart-panel"
     id="cartPanel"
+    class="cart-panel"
 >
 
     <span
@@ -483,43 +679,91 @@
         ✕
     </span>
 
-    <h2>Your Cart 🛒</h2>
-
-    <div id="cartItems">
-        Your cart is empty
-    </div>
-
-    <hr style="margin-top:20px">
-
-    <h3 style="margin-top:15px">
-        Item Total: ₹<span id="itemTotal">0</span>
-    </h3>
-
-    <h3 style="margin-top:10px">
-        Delivery Fee: ₹25
-    </h3>
-
-    <h3 style="margin-top:10px">
-        Platform Fee: ₹5
-    </h3>
-
-    <h2 style="margin-top:15px">
-        Total: ₹<span id="grandTotal">0</span>
+    <h2>
+        Your Cart 🛒
     </h2>
 
-    <button
-        class="checkout-btn"
-        onclick="checkout()"
-    >
-        Proceed to Checkout
-    </button>
+    <div id="cartItems">
+        <div class="empty-cart">
+            Your cart is empty
+        </div>
+    </div>
+
+
+    <div class="bill">
+
+        <div class="bill-row">
+
+            <span>
+                Item Total
+            </span>
+
+            <span>
+                ₹<span id="itemTotal">0</span>
+            </span>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                Delivery Fee
+            </span>
+
+            <span>
+                ₹25
+            </span>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                Platform Fee
+            </span>
+
+            <span>
+                ₹5
+            </span>
+
+        </div>
+
+
+        <div class="bill-row bill-total">
+
+            <span>
+                Total
+            </span>
+
+            <span>
+                ₹<span id="grandTotal">0</span>
+            </span>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="checkout-btn"
+            onclick="checkout()"
+        >
+            Proceed to Checkout
+        </button>
+
+    </div>
 
 </div>
 
 
+<!-- =======================================================
+     LOGIN MODAL
+======================================================= -->
+
 <div
-    class="login-modal"
     id="loginModal"
+    class="login-modal"
 >
 
     <div class="login-box">
@@ -531,25 +775,37 @@
             ✕
         </div>
 
-        <h2>Welcome to SWIPTO 🛵</h2>
+        <h2>
+            Welcome to SWIPTO 🛵
+        </h2>
+
 
         <input
             id="name"
+            type="text"
             placeholder="Your Name"
         >
 
+
         <input
             id="phone"
+            type="tel"
             placeholder="Mobile Number"
         >
 
-        <button onclick="registerUser()">
+
+        <button
+            type="button"
+            onclick="registerUser()"
+        >
             Continue
         </button>
 
+
         <button
-            style="background:#4285F4"
-            onclick="alert('Google Login will be enabled soon')"
+            type="button"
+            class="google-btn"
+            onclick="googleLoginMessage()"
         >
             🔵 Continue with Google
         </button>
@@ -559,9 +815,15 @@
 </div>
 
 
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
 <footer>
 
-    <h2>🛵 SWIPTO</h2>
+    <h2>
+        🛵 SWIPTO
+    </h2>
 
     <p>
         Narsampet Food Delivery Platform
@@ -578,6 +840,11 @@
 
 <script>
 
+
+/* =======================================================
+   GLOBAL VARIABLES
+======================================================= */
+
 let restaurants = [];
 
 let foods = [];
@@ -586,150 +853,388 @@ let cart = [];
 
 let currentUser = null;
 
+let selectedRestaurantId = null;
 
-/* LOAD RESTAURANTS */
+
+/* =======================================================
+   LOAD SAVED USER
+======================================================= */
+
+function loadUser() {
+
+    const savedUser =
+        localStorage.getItem(
+            "swiptoUser"
+        );
+
+    if (savedUser) {
+
+        try {
+
+            currentUser =
+                JSON.parse(
+                    savedUser
+                );
+
+        } catch (error) {
+
+            localStorage.removeItem(
+                "swiptoUser"
+            );
+
+            currentUser = null;
+
+        }
+
+    }
+
+}
+
+
+/* =======================================================
+   LOAD RESTAURANTS
+======================================================= */
 
 async function loadRestaurants() {
 
-    const response =
-        await fetch("/api/restaurants");
+    try {
 
-    restaurants =
-        await response.json();
+        const response =
+            await fetch(
+                "/api/restaurants"
+            );
 
-    const container =
-        document.getElementById("restaurants");
+        if (!response.ok) {
 
-    container.innerHTML = "";
+            throw new Error(
+                "Restaurant API failed"
+            );
 
-    restaurants.forEach(restaurant => {
+        }
 
-        container.innerHTML += `
+        restaurants =
+            await response.json();
 
-        <div
-            class="restaurant-card"
-            onclick="loadMenu(${restaurant.id})"
-        >
 
-            <img
-                src="${restaurant.image}"
-                alt="${restaurant.name}"
-            >
+        const container =
+            document.getElementById(
+                "restaurants"
+            );
 
-            <div class="restaurant-info">
 
-                <h3>
-                    ${restaurant.name}
-                </h3>
+        container.innerHTML = "";
 
-                <p>
-                    ${restaurant.category}
-                </p>
 
-                <span class="rating">
-                    ⭐ ${restaurant.rating}
-                </span>
+        if (
+            !restaurants ||
+            restaurants.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="loading">
+                    No restaurants available.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        restaurants.forEach(
+            restaurant => {
+
+                container.innerHTML += `
+
+                    <div
+                        class="restaurant-card"
+                        onclick="loadMenu(${restaurant.id})"
+                    >
+
+                        <img
+                            src="${restaurant.image || ''}"
+                            alt="${restaurant.name}"
+                        >
+
+                        <div class="restaurant-info">
+
+                            <h3>
+                                ${restaurant.name}
+                            </h3>
+
+                            <p>
+                                ${restaurant.category}
+                            </p>
+
+                            <span class="rating">
+                                ⭐ ${restaurant.rating}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+        setActiveFilter(
+            "all"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        document.getElementById(
+            "restaurants"
+        ).innerHTML = `
+
+            <div class="loading">
+
+                Unable to load restaurants.
+
+                <br><br>
+
+                Please refresh the page.
 
             </div>
 
-        </div>
-
         `;
 
-    });
+    }
 
 }
 
 
-/* LOAD MENU */
+/* =======================================================
+   LOAD MENU
+======================================================= */
 
-async function loadMenu(restaurantId) {
+async function loadMenu(
+    restaurantId
+) {
 
-    const response =
-        await fetch(
-            `/api/restaurant/${restaurantId}/menu`
+    try {
+
+        const response =
+            await fetch(
+                `/api/restaurant/${restaurantId}/menu`
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Menu API failed"
+            );
+
+        }
+
+        foods =
+            await response.json();
+
+        selectedRestaurantId =
+            restaurantId;
+
+        displayFoods(
+            foods
         );
 
-    foods =
-        await response.json();
 
-    displayFoods(foods);
+        document
+            .getElementById(
+                "foodGrid"
+            )
+            .scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
 
-    document
-        .getElementById("foodGrid")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Menu loading failed."
+        );
+
+    }
 
 }
 
 
-/* DISPLAY FOOD */
+/* =======================================================
+   DISPLAY FOOD
+======================================================= */
 
-function displayFoods(foodList) {
+function displayFoods(
+    foodList
+) {
 
     const grid =
-        document.getElementById("foodGrid");
+        document.getElementById(
+            "foodGrid"
+        );
+
 
     grid.innerHTML = "";
 
-    foodList.forEach(food => {
 
-        const icon =
-            food.food_type === "Veg"
-            ? "🟢"
-            : "🔴";
+    if (
+        !foodList ||
+        foodList.length === 0
+    ) {
 
-        grid.innerHTML += `
+        grid.innerHTML = `
 
-        <div class="food-card">
-
-            <h3>
-                ${icon} ${food.name}
-            </h3>
-
-            <p>
-                ${food.description}
-            </p>
-
-            <p>
-                ⭐ ${food.rating}
-            </p>
-
-            <div class="food-bottom">
-
-                <span class="price">
-                    ₹${food.price}
-                </span>
-
-                <button
-                    class="add-btn"
-                    onclick='addToCart(
-                        ${JSON.stringify(food)}
-                    )'
-                >
-                    ADD
-                </button>
-
+            <div class="loading">
+                No food items available.
             </div>
-
-        </div>
 
         `;
 
-    });
+        return;
+
+    }
+
+
+    foodList.forEach(
+        food => {
+
+            const icon =
+                food.food_type === "Veg"
+                    ? "🟢"
+                    : "🔴";
+
+
+            grid.innerHTML += `
+
+                <div class="food-card">
+
+                    <h3>
+                        ${icon}
+                        ${food.name}
+                    </h3>
+
+                    <p>
+                        ${food.description || ''}
+                    </p>
+
+                    <p>
+                        ⭐ ${food.rating || 4}
+                    </p>
+
+                    <div class="food-bottom">
+
+                        <span class="price">
+                            ₹${food.price}
+                        </span>
+
+                        <button
+                            type="button"
+                            class="add-btn"
+                            onclick="addToCartById(${food.id})"
+                        >
+                            ADD
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
 
 }
 
 
-/* ADD TO CART */
+/* =======================================================
+   ADD FOOD
+======================================================= */
 
-function addToCart(food) {
+function addToCartById(
+    foodId
+) {
+
+    const food =
+        foods.find(
+            item =>
+                Number(item.id) ===
+                Number(foodId)
+        );
+
+
+    if (!food) {
+
+        alert(
+            "Food item not found."
+        );
+
+        return;
+
+    }
+
+
+    addToCart(
+        food
+    );
+
+}
+
+
+/* =======================================================
+   ADD TO CART
+======================================================= */
+
+function addToCart(
+    food
+) {
+
+    const foodRestaurant =
+        Number(
+            food.restaurant_id
+        );
+
+
+    /*
+        SWIPTO order should normally contain
+        food from one restaurant.
+    */
+
+    if (
+        cart.length > 0
+        &&
+        Number(
+            cart[0].restaurant_id
+        ) !== foodRestaurant
+    ) {
+
+        alert(
+            "Please complete the current restaurant order first."
+        );
+
+        return;
+
+    }
+
 
     const existing =
         cart.find(
-            item => item.id === food.id
+            item =>
+                Number(item.id) ===
+                Number(food.id)
         );
+
 
     if (existing) {
 
@@ -738,18 +1243,38 @@ function addToCart(food) {
     } else {
 
         cart.push({
-            ...food,
-            quantity: 1
+
+            id:
+                food.id,
+
+            restaurant_id:
+                food.restaurant_id,
+
+            name:
+                food.name,
+
+            price:
+                Number(food.price),
+
+            quantity:
+                1
+
         });
 
     }
 
+
     updateCart();
+
+
+    openCart();
 
 }
 
 
-/* UPDATE CART */
+/* =======================================================
+   UPDATE CART
+======================================================= */
 
 function updateCart() {
 
@@ -757,195 +1282,431 @@ function updateCart() {
 
     let total = 0;
 
-    cart.forEach(item => {
 
-        count += item.quantity;
+    cart.forEach(
+        item => {
 
-        total +=
-            item.price *
-            item.quantity;
+            count +=
+                Number(
+                    item.quantity
+                );
 
-    });
+            total +=
+                Number(
+                    item.price
+                ) *
+                Number(
+                    item.quantity
+                );
+
+        }
+    );
+
 
     document
-        .getElementById("cartCount")
-        .innerText = count;
+        .getElementById(
+            "cartCount"
+        )
+        .innerText =
+        count;
+
 
     document
-        .getElementById("itemTotal")
-        .innerText = total;
+        .getElementById(
+            "itemTotal"
+        )
+        .innerText =
+        total;
 
-    const grandTotal =
+
+    document
+        .getElementById(
+            "grandTotal"
+        )
+        .innerText =
         total + 25 + 5;
 
-    document
-        .getElementById("grandTotal")
-        .innerText = grandTotal;
 
     renderCart();
 
 }
 
 
-/* RENDER CART */
+/* =======================================================
+   RENDER CART
+======================================================= */
 
 function renderCart() {
 
     const container =
-        document.getElementById("cartItems");
+        document.getElementById(
+            "cartItems"
+        );
 
-    if (cart.length === 0) {
 
-        container.innerHTML =
-            "Your cart is empty";
+    if (
+        cart.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-cart">
+                Your cart is empty
+            </div>
+
+        `;
 
         return;
 
     }
 
+
     container.innerHTML = "";
 
-    cart.forEach((item, index) => {
 
-        container.innerHTML += `
+    cart.forEach(
+        (
+            item,
+            index
+        ) => {
 
-        <div class="cart-item">
+            container.innerHTML += `
 
-            <strong>
-                ${item.name}
-            </strong>
+                <div class="cart-item">
 
-            <br>
+                    <div class="cart-item-name">
+                        ${item.name}
+                    </div>
 
-            ₹${item.price}
+                    <div class="cart-item-price">
+                        ₹${item.price}
+                    </div>
 
-            <div class="quantity-controls">
+                    <div class="quantity-controls">
 
-                <button
-                    onclick="changeQuantity(${index}, -1)"
-                >
-                    -
-                </button>
+                        <button
+                            type="button"
+                            onclick="changeQuantity(${index}, -1)"
+                        >
+                            -
+                        </button>
 
-                ${item.quantity}
+                        <strong>
+                            ${item.quantity}
+                        </strong>
 
-                <button
-                    onclick="changeQuantity(${index}, 1)"
-                >
-                    +
-                </button>
+                        <button
+                            type="button"
+                            onclick="changeQuantity(${index}, 1)"
+                        >
+                            +
+                        </button>
 
-            </div>
+                    </div>
 
-        </div>
+                </div>
 
-        `;
+            `;
 
-    });
+        }
+    );
 
 }
 
 
-/* CHANGE QUANTITY */
+/* =======================================================
+   CHANGE QUANTITY
+======================================================= */
 
-function changeQuantity(index, change) {
+function changeQuantity(
+    index,
+    change
+) {
 
-    cart[index].quantity += change;
+    if (
+        !cart[index]
+    ) {
 
-    if (cart[index].quantity <= 0) {
-
-        cart.splice(index, 1);
+        return;
 
     }
+
+
+    cart[index].quantity +=
+        change;
+
+
+    if (
+        cart[index].quantity <= 0
+    ) {
+
+        cart.splice(
+            index,
+            1
+        );
+
+    }
+
 
     updateCart();
 
 }
 
 
-/* OPEN CART */
+/* =======================================================
+   OPEN CART
+======================================================= */
 
 function openCart() {
 
     document
-        .getElementById("cartPanel")
+        .getElementById(
+            "cartPanel"
+        )
         .classList
         .add("open");
 
 }
 
 
-/* CLOSE CART */
+/* =======================================================
+   CLOSE CART
+======================================================= */
 
 function closeCart() {
 
     document
-        .getElementById("cartPanel")
+        .getElementById(
+            "cartPanel"
+        )
         .classList
         .remove("open");
 
 }
 
 
-/* FILTER FOOD */
+/* =======================================================
+   FILTER FOOD
+======================================================= */
 
-function filterFood(type) {
+function filterFood(
+    type
+) {
 
-    if (!foods.length) {
+    if (
+        !foods ||
+        foods.length === 0
+    ) {
 
         alert(
-            "Please select a restaurant first"
+            "Please select a restaurant first."
         );
 
         return;
 
     }
+
 
     const filtered =
         foods.filter(
             food =>
-            food.food_type === type
+                food.food_type ===
+                type
         );
 
-    displayFoods(filtered);
+
+    displayFoods(
+        filtered
+    );
+
+
+    setActiveFilter(
+        type === "Veg"
+            ? "veg"
+            : "nonveg"
+    );
 
 }
 
 
-/* SEARCH */
+/* =======================================================
+   ACTIVE FILTER
+======================================================= */
 
-async function searchFood() {
+function setActiveFilter(
+    filter
+) {
+
+    document
+        .getElementById(
+            "allFilter"
+        )
+        .classList
+        .remove(
+            "active"
+        );
+
+    document
+        .getElementById(
+            "vegFilter"
+        )
+        .classList
+        .remove(
+            "active"
+        );
+
+    document
+        .getElementById(
+            "nonVegFilter"
+        )
+        .classList
+        .remove(
+            "active"
+        );
+
+
+    if (
+        filter === "all"
+    ) {
+
+        document
+            .getElementById(
+                "allFilter"
+            )
+            .classList
+            .add(
+                "active"
+            );
+
+    }
+
+    if (
+        filter === "veg"
+    ) {
+
+        document
+            .getElementById(
+                "vegFilter"
+            )
+            .classList
+            .add(
+                "active"
+            );
+
+    }
+
+    if (
+        filter === "nonveg"
+    ) {
+
+        document
+            .getElementById(
+                "nonVegFilter"
+            )
+            .classList
+            .add(
+                "active"
+            );
+
+    }
+
+}
+
+
+/* =======================================================
+   SEARCH
+======================================================= */
+
+let searchTimer;
+
+
+function searchFood() {
+
+    clearTimeout(
+        searchTimer
+    );
+
+
+    searchTimer =
+        setTimeout(
+            performSearch,
+            350
+        );
+
+}
+
+
+async function performSearch() {
 
     const query =
         document
-        .getElementById("searchInput")
-        .value;
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .trim();
 
-    if (query.length < 2) {
+
+    if (
+        query.length < 2
+    ) {
 
         return;
 
     }
 
-    const response =
-        await fetch(
-            `/api/search?q=${query}`
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/search?q=${encodeURIComponent(query)}`
+            );
+
+
+        const results =
+            await response.json();
+
+
+        foods =
+            results;
+
+
+        displayFoods(
+            results
         );
 
-    const results =
-        await response.json();
 
-    displayFoods(results);
+        document
+            .getElementById(
+                "foodGrid"
+            )
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+    }
 
 }
 
 
-/* LOGIN */
+/* =======================================================
+   LOGIN
+======================================================= */
 
 function openLogin() {
 
     document
-        .getElementById("loginModal")
+        .getElementById(
+            "loginModal"
+        )
         .style.display =
         "flex";
 
@@ -955,68 +1716,111 @@ function openLogin() {
 function closeLogin() {
 
     document
-        .getElementById("loginModal")
+        .getElementById(
+            "loginModal"
+        )
         .style.display =
         "none";
 
 }
 
 
-/* REGISTER USER */
+/* =======================================================
+   REGISTER USER
+======================================================= */
 
 async function registerUser() {
 
     const name =
         document
-        .getElementById("name")
-        .value;
+            .getElementById(
+                "name"
+            )
+            .value
+            .trim();
+
 
     const phone =
         document
-        .getElementById("phone")
-        .value;
+            .getElementById(
+                "phone"
+            )
+            .value
+            .trim();
 
-    if (!name || !phone) {
+
+    if (
+        !name ||
+        !phone
+    ) {
 
         alert(
-            "Please enter name and phone number"
+            "Please enter name and mobile number."
         );
 
         return;
 
     }
 
-    const response =
-        await fetch(
-            "/api/register",
-            {
-                method: "POST",
 
-                headers: {
-                    "Content-Type":
-                    "application/json"
-                },
+    try {
 
-                body:
-                    JSON.stringify({
-                        name,
-                        phone
-                    })
-            }
-        );
+        const response =
+            await fetch(
+                "/api/register",
+                {
+                    method: "POST",
 
-    const data =
-        await response.json();
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-    if (data.success) {
+                    body:
+                        JSON.stringify({
+
+                            name:
+                                name,
+
+                            phone:
+                                phone
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            alert(
+                data.message ||
+                "Login failed."
+            );
+
+            return;
+
+        }
+
 
         currentUser =
             data.user;
 
+
         localStorage.setItem(
             "swiptoUser",
-            JSON.stringify(currentUser)
+            JSON.stringify(
+                currentUser
+            )
         );
+
 
         alert(
             "Welcome " +
@@ -1024,150 +1828,251 @@ async function registerUser() {
             " 🎉"
         );
 
+
         closeLogin();
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Unable to connect to SWIPTO."
+        );
 
     }
 
 }
 
 
-/* CHECKOUT */
+/* =======================================================
+   GOOGLE LOGIN MESSAGE
+======================================================= */
+
+function googleLoginMessage() {
+
+    alert(
+        "Google Login integration will be connected with Google OAuth."
+    );
+
+}
+
+
+/* =======================================================
+   CHECKOUT
+======================================================= */
 
 async function checkout() {
 
-    if (!currentUser) {
+    if (
+        !currentUser
+    ) {
 
         alert(
-            "Please login first"
+            "Please login first."
         );
 
-        openLogin();
-
-        return;
-
-    }
-
-    if (cart.length === 0) {
-
-        alert(
-            "Your cart is empty"
-        );
-
-        return;
-
-    }
-
-    const address =
-        prompt(
-            "Enter Delivery Address"
-        );
-
-    if (!address) {
-
-        return;
-
-    }
-
-    let itemTotal = 0;
-
-    cart.forEach(item => {
-
-        itemTotal +=
-            item.price *
-            item.quantity;
-
-    });
-
-    const response =
-        await fetch(
-            "/api/order",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                    JSON.stringify({
-
-                        customer_id:
-                        currentUser.id,
-
-                        restaurant_id:
-                        cart[0].restaurant_id,
-
-                        items:
-                        cart,
-
-                        payment_mode:
-                        "COD",
-
-                        address:
-                        address,
-
-                        instructions:
-                        "",
-
-                        discount:
-                        0
-
-                    })
-
-            }
-        );
-
-    const data =
-        await response.json();
-
-    if (data.success) {
-
-        alert(
-            "🎉 Order Placed Successfully!\n\n" +
-            "Order ID: #" +
-            data.order_id +
-            "\nTotal: ₹" +
-            data.grand_total
-        );
-
-        cart = [];
-
-        updateCart();
 
         closeCart();
 
+
+        openLogin();
+
+
+        return;
+
     }
 
-}
 
+    if (
+        !cart ||
+        cart.length === 0
+    ) {
 
-/* LOAD USER */
-
-function loadUser() {
-
-    const saved =
-        localStorage.getItem(
-            "swiptoUser"
+        alert(
+            "Your cart is empty."
         );
 
-    if (saved) {
+        return;
 
-        currentUser =
-            JSON.parse(saved);
+    }
+
+
+    const address =
+        prompt(
+            "Enter your complete delivery address:"
+        );
+
+
+    if (
+        !address ||
+        !address.trim()
+    ) {
+
+        alert(
+            "Delivery address is required."
+        );
+
+        return;
+
+    }
+
+
+    const paymentMode =
+        "COD";
+
+
+    let itemTotal = 0;
+
+
+    cart.forEach(
+        item => {
+
+            itemTotal +=
+                Number(
+                    item.price
+                ) *
+                Number(
+                    item.quantity
+                );
+
+        }
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/order",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            customer_id:
+                                currentUser.id,
+
+                            restaurant_id:
+                                cart[0].restaurant_id,
+
+                            items:
+                                cart,
+
+                            payment_mode:
+                                paymentMode,
+
+                            address:
+                                address.trim(),
+
+                            instructions:
+                                "",
+
+                            discount:
+                                0
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            alert(
+                data.message ||
+                "Order could not be placed."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+
+            "🎉 SWIPTO ORDER PLACED!\n\n" +
+
+            "Order ID: #" +
+            data.order_id +
+            "\n\n" +
+
+            "Item Total: ₹" +
+            data.item_total +
+            "\n" +
+
+            "Delivery Fee: ₹" +
+            data.delivery_fee +
+            "\n" +
+
+            "Platform Fee: ₹" +
+            data.platform_fee +
+            "\n" +
+
+            "Grand Total: ₹" +
+            data.grand_total +
+            "\n\n" +
+
+            "Payment: COD\n\n" +
+
+            "Status: Order Placed"
+
+        );
+
+
+        cart = [];
+
+
+        updateCart();
+
+
+        closeCart();
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Server connection error. Please try again."
+        );
 
     }
 
 }
 
 
-/* START */
+/* =======================================================
+   INITIALIZE
+======================================================= */
 
 loadUser();
 
 loadRestaurants();
 
+updateCart();
+
+
 </script>
 
 </body>
+
 </html>
