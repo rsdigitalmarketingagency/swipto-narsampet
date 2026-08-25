@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWIPTO - Narsampet Food Delivery</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f6f6f6;color:#222}
+header{position:sticky;top:0;z-index:50;background:#ff5a1f;color:#fff;box-shadow:0 2px 12px #0002}
+.nav{max-width:1200px;margin:auto;min-height:76px;padding:12px 20px;display:flex;gap:18px;align-items:center}
+.brand{display:flex;align-items:center;gap:10px;font-size:30px;font-weight:800}.brand img{width:48px;height:48px;object-fit:contain;background:#fff2;border-radius:12px}
+.location{white-space:nowrap}.search{flex:1}.search input{width:100%;padding:15px 18px;border:0;border-radius:10px;font-size:16px}
+.nav button,.filter,.add,.checkout,.place-order,.login-btn{border:0;border-radius:9px;cursor:pointer}.nav button{background:transparent;color:#fff;font-size:16px;white-space:nowrap}
+.hero{background:linear-gradient(120deg,#ff5a1f,#ff7a45);color:#fff;padding:65px 20px}.hero-inner,.container{max-width:1200px;margin:auto}.hero h1{font-size:42px;margin:0 0 10px}.hero p{font-size:18px}
+.container{padding:35px 20px}.section-title{font-size:28px;margin:0 0 18px}.filters{display:flex;gap:12px;margin-bottom:24px}.filter{padding:12px 22px;background:#fff;border:1px solid #ddd}.filter.active{background:#ff5a1f;color:#fff;border-color:#ff5a1f}
+.restaurants{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.restaurant{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px #0001;cursor:pointer;transition:.2s}.restaurant:hover{transform:translateY(-3px)}.restaurant img{width:100%;height:185px;object-fit:cover}.restaurant-body{padding:16px}.restaurant-body h3{margin:0 0 8px}.rating{display:inline-block;background:#19763c;color:#fff;padding:7px 10px;border-radius:6px;font-size:14px}
+.food-section{margin-top:40px}.food-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.food{background:#fff;padding:20px;border-radius:16px;box-shadow:0 4px 16px #0001}.food h3{margin:0 0 8px}.food p{color:#666;min-height:20px}.food-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:16px}.price{font-size:20px;font-weight:800}.add{background:#ff5a1f;color:#fff;padding:11px 18px;font-weight:bold}
+.cart-float{position:fixed;right:24px;bottom:24px;background:#222;color:#fff;border:0;border-radius:30px;padding:16px 24px;font-size:16px;z-index:60;cursor:pointer}.cart-panel{position:fixed;right:-460px;top:0;width:430px;max-width:100%;height:100vh;background:#fff;z-index:100;box-shadow:-5px 0 25px #0003;padding:25px;transition:.3s;overflow:auto}.cart-panel.open{right:0}.close{float:right;font-size:30px;cursor:pointer}.cart-item{padding:15px 0;border-bottom:1px solid #eee}.qty{display:flex;gap:14px;align-items:center;margin-top:10px}.qty button{width:34px;height:34px;border:0;border-radius:50%;background:#ff5a1f;color:#fff;font-size:18px;cursor:pointer}.bill{margin-top:20px;border-top:2px solid #ddd;padding-top:12px}.bill-line{display:flex;justify-content:space-between;margin:12px 0}.total{font-size:23px;font-weight:800}.checkout,.place-order{width:100%;padding:16px;background:#ff5a1f;color:#fff;font-size:17px;margin-top:15px}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:200;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modal-box{background:#fff;border-radius:18px;padding:26px;width:430px;max-width:100%}.modal-box input,.modal-box textarea,.modal-box select{width:100%;padding:13px;margin:7px 0;border:1px solid #ddd;border-radius:9px;font-size:16px}.login-btn{width:100%;padding:14px;background:#ff5a1f;color:#fff;font-size:16px;margin-top:8px}.google{background:#4285f4}.close-modal{text-align:right;font-size:25px;cursor:pointer}
+footer{margin-top:45px;background:#222;color:#fff;text-align:center;padding:35px 20px}footer img.logo-img{height:46px;max-width:150px;object-fit:contain;background:#fff;border-radius:10px;padding:3px}.owner-box{margin:22px auto 0;display:flex;flex-direction:column;align-items:center;gap:8px}.owner-photo{width:110px;height:110px;border-radius:50%;object-fit:cover;border:4px solid #ff5a1f;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.35)}.owner-name{font-weight:800;font-size:18px;letter-spacing:.5px}.owner-role{margin:0;color:#ddd;font-size:14px}
+.loading{text-align:center;padding:35px;color:#777}.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#222;color:#fff;padding:14px 20px;border-radius:10px;z-index:500;display:none}
+@media(max-width:850px){.nav{flex-wrap:wrap}.search{order:5;flex-basis:100%}.hero h1{font-size:32px}.restaurants{grid-template-columns:1fr 1fr}.food-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.brand{font-size:24px}.restaurants,.food-grid{grid-template-columns:1fr}.location{display:none}.hero{padding:45px 20px}.cart-float{right:15px;bottom:15px}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <div class="brand"><img src="/static/swipto-logo.png" onerror="this.style.display='none'"> <span>SWIPTO</span></div>
+  <div class="location">📍 Narsampet</div>
+  <div class="search"><input id="searchInput" placeholder="Search for biryani, pizza, burger..."></div>
+  <button id="loginTopBtn">👤 <span id="loginText">Login</span></button>
+  <button id="cartTopBtn">🛒 Cart (<span id="topCartCount">0</span>)</button>
+</div></header>
+
+<section class="hero"><div class="hero-inner"><h1>Delicious Food Delivered Fast 🍔</h1><p>Order your favourite food from the best restaurants in Narsampet.</p></div></section>
+
+<main class="container">
+  <h2 class="section-title">🍽️ Explore Restaurants</h2>
+  <div class="filters"><button class="filter active" id="allBtn">All</button><button class="filter" id="vegBtn">🟢 Veg</button><button class="filter" id="nonVegBtn">🔴 Non-Veg</button></div>
+  <div id="restaurants" class="restaurants"><div class="loading">Loading restaurants...</div></div>
+  <section class="food-section"><h2 class="section-title">🔥 Popular Food</h2><div id="foodGrid" class="food-grid"><div class="loading">Loading food...</div></div></section>
+</main>
+
+<button id="cartFloatBtn" class="cart-float">🛒 Cart (<span id="cartCount">0</span>)</button>
+
+<div id="cartPanel" class="cart-panel"><div id="closeCartBtn" class="close">×</div><h2>Your Cart 🛒</h2><div id="cartItems"></div><div class="bill">
+<div class="bill-line"><span>Item Total</span><span>₹<span id="itemTotal">0</span></span></div>
+<div class="bill-line"><span>Delivery Fee</span><span>₹25</span></div>
+<div class="bill-line"><span>Platform Fee</span><span>₹5</span></div>
+<div class="bill-line total"><span>Total</span><span>₹<span id="grandTotal">0</span></span></div>
+<button id="checkoutBtn" class="checkout">Proceed to Checkout</button></div></div>
+
+<div id="loginModal" class="modal"><div class="modal-box"><div id="closeLoginBtn" class="close-modal">×</div><h2>Welcome to SWIPTO 🛵</h2><input id="loginName" placeholder="Your Name"><input id="loginPhone" type="tel" placeholder="Mobile Number"><button id="continueLoginBtn" class="login-btn">Continue</button><button id="googleBtn" class="login-btn google">🔵 Continue with Google</button></div></div>
+
+<div id="checkoutModal" class="modal"><div class="modal-box"><div id="closeCheckoutBtn" class="close-modal">×</div><h2>Checkout 🛵</h2><select id="paymentMode"><option value="COD">Cash on Delivery</option></select><textarea id="deliveryAddress" rows="4" placeholder="Enter complete delivery address"></textarea><textarea id="instructions" rows="3" placeholder="Custom instructions (optional)"></textarea><button id="placeOrderBtn" class="place-order">Place COD Order</button></div></div>
+
+<footer><img class="logo-img" src="/static/swipto-logo.png" onerror="this.style.display='none'"><h2>🛵 SWIPTO</h2><p>Narsampet Food Delivery Platform</p><div class="owner-box"><img class="owner-photo" src="/static/owner.jpg" alt="NIMMANABOINA RAJESH" onerror="this.style.display='none'"><div class="owner-name">NIMMANABOINA RAJESH</div><p class="owner-role">Founder &amp; Owner</p></div></footer>
+<div id="toast" class="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let restaurants=[], foods=[], cart=JSON.parse(localStorage.getItem("swiptoCart")||"[]"), currentUser=JSON.parse(localStorage.getItem("swiptoUser")||"null"), selectedRestaurantId=null, activeType="All";
+
+function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2500)}
+function saveCart(){localStorage.setItem("swiptoCart",JSON.stringify(cart))}
+function updateUser(){ $("loginText").textContent=currentUser?currentUser.name:"Login" }
+function openCart(){ $("cartPanel").classList.add("open") } function closeCart(){ $("cartPanel").classList.remove("open") }
+function openLogin(){ $("loginModal").classList.add("show") } function closeLogin(){ $("loginModal").classList.remove("show") }
+function openCheckout(){ if(!currentUser){closeCart();openLogin();return} if(!cart.length){toast("Your cart is empty");return} $("checkoutModal").classList.add("show") }
+function closeCheckout(){ $("checkoutModal").classList.remove("show") }
+
+async function loadRestaurants(){
+ const r=await fetch("/api/restaurants"); restaurants=await r.json(); const box=$("restaurants"); box.innerHTML="";
+ restaurants.forEach(x=>box.innerHTML+=`<div class="restaurant" data-id="${x.id}"><img src="${x.image}" alt="${x.name}"><div class="restaurant-body"><h3>${x.name}</h3><p>${x.category||""}</p><span class="rating">⭐ ${x.rating}</span></div></div>`);
+ document.querySelectorAll(".restaurant").forEach(x=>x.onclick=()=>loadMenu(x.dataset.id));
+}
+async function loadPopular(){const r=await fetch("/api/popular");foods=await r.json();displayFoods(foods)}
+async function loadMenu(id){selectedRestaurantId=Number(id);let url="/api/restaurant/"+id+"/menu";if(activeType!=="All")url+="?type="+encodeURIComponent(activeType);const r=await fetch(url);foods=await r.json();displayFoods(foods);$("foodGrid").scrollIntoView({behavior:"smooth"})}
+function displayFoods(list){const g=$("foodGrid");if(!list.length){g.innerHTML='<div class="loading">No food items found.</div>';return}g.innerHTML=list.map(f=>`<div class="food"><h3>${f.type==="Veg"?"🟢":"🔴"} ${f.name}</h3><p>${f.description||""}</p><p>⭐ ${f.rating||4}</p><div class="food-bottom"><span class="price">₹${f.price}</span><button class="add" onclick="addFood(${f.id})">ADD</button></div></div>`).join("")}
+window.addFood=function(id){const f=foods.find(x=>Number(x.id)===Number(id));if(!f)return;if(cart.length&&Number(cart[0].restaurant_id)!==Number(f.restaurant_id)){toast("Complete current restaurant order first");return}const e=cart.find(x=>Number(x.id)===Number(id));if(e)e.quantity++;else cart.push({id:f.id,restaurant_id:f.restaurant_id,name:f.name,price:Number(f.price),quantity:1});saveCart();updateCart();openCart()}
+window.changeQty=function(i,d){cart[i].quantity+=d;if(cart[i].quantity<=0)cart.splice(i,1);saveCart();updateCart()}
+function updateCart(){const count=cart.reduce((s,x)=>s+x.quantity,0), total=cart.reduce((s,x)=>s+x.price*x.quantity,0);$("cartCount").textContent=count;$("topCartCount").textContent=count;$("itemTotal").textContent=total;$("grandTotal").textContent=total+(cart.length?30:0);$("cartItems").innerHTML=cart.length?cart.map((x,i)=>`<div class="cart-item"><strong>${x.name}</strong><div>₹${x.price}</div><div class="qty"><button onclick="changeQty(${i},-1)">-</button><b>${x.quantity}</b><button onclick="changeQty(${i},1)">+</button></div></div>`).join(""):'<div class="loading">Your cart is empty</div>'}
+async function doLogin(){const name=$("loginName").value.trim(),phone=$("loginPhone").value.trim();if(!name||phone.length<10){toast("Enter valid name and mobile number");return}const r=await fetch("/api/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,phone})});const d=await r.json();if(!d.success){toast(d.message||"Login failed");return}currentUser=d.user;localStorage.setItem("swiptoUser",JSON.stringify(currentUser));updateUser();closeLogin();openCheckout()}
+async function placeOrder(){const address=$("deliveryAddress").value.trim();if(!address){toast("Enter delivery address");return}const r=await fetch("/api/order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_id:currentUser.id,restaurant_id:cart[0].restaurant_id,items:cart,payment_mode:"COD",address,instructions:$("instructions").value.trim()})});const d=await r.json();if(!d.success){toast(d.message||"Order failed");return}alert(`🎉 ORDER PLACED!\n\nOrder ID: #${d.order_id}\nItem Total: ₹${d.item_total}\nDelivery Fee: ₹${d.delivery_fee}\nPlatform Fee: ₹${d.platform_fee}\nGrand Total: ₹${d.grand_total}\nPayment: COD\n\nStatus: ${d.status}`);cart=[];saveCart();updateCart();closeCheckout();closeCart()}
+async function searchFood(){const q=$("searchInput").value.trim();if(!q){if(selectedRestaurantId)return loadMenu(selectedRestaurantId);return loadPopular()}const r=await fetch("/api/search?q="+encodeURIComponent(q));foods=await r.json();displayFoods(foods)}
+function setFilter(type,btn){activeType=type;document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));btn.classList.add("active");if(selectedRestaurantId)loadMenu(selectedRestaurantId);else loadPopular()}
+$("loginTopBtn").onclick=openLogin;$("cartTopBtn").onclick=openCart;$("cartFloatBtn").onclick=openCart;$("closeCartBtn").onclick=closeCart;$("checkoutBtn").onclick=openCheckout;$("closeLoginBtn").onclick=closeLogin;$("closeCheckoutBtn").onclick=closeCheckout;$("continueLoginBtn").onclick=doLogin;$("placeOrderBtn").onclick=placeOrder;$("googleBtn").onclick=()=>toast("Google Login can be added later with OAuth");$("searchInput").oninput=searchFood;$("allBtn").onclick=function(){setFilter("All",this)};$("vegBtn").onclick=function(){setFilter("Veg",this)};$("nonVegBtn").onclick=function(){setFilter("Non-Veg",this)}
+updateUser();updateCart();loadRestaurants();loadPopular();
+</script>
+</body></html>
