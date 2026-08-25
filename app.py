@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
 import sqlite3
 import os
-import json
 from datetime import datetime
 
 app = Flask(__name__, static_folder="static")
@@ -23,165 +22,190 @@ def init_db():
     conn = get_db()
     cur = conn.cursor()
 
+    # USERS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        phone TEXT UNIQUE,
-        email TEXT,
-        photo TEXT,
-        role TEXT DEFAULT 'customer',
-        blocked INTEGER DEFAULT 0,
-        created_at TEXT
-    )
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            phone TEXT UNIQUE NOT NULL,
+            email TEXT DEFAULT '',
+            photo TEXT DEFAULT '',
+            role TEXT DEFAULT 'customer',
+            blocked INTEGER DEFAULT 0,
+            created_at TEXT
+        )
     """)
 
+    # ADDRESSES
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS addresses (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        name TEXT,
-        phone TEXT,
-        address TEXT,
-        landmark TEXT,
-        pincode TEXT,
-        is_default INTEGER DEFAULT 0
-    )
+        CREATE TABLE IF NOT EXISTS addresses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT,
+            phone TEXT,
+            address TEXT,
+            landmark TEXT DEFAULT '',
+            pincode TEXT DEFAULT '',
+            is_default INTEGER DEFAULT 0
+        )
     """)
 
+    # RESTAURANTS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS restaurants (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        image TEXT,
-        banner TEXT,
-        rating REAL DEFAULT 4.0,
-        category TEXT,
-        address TEXT,
-        phone TEXT,
-        owner_id INTEGER,
-        approved INTEGER DEFAULT 1,
-        active INTEGER DEFAULT 1
-    )
+        CREATE TABLE IF NOT EXISTS restaurants (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            image TEXT DEFAULT '',
+            banner TEXT DEFAULT '',
+            rating REAL DEFAULT 4.0,
+            category TEXT DEFAULT '',
+            address TEXT DEFAULT 'Narsampet',
+            phone TEXT DEFAULT '',
+            owner_id INTEGER,
+            approved INTEGER DEFAULT 1,
+            active INTEGER DEFAULT 1
+        )
     """)
 
+    # FOOD ITEMS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS food_items (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        restaurant_id INTEGER,
-        name TEXT,
-        description TEXT,
-        price REAL,
-        category TEXT,
-        food_type TEXT,
-        available INTEGER DEFAULT 1,
-        image TEXT,
-        rating REAL DEFAULT 4.0
-    )
+        CREATE TABLE IF NOT EXISTS food_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            restaurant_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            description TEXT DEFAULT '',
+            price REAL NOT NULL,
+            category TEXT DEFAULT '',
+            food_type TEXT DEFAULT 'Veg',
+            available INTEGER DEFAULT 1,
+            image TEXT DEFAULT '',
+            rating REAL DEFAULT 4.0,
+            offer TEXT DEFAULT ''
+        )
     """)
 
+    # ORDERS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS orders (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        customer_id INTEGER,
-        restaurant_id INTEGER,
-        delivery_partner_id INTEGER,
-        item_total REAL,
-        delivery_fee REAL,
-        platform_fee REAL,
-        discount REAL,
-        grand_total REAL,
-        payment_mode TEXT,
-        address TEXT,
-        instructions TEXT,
-        status TEXT DEFAULT 'Order Placed',
-        created_at TEXT
-    )
+        CREATE TABLE IF NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            customer_id INTEGER,
+            restaurant_id INTEGER,
+            delivery_partner_id INTEGER,
+            item_total REAL DEFAULT 0,
+            delivery_fee REAL DEFAULT 25,
+            platform_fee REAL DEFAULT 5,
+            discount REAL DEFAULT 0,
+            grand_total REAL DEFAULT 0,
+            payment_mode TEXT DEFAULT 'COD',
+            address TEXT DEFAULT '',
+            instructions TEXT DEFAULT '',
+            status TEXT DEFAULT 'Order Placed',
+            created_at TEXT
+        )
     """)
 
+    # ORDER ITEMS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS order_items (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        order_id INTEGER,
-        food_id INTEGER,
-        food_name TEXT,
-        price REAL,
-        quantity INTEGER
-    )
+        CREATE TABLE IF NOT EXISTS order_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            order_id INTEGER NOT NULL,
+            food_id INTEGER,
+            food_name TEXT,
+            price REAL,
+            quantity INTEGER
+        )
     """)
 
+    # COUPONS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS coupons (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        code TEXT UNIQUE,
-        discount_type TEXT,
-        discount_value REAL,
-        min_order REAL DEFAULT 0,
-        active INTEGER DEFAULT 1
-    )
+        CREATE TABLE IF NOT EXISTS coupons (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            code TEXT UNIQUE NOT NULL,
+            discount_type TEXT DEFAULT 'flat',
+            discount_value REAL DEFAULT 0,
+            min_order REAL DEFAULT 0,
+            active INTEGER DEFAULT 1
+        )
     """)
 
+    # FAVOURITES
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS favourites (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        food_id INTEGER,
-        restaurant_id INTEGER
-    )
+        CREATE TABLE IF NOT EXISTS favourites (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            food_id INTEGER,
+            restaurant_id INTEGER
+        )
     """)
 
+    # REVIEWS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS reviews (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        restaurant_id INTEGER,
-        food_id INTEGER,
-        rating INTEGER,
-        comment TEXT,
-        created_at TEXT
-    )
+        CREATE TABLE IF NOT EXISTS reviews (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            restaurant_id INTEGER,
+            food_id INTEGER,
+            rating INTEGER,
+            comment TEXT DEFAULT '',
+            created_at TEXT
+        )
     """)
 
+    # DELIVERY PARTNERS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS delivery_partners (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        vehicle_number TEXT,
-        available INTEGER DEFAULT 1,
-        earnings REAL DEFAULT 0
-    )
+        CREATE TABLE IF NOT EXISTS delivery_partners (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            vehicle_number TEXT DEFAULT '',
+            available INTEGER DEFAULT 1,
+            earnings REAL DEFAULT 0
+        )
     """)
 
+    # NOTIFICATIONS
     cur.execute("""
-    CREATE TABLE IF NOT EXISTS settings (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        setting_key TEXT UNIQUE,
-        setting_value TEXT
-    )
+        CREATE TABLE IF NOT EXISTS notifications (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            order_id INTEGER,
+            title TEXT,
+            message TEXT,
+            read_status INTEGER DEFAULT 0,
+            created_at TEXT
+        )
     """)
 
-    conn.commit()
+    # SETTINGS
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS settings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            setting_key TEXT UNIQUE NOT NULL,
+            setting_value TEXT
+        )
+    """)
 
     # DEFAULT SETTINGS
-    settings = [
+    default_settings = [
         ("delivery_fee", "25"),
         ("platform_fee", "5"),
-        ("commission_percent", "10")
+        ("commission_percent", "10"),
+        ("support_phone", "9705586797"),
+        ("whatsapp_number", "9705586797")
     ]
 
-    for key, value in settings:
+    for key, value in default_settings:
         cur.execute("""
-        INSERT OR IGNORE INTO settings
-        (setting_key, setting_value)
-        VALUES (?, ?)
+            INSERT OR IGNORE INTO settings
+            (setting_key, setting_value)
+            VALUES (?, ?)
         """, (key, value))
 
-    # SAMPLE DATA
-    count = cur.execute(
+    # DEFAULT RESTAURANTS
+    restaurant_count = cur.execute(
         "SELECT COUNT(*) FROM restaurants"
     ).fetchone()[0]
 
-    if count == 0:
+    if restaurant_count == 0:
 
         restaurants = [
             (
@@ -191,8 +215,7 @@ def init_db():
                 4.5,
                 "Biryani",
                 "Narsampet",
-                "9705586797",
-                None
+                "9705586797"
             ),
             (
                 "Narsampet Food Hub",
@@ -201,8 +224,7 @@ def init_db():
                 4.3,
                 "Fast Food",
                 "Narsampet",
-                "9705586797",
-                None
+                "9705586797"
             ),
             (
                 "Andhra Spice",
@@ -211,52 +233,175 @@ def init_db():
                 4.6,
                 "South Indian",
                 "Narsampet",
-                "9705586797",
-                None
+                "9705586797"
             )
         ]
 
-        for r in restaurants:
+        for restaurant in restaurants:
             cur.execute("""
-            INSERT INTO restaurants
-            (name, image, banner, rating, category,
-             address, phone, owner_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, r)
+                INSERT INTO restaurants (
+                    name,
+                    image,
+                    banner,
+                    rating,
+                    category,
+                    address,
+                    phone
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, restaurant)
 
         foods = [
-            (1, "Chicken Biryani", "Hyderabadi style chicken biryani", 130, "Biryani", "Non-Veg"),
-            (1, "Mutton Biryani", "Special mutton biryani", 220, "Biryani", "Non-Veg"),
-            (1, "Veg Biryani", "Fresh veg biryani", 100, "Biryani", "Veg"),
-            (1, "Chicken Fry", "Spicy chicken fry", 180, "Starters", "Non-Veg"),
-
-            (2, "Chicken Burger", "Loaded chicken burger", 120, "Burger", "Non-Veg"),
-            (2, "Veg Burger", "Fresh veg burger", 90, "Burger", "Veg"),
-            (2, "French Fries", "Crispy french fries", 70, "Snacks", "Veg"),
-            (2, "Chicken Pizza", "Cheesy chicken pizza", 250, "Pizza", "Non-Veg"),
-
-            (3, "Andhra Meals", "Traditional Andhra meals", 120, "Meals", "Veg"),
-            (3, "Chicken Curry", "Andhra spicy chicken curry", 180, "Curry", "Non-Veg"),
-            (3, "Paneer Curry", "Fresh paneer curry", 160, "Curry", "Veg"),
-            (3, "Egg Fried Rice", "Special egg fried rice", 110, "Rice", "Non-Veg")
+            (
+                1,
+                "Chicken Biryani",
+                "Hyderabadi style chicken biryani",
+                130,
+                "Biryani",
+                "Non-Veg"
+            ),
+            (
+                1,
+                "Mutton Biryani",
+                "Special mutton biryani",
+                220,
+                "Biryani",
+                "Non-Veg"
+            ),
+            (
+                1,
+                "Veg Biryani",
+                "Fresh vegetable biryani",
+                100,
+                "Biryani",
+                "Veg"
+            ),
+            (
+                1,
+                "Chicken Fry",
+                "Spicy chicken fry",
+                180,
+                "Starters",
+                "Non-Veg"
+            ),
+            (
+                2,
+                "Chicken Burger",
+                "Loaded chicken burger",
+                120,
+                "Burger",
+                "Non-Veg"
+            ),
+            (
+                2,
+                "Veg Burger",
+                "Fresh veg burger",
+                90,
+                "Burger",
+                "Veg"
+            ),
+            (
+                2,
+                "French Fries",
+                "Crispy french fries",
+                70,
+                "Snacks",
+                "Veg"
+            ),
+            (
+                2,
+                "Chicken Pizza",
+                "Cheesy chicken pizza",
+                250,
+                "Pizza",
+                "Non-Veg"
+            ),
+            (
+                3,
+                "Andhra Meals",
+                "Traditional Andhra meals",
+                120,
+                "Meals",
+                "Veg"
+            ),
+            (
+                3,
+                "Chicken Curry",
+                "Andhra spicy chicken curry",
+                180,
+                "Curry",
+                "Non-Veg"
+            ),
+            (
+                3,
+                "Paneer Curry",
+                "Fresh paneer curry",
+                160,
+                "Curry",
+                "Veg"
+            ),
+            (
+                3,
+                "Egg Fried Rice",
+                "Special egg fried rice",
+                110,
+                "Rice",
+                "Non-Veg"
+            )
         ]
 
         for food in foods:
             cur.execute("""
-            INSERT INTO food_items
-            (restaurant_id, name, description, price,
-             category, food_type)
-            VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO food_items (
+                    restaurant_id,
+                    name,
+                    description,
+                    price,
+                    category,
+                    food_type
+                )
+                VALUES (?, ?, ?, ?, ?, ?)
             """, food)
 
-        cur.execute("""
-        INSERT OR IGNORE INTO coupons
-        (code, discount_type, discount_value, min_order)
-        VALUES ('SWIPTO50', 'flat', 50, 299)
-        """)
+    # DEFAULT COUPON
+    cur.execute("""
+        INSERT OR IGNORE INTO coupons (
+            code,
+            discount_type,
+            discount_value,
+            min_order,
+            active
+        )
+        VALUES ('SWIPTO50', 'flat', 50, 299, 1)
+    """)
 
     conn.commit()
     conn.close()
+
+
+# =========================================================
+# HELPERS
+# =========================================================
+
+def get_setting(key, default_value):
+    conn = get_db()
+
+    row = conn.execute("""
+        SELECT setting_value
+        FROM settings
+        WHERE setting_key = ?
+    """, (key,)).fetchone()
+
+    conn.close()
+
+    if row:
+        return row["setting_value"]
+
+    return default_value
+
+
+def now():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 # =========================================================
@@ -278,8 +423,10 @@ def get_restaurants():
     conn = get_db()
 
     rows = conn.execute("""
-        SELECT * FROM restaurants
-        WHERE approved = 1 AND active = 1
+        SELECT *
+        FROM restaurants
+        WHERE approved = 1
+        AND active = 1
         ORDER BY rating DESC
     """).fetchall()
 
@@ -293,21 +440,25 @@ def get_restaurant(restaurant_id):
 
     conn = get_db()
 
-    restaurant = conn.execute("""
-        SELECT * FROM restaurants
+    row = conn.execute("""
+        SELECT *
+        FROM restaurants
         WHERE id = ?
     """, (restaurant_id,)).fetchone()
 
     conn.close()
 
-    if not restaurant:
-        return jsonify({"error": "Restaurant not found"}), 404
+    if not row:
+        return jsonify({
+            "success": False,
+            "message": "Restaurant not found"
+        }), 404
 
-    return jsonify(dict(restaurant))
+    return jsonify(dict(row))
 
 
 # =========================================================
-# MENU
+# RESTAURANT MENU
 # =========================================================
 
 @app.route("/api/restaurant/<int:restaurant_id>/menu")
@@ -317,19 +468,31 @@ def get_menu(restaurant_id):
 
     conn = get_db()
 
-    if food_type:
+    if food_type and food_type.lower() != "all":
+
         rows = conn.execute("""
-            SELECT * FROM food_items
+            SELECT *
+            FROM food_items
             WHERE restaurant_id = ?
             AND available = 1
             AND food_type = ?
-        """, (restaurant_id, food_type)).fetchall()
+            ORDER BY rating DESC
+        """, (
+            restaurant_id,
+            food_type
+        )).fetchall()
+
     else:
+
         rows = conn.execute("""
-            SELECT * FROM food_items
+            SELECT *
+            FROM food_items
             WHERE restaurant_id = ?
             AND available = 1
-        """, (restaurant_id,)).fetchall()
+            ORDER BY rating DESC
+        """, (
+            restaurant_id,
+        )).fetchall()
 
     conn.close()
 
@@ -345,19 +508,27 @@ def search_food():
 
     query = request.args.get("q", "").strip()
 
+    if not query:
+        return jsonify([])
+
     conn = get_db()
 
     rows = conn.execute("""
-        SELECT food_items.*, restaurants.name AS restaurant_name
+        SELECT
+            food_items.*,
+            restaurants.name AS restaurant_name
         FROM food_items
-        JOIN restaurants
-        ON food_items.restaurant_id = restaurants.id
+        INNER JOIN restaurants
+            ON food_items.restaurant_id = restaurants.id
         WHERE food_items.available = 1
+        AND restaurants.active = 1
+        AND restaurants.approved = 1
         AND (
             food_items.name LIKE ?
             OR food_items.category LIKE ?
             OR restaurants.name LIKE ?
         )
+        ORDER BY food_items.rating DESC
     """, (
         f"%{query}%",
         f"%{query}%",
@@ -370,33 +541,44 @@ def search_food():
 
 
 # =========================================================
-# USER REGISTER
+# REGISTER / LOGIN
 # =========================================================
 
 @app.route("/api/register", methods=["POST"])
 def register():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
 
-    name = data.get("name")
-    phone = data.get("phone")
-    email = data.get("email", "")
-    role = data.get("role", "customer")
+    name = str(data.get("name", "")).strip()
+    phone = str(data.get("phone", "")).strip()
+    email = str(data.get("email", "")).strip()
+    photo = str(data.get("photo", "")).strip()
+    role = str(data.get("role", "customer")).strip()
 
     if not name or not phone:
         return jsonify({
             "success": False,
-            "message": "Name and phone required"
+            "message": "Name and phone number are required"
         }), 400
 
     conn = get_db()
 
     existing = conn.execute("""
-        SELECT * FROM users
+        SELECT *
+        FROM users
         WHERE phone = ?
     """, (phone,)).fetchone()
 
     if existing:
+
+        if existing["blocked"]:
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "This account is blocked"
+            }), 403
+
         conn.close()
 
         return jsonify({
@@ -407,15 +589,22 @@ def register():
     cur = conn.cursor()
 
     cur.execute("""
-        INSERT INTO users
-        (name, phone, email, role, created_at)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO users (
+            name,
+            phone,
+            email,
+            photo,
+            role,
+            created_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
     """, (
         name,
         phone,
         email,
+        photo,
         role,
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        now()
     ))
 
     user_id = cur.lastrowid
@@ -423,7 +612,9 @@ def register():
     conn.commit()
 
     user = conn.execute("""
-        SELECT * FROM users WHERE id = ?
+        SELECT *
+        FROM users
+        WHERE id = ?
     """, (user_id,)).fetchone()
 
     conn.close()
@@ -441,31 +632,52 @@ def register():
 @app.route("/api/address", methods=["POST"])
 def add_address():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
+
+    user_id = data.get("user_id")
+
+    if not user_id:
+        return jsonify({
+            "success": False,
+            "message": "User ID is required"
+        }), 400
 
     conn = get_db()
+
+    if data.get("is_default"):
+
+        conn.execute("""
+            UPDATE addresses
+            SET is_default = 0
+            WHERE user_id = ?
+        """, (user_id,))
 
     cur = conn.cursor()
 
     cur.execute("""
-        INSERT INTO addresses
-        (user_id, name, phone, address,
-         landmark, pincode, is_default)
+        INSERT INTO addresses (
+            user_id,
+            name,
+            phone,
+            address,
+            landmark,
+            pincode,
+            is_default
+        )
         VALUES (?, ?, ?, ?, ?, ?, ?)
     """, (
-        data.get("user_id"),
-        data.get("name"),
-        data.get("phone"),
-        data.get("address"),
+        user_id,
+        data.get("name", ""),
+        data.get("phone", ""),
+        data.get("address", ""),
         data.get("landmark", ""),
         data.get("pincode", ""),
-        data.get("is_default", 0)
+        int(data.get("is_default", 0))
     ))
-
-    conn.commit()
 
     address_id = cur.lastrowid
 
+    conn.commit()
     conn.close()
 
     return jsonify({
@@ -475,7 +687,7 @@ def add_address():
 
 
 # =========================================================
-# USER ADDRESSES
+# GET USER ADDRESSES
 # =========================================================
 
 @app.route("/api/user/<int:user_id>/addresses")
@@ -484,8 +696,10 @@ def user_addresses(user_id):
     conn = get_db()
 
     rows = conn.execute("""
-        SELECT * FROM addresses
+        SELECT *
+        FROM addresses
         WHERE user_id = ?
+        ORDER BY is_default DESC, id DESC
     """, (user_id,)).fetchall()
 
     conn.close()
@@ -500,15 +714,27 @@ def user_addresses(user_id):
 @app.route("/api/order", methods=["POST"])
 def create_order():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
 
     customer_id = data.get("customer_id")
     restaurant_id = data.get("restaurant_id")
     items = data.get("items", [])
-
-    payment_mode = data.get("payment_mode", "COD")
-    address = data.get("address")
+    address = data.get("address", "")
     instructions = data.get("instructions", "")
+    payment_mode = data.get("payment_mode", "COD")
+    discount = float(data.get("discount", 0) or 0)
+
+    if not customer_id:
+        return jsonify({
+            "success": False,
+            "message": "Please login first"
+        }), 400
+
+    if not restaurant_id:
+        return jsonify({
+            "success": False,
+            "message": "Restaurant is required"
+        }), 400
 
     if not items:
         return jsonify({
@@ -522,37 +748,37 @@ def create_order():
     item_total = 0
 
     for item in items:
-        item_total += (
-            float(item["price"]) *
-            int(item["quantity"])
-        )
 
-    settings = conn.execute("""
-        SELECT setting_key, setting_value
-        FROM settings
-    """).fetchall()
+        price = float(item.get("price", 0))
+        quantity = int(item.get("quantity", 1))
 
-    setting_dict = {
-        row["setting_key"]: row["setting_value"]
-        for row in settings
-    }
+        if quantity < 1:
+            quantity = 1
+
+        item_total += price * quantity
 
     delivery_fee = float(
-        setting_dict.get("delivery_fee", 25)
+        get_setting("delivery_fee", "25")
     )
 
     platform_fee = float(
-        setting_dict.get("platform_fee", 5)
+        get_setting("platform_fee", "5")
     )
 
-    discount = float(
-        data.get("discount", 0)
-    )
+    if discount < 0:
+        discount = 0
 
-    grand_total = (
+    before_discount = (
         item_total +
         delivery_fee +
-        platform_fee -
+        platform_fee
+    )
+
+    if discount > before_discount:
+        discount = before_discount
+
+    grand_total = (
+        before_discount -
         discount
     )
 
@@ -584,7 +810,7 @@ def create_order():
         address,
         instructions,
         "Order Placed",
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        now()
     ))
 
     order_id = cur.lastrowid
@@ -603,10 +829,28 @@ def create_order():
         """, (
             order_id,
             item.get("id"),
-            item.get("name"),
-            item.get("price"),
-            item.get("quantity")
+            item.get("name", ""),
+            float(item.get("price", 0)),
+            int(item.get("quantity", 1))
         ))
+
+    # Notification
+    cur.execute("""
+        INSERT INTO notifications (
+            user_id,
+            order_id,
+            title,
+            message,
+            created_at
+        )
+        VALUES (?, ?, ?, ?, ?)
+    """, (
+        customer_id,
+        order_id,
+        "SWIPTO Order Confirmed",
+        f"Your order #{order_id} has been placed successfully.",
+        now()
+    ))
 
     conn.commit()
     conn.close()
@@ -618,7 +862,9 @@ def create_order():
         "item_total": item_total,
         "delivery_fee": delivery_fee,
         "platform_fee": platform_fee,
-        "grand_total": grand_total
+        "discount": discount,
+        "grand_total": grand_total,
+        "payment_mode": payment_mode
     })
 
 
@@ -632,45 +878,55 @@ def order_details(order_id):
     conn = get_db()
 
     order = conn.execute("""
-        SELECT orders.*,
-               restaurants.name AS restaurant_name
+        SELECT
+            orders.*,
+            restaurants.name AS restaurant_name,
+            restaurants.phone AS restaurant_phone,
+            users.name AS customer_name,
+            users.phone AS customer_phone
         FROM orders
         LEFT JOIN restaurants
-        ON orders.restaurant_id = restaurants.id
+            ON orders.restaurant_id = restaurants.id
+        LEFT JOIN users
+            ON orders.customer_id = users.id
         WHERE orders.id = ?
     """, (order_id,)).fetchone()
 
+    if not order:
+        conn.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Order not found"
+        }), 404
+
     items = conn.execute("""
-        SELECT * FROM order_items
+        SELECT *
+        FROM order_items
         WHERE order_id = ?
     """, (order_id,)).fetchall()
 
     conn.close()
 
-    if not order:
-        return jsonify({
-            "error": "Order not found"
-        }), 404
-
     return jsonify({
+        "success": True,
         "order": dict(order),
         "items": [dict(item) for item in items]
     })
 
 
 # =========================================================
-# UPDATE ORDER STATUS
+# ORDER STATUS
 # =========================================================
 
-@app.route(
-    "/api/order/<int:order_id>/status",
-    methods=["PUT"]
-)
+@app.route("/api/order/<int:order_id>/status", methods=["PUT"])
 def update_order_status(order_id):
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
 
-    status = data.get("status")
+    status = str(
+        data.get("status", "")
+    ).strip()
 
     allowed_statuses = [
         "Order Placed",
@@ -680,13 +936,14 @@ def update_order_status(order_id):
         "Picked Up",
         "On The Way",
         "Delivered",
-        "Rejected"
+        "Rejected",
+        "Cancelled"
     ]
 
     if status not in allowed_statuses:
         return jsonify({
             "success": False,
-            "message": "Invalid status"
+            "message": "Invalid order status"
         }), 400
 
     conn = get_db()
@@ -695,13 +952,42 @@ def update_order_status(order_id):
         UPDATE orders
         SET status = ?
         WHERE id = ?
-    """, (status, order_id))
+    """, (
+        status,
+        order_id
+    ))
+
+    order = conn.execute("""
+        SELECT customer_id
+        FROM orders
+        WHERE id = ?
+    """, (order_id,)).fetchone()
+
+    if order and order["customer_id"]:
+
+        conn.execute("""
+            INSERT INTO notifications (
+                user_id,
+                order_id,
+                title,
+                message,
+                created_at
+            )
+            VALUES (?, ?, ?, ?, ?)
+        """, (
+            order["customer_id"],
+            order_id,
+            "Order Update",
+            f"Order #{order_id}: {status}",
+            now()
+        ))
 
     conn.commit()
     conn.close()
 
     return jsonify({
         "success": True,
+        "order_id": order_id,
         "status": status
     })
 
@@ -716,12 +1002,14 @@ def user_orders(user_id):
     conn = get_db()
 
     rows = conn.execute("""
-        SELECT orders.*,
-               restaurants.name AS restaurant_name
+        SELECT
+            orders.*,
+            restaurants.name AS restaurant_name,
+            restaurants.image AS restaurant_image
         FROM orders
         LEFT JOIN restaurants
-        ON orders.restaurant_id = restaurants.id
-        WHERE customer_id = ?
+            ON orders.restaurant_id = restaurants.id
+        WHERE orders.customer_id = ?
         ORDER BY orders.id DESC
     """, (user_id,)).fetchall()
 
@@ -737,15 +1025,21 @@ def user_orders(user_id):
 @app.route("/api/coupon", methods=["POST"])
 def apply_coupon():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
 
-    code = data.get("code", "").upper()
-    amount = float(data.get("amount", 0))
+    code = str(
+        data.get("code", "")
+    ).strip().upper()
+
+    amount = float(
+        data.get("amount", 0) or 0
+    )
 
     conn = get_db()
 
     coupon = conn.execute("""
-        SELECT * FROM coupons
+        SELECT *
+        FROM coupons
         WHERE code = ?
         AND active = 1
     """, (code,)).fetchone()
@@ -755,31 +1049,38 @@ def apply_coupon():
     if not coupon:
         return jsonify({
             "success": False,
-            "message": "Invalid coupon"
+            "message": "Invalid or inactive coupon"
         })
 
     if amount < coupon["min_order"]:
 
         return jsonify({
             "success": False,
-            "message": f"Minimum order ₹{coupon['min_order']} required"
+            "message": (
+                f"Minimum order ₹"
+                f"{coupon['min_order']} required"
+            )
         })
 
-    if coupon["discount_type"] == "flat":
-
-        discount = coupon["discount_value"]
-
-    else:
+    if coupon["discount_type"] == "percent":
 
         discount = (
             amount *
-            coupon["discount_value"] / 100
+            coupon["discount_value"] /
+            100
         )
+
+    else:
+
+        discount = coupon["discount_value"]
+
+    if discount > amount:
+        discount = amount
 
     return jsonify({
         "success": True,
-        "discount": discount,
-        "code": code
+        "code": code,
+        "discount": discount
     })
 
 
@@ -790,24 +1091,88 @@ def apply_coupon():
 @app.route("/api/favourite", methods=["POST"])
 def add_favourite():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
+
+    user_id = data.get("user_id")
+    food_id = data.get("food_id")
+    restaurant_id = data.get("restaurant_id")
 
     conn = get_db()
 
-    conn.execute("""
-        INSERT INTO favourites
-        (user_id, food_id, restaurant_id)
-        VALUES (?, ?, ?)
+    existing = conn.execute("""
+        SELECT *
+        FROM favourites
+        WHERE user_id = ?
+        AND COALESCE(food_id, 0) = COALESCE(?, 0)
+        AND COALESCE(restaurant_id, 0) = COALESCE(?, 0)
     """, (
-        data.get("user_id"),
-        data.get("food_id"),
-        data.get("restaurant_id")
-    ))
+        user_id,
+        food_id,
+        restaurant_id
+    )).fetchone()
+
+    if existing:
+
+        conn.execute("""
+            DELETE FROM favourites
+            WHERE id = ?
+        """, (existing["id"],))
+
+        action = "removed"
+
+    else:
+
+        conn.execute("""
+            INSERT INTO favourites (
+                user_id,
+                food_id,
+                restaurant_id
+            )
+            VALUES (?, ?, ?)
+        """, (
+            user_id,
+            food_id,
+            restaurant_id
+        ))
+
+        action = "added"
 
     conn.commit()
     conn.close()
 
-    return jsonify({"success": True})
+    return jsonify({
+        "success": True,
+        "action": action
+    })
+
+
+# =========================================================
+# FAVOURITE LIST
+# =========================================================
+
+@app.route("/api/user/<int:user_id>/favourites")
+def get_favourites(user_id):
+
+    conn = get_db()
+
+    rows = conn.execute("""
+        SELECT
+            favourites.*,
+            food_items.name AS food_name,
+            food_items.price AS food_price,
+            restaurants.name AS restaurant_name
+        FROM favourites
+        LEFT JOIN food_items
+            ON favourites.food_id = food_items.id
+        LEFT JOIN restaurants
+            ON favourites.restaurant_id = restaurants.id
+        WHERE favourites.user_id = ?
+        ORDER BY favourites.id DESC
+    """, (user_id,)).fetchall()
+
+    conn.close()
+
+    return jsonify([dict(row) for row in rows])
 
 
 # =========================================================
@@ -817,28 +1182,44 @@ def add_favourite():
 @app.route("/api/review", methods=["POST"])
 def add_review():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
+
+    rating = int(data.get("rating", 0))
+
+    if rating < 1 or rating > 5:
+        return jsonify({
+            "success": False,
+            "message": "Rating must be between 1 and 5"
+        }), 400
 
     conn = get_db()
 
     conn.execute("""
-        INSERT INTO reviews
-        (user_id, restaurant_id, food_id,
-         rating, comment, created_at)
+        INSERT INTO reviews (
+            user_id,
+            restaurant_id,
+            food_id,
+            rating,
+            comment,
+            created_at
+        )
         VALUES (?, ?, ?, ?, ?, ?)
     """, (
         data.get("user_id"),
         data.get("restaurant_id"),
         data.get("food_id"),
-        data.get("rating"),
-        data.get("comment"),
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        rating,
+        data.get("comment", ""),
+        now()
     ))
 
     conn.commit()
     conn.close()
 
-    return jsonify({"success": True})
+    return jsonify({
+        "success": True,
+        "message": "Review submitted"
+    })
 
 
 # =========================================================
@@ -850,39 +1231,64 @@ def admin_dashboard():
 
     conn = get_db()
 
-    total_orders = conn.execute(
-        "SELECT COUNT(*) FROM orders"
-    ).fetchone()[0]
+    total_orders = conn.execute("""
+        SELECT COUNT(*)
+        FROM orders
+    """).fetchone()[0]
+
+    delivered_orders = conn.execute("""
+        SELECT COUNT(*)
+        FROM orders
+        WHERE status = 'Delivered'
+    """).fetchone()[0]
 
     total_revenue = conn.execute("""
         SELECT COALESCE(
             SUM(grand_total), 0
-        ) FROM orders
+        )
+        FROM orders
         WHERE status = 'Delivered'
     """).fetchone()[0]
 
     total_customers = conn.execute("""
-        SELECT COUNT(*) FROM users
+        SELECT COUNT(*)
+        FROM users
         WHERE role = 'customer'
+        AND blocked = 0
     """).fetchone()[0]
 
     total_restaurants = conn.execute("""
-        SELECT COUNT(*) FROM restaurants
+        SELECT COUNT(*)
+        FROM restaurants
     """).fetchone()[0]
 
-    total_partners = conn.execute("""
-        SELECT COUNT(*) FROM delivery_partners
+    total_delivery_partners = conn.execute("""
+        SELECT COUNT(*)
+        FROM delivery_partners
+    """).fetchone()[0]
+
+    pending_orders = conn.execute("""
+        SELECT COUNT(*)
+        FROM orders
+        WHERE status NOT IN (
+            'Delivered',
+            'Rejected',
+            'Cancelled'
+        )
     """).fetchone()[0]
 
     conn.close()
 
     return jsonify({
+        "success": True,
         "owner": "NIMMANABOINA RAJESH",
         "total_orders": total_orders,
+        "delivered_orders": delivered_orders,
+        "pending_orders": pending_orders,
         "total_revenue": total_revenue,
         "total_customers": total_customers,
         "total_restaurants": total_restaurants,
-        "total_delivery_partners": total_partners
+        "total_delivery_partners": total_delivery_partners
     })
 
 
@@ -896,15 +1302,16 @@ def admin_orders():
     conn = get_db()
 
     rows = conn.execute("""
-        SELECT orders.*,
-               restaurants.name AS restaurant_name,
-               users.name AS customer_name,
-               users.phone AS customer_phone
+        SELECT
+            orders.*,
+            restaurants.name AS restaurant_name,
+            users.name AS customer_name,
+            users.phone AS customer_phone
         FROM orders
         LEFT JOIN restaurants
-        ON orders.restaurant_id = restaurants.id
+            ON orders.restaurant_id = restaurants.id
         LEFT JOIN users
-        ON orders.customer_id = users.id
+            ON orders.customer_id = users.id
         ORDER BY orders.id DESC
     """).fetchall()
 
@@ -914,16 +1321,142 @@ def admin_orders():
 
 
 # =========================================================
-# RESTAURANT OWNER ADD FOOD
+# ADMIN CUSTOMERS
+# =========================================================
+
+@app.route("/api/admin/customers")
+def admin_customers():
+
+    conn = get_db()
+
+    rows = conn.execute("""
+        SELECT *
+        FROM users
+        WHERE role = 'customer'
+        ORDER BY id DESC
+    """).fetchall()
+
+    conn.close()
+
+    return jsonify([dict(row) for row in rows])
+
+
+# =========================================================
+# ADMIN BLOCK / UNBLOCK USER
+# =========================================================
+
+@app.route("/api/admin/user/<int:user_id>/block", methods=["PUT"])
+def block_user(user_id):
+
+    data = request.get_json(silent=True) or {}
+
+    blocked = int(
+        data.get("blocked", 1)
+    )
+
+    conn = get_db()
+
+    conn.execute("""
+        UPDATE users
+        SET blocked = ?
+        WHERE id = ?
+    """, (
+        blocked,
+        user_id
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "blocked": blocked
+    })
+
+
+# =========================================================
+# ADMIN RESTAURANTS
+# =========================================================
+
+@app.route("/api/admin/restaurants")
+def admin_restaurants():
+
+    conn = get_db()
+
+    rows = conn.execute("""
+        SELECT *
+        FROM restaurants
+        ORDER BY id DESC
+    """).fetchall()
+
+    conn.close()
+
+    return jsonify([dict(row) for row in rows])
+
+
+# =========================================================
+# ADMIN RESTAURANT APPROVAL
+# =========================================================
+
+@app.route(
+    "/api/admin/restaurant/<int:restaurant_id>/approval",
+    methods=["PUT"]
+)
+def restaurant_approval(restaurant_id):
+
+    data = request.get_json(silent=True) or {}
+
+    approved = int(
+        data.get("approved", 1)
+    )
+
+    conn = get_db()
+
+    conn.execute("""
+        UPDATE restaurants
+        SET approved = ?
+        WHERE id = ?
+    """, (
+        approved,
+        restaurant_id
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "approved": approved
+    })
+
+
+# =========================================================
+# RESTAURANT ADD FOOD
 # =========================================================
 
 @app.route("/api/restaurant/food", methods=["POST"])
 def add_food():
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
+
+    required = [
+        "restaurant_id",
+        "name",
+        "price"
+    ]
+
+    for field in required:
+
+        if data.get(field) in (
+            None,
+            ""
+        ):
+            return jsonify({
+                "success": False,
+                "message": f"{field} is required"
+            }), 400
 
     conn = get_db()
-
     cur = conn.cursor()
 
     cur.execute("""
@@ -935,29 +1468,111 @@ def add_food():
             category,
             food_type,
             available,
-            image
+            image,
+            rating,
+            offer
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         data.get("restaurant_id"),
         data.get("name"),
-        data.get("description"),
-        data.get("price"),
-        data.get("category"),
-        data.get("food_type"),
+        data.get("description", ""),
+        float(data.get("price")),
+        data.get("category", ""),
+        data.get("food_type", "Veg"),
         1,
-        data.get("image", "")
+        data.get("image", ""),
+        4.0,
+        data.get("offer", "")
     ))
-
-    conn.commit()
 
     food_id = cur.lastrowid
 
+    conn.commit()
     conn.close()
 
     return jsonify({
         "success": True,
         "food_id": food_id
+    })
+
+
+# =========================================================
+# RESTAURANT EDIT FOOD
+# =========================================================
+
+@app.route(
+    "/api/restaurant/food/<int:food_id>",
+    methods=["PUT"]
+)
+def edit_food(food_id):
+
+    data = request.get_json(silent=True) or {}
+
+    conn = get_db()
+
+    existing = conn.execute("""
+        SELECT *
+        FROM food_items
+        WHERE id = ?
+    """, (food_id,)).fetchone()
+
+    if not existing:
+
+        conn.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Food item not found"
+        }), 404
+
+    conn.execute("""
+        UPDATE food_items
+        SET
+            name = ?,
+            description = ?,
+            price = ?,
+            category = ?,
+            food_type = ?,
+            image = ?,
+            offer = ?
+        WHERE id = ?
+    """, (
+        data.get("name", existing["name"]),
+        data.get(
+            "description",
+            existing["description"]
+        ),
+        float(
+            data.get(
+                "price",
+                existing["price"]
+            )
+        ),
+        data.get(
+            "category",
+            existing["category"]
+        ),
+        data.get(
+            "food_type",
+            existing["food_type"]
+        ),
+        data.get(
+            "image",
+            existing["image"]
+        ),
+        data.get(
+            "offer",
+            existing["offer"]
+        ),
+        food_id
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True
     })
 
 
@@ -971,9 +1586,11 @@ def add_food():
 )
 def food_availability(food_id):
 
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
 
-    available = data.get("available", 1)
+    available = int(
+        data.get("available", 1)
+    )
 
     conn = get_db()
 
@@ -989,11 +1606,44 @@ def food_availability(food_id):
     conn.commit()
     conn.close()
 
-    return jsonify({"success": True})
+    return jsonify({
+        "success": True,
+        "available": available
+    })
 
 
 # =========================================================
-# DELIVERY PARTNER AVAILABLE ORDERS
+# RESTAURANT INCOMING ORDERS
+# =========================================================
+
+@app.route(
+    "/api/restaurant/<int:restaurant_id>/orders"
+)
+def restaurant_orders(restaurant_id):
+
+    conn = get_db()
+
+    rows = conn.execute("""
+        SELECT
+            orders.*,
+            users.name AS customer_name,
+            users.phone AS customer_phone
+        FROM orders
+        LEFT JOIN users
+            ON orders.customer_id = users.id
+        WHERE orders.restaurant_id = ?
+        ORDER BY orders.id DESC
+    """, (
+        restaurant_id,
+    )).fetchall()
+
+    conn.close()
+
+    return jsonify([dict(row) for row in rows])
+
+
+# =========================================================
+# DELIVERY AVAILABLE ORDERS
 # =========================================================
 
 @app.route("/api/delivery/orders")
@@ -1002,13 +1652,16 @@ def delivery_available_orders():
     conn = get_db()
 
     rows = conn.execute("""
-        SELECT orders.*,
-               restaurants.name AS restaurant_name
+        SELECT
+            orders.*,
+            restaurants.name AS restaurant_name,
+            restaurants.address AS restaurant_address
         FROM orders
         LEFT JOIN restaurants
-        ON orders.restaurant_id = restaurants.id
+            ON orders.restaurant_id = restaurants.id
         WHERE orders.status = 'Ready for Pickup'
         AND orders.delivery_partner_id IS NULL
+        ORDER BY orders.id ASC
     """).fetchall()
 
     conn.close()
@@ -1024,13 +1677,32 @@ def delivery_available_orders():
     "/api/delivery/<int:partner_id>/accept/<int:order_id>",
     methods=["PUT"]
 )
-def delivery_accept_order(partner_id, order_id):
+def delivery_accept_order(
+    partner_id,
+    order_id
+):
 
     conn = get_db()
 
+    order = conn.execute("""
+        SELECT *
+        FROM orders
+        WHERE id = ?
+    """, (order_id,)).fetchone()
+
+    if not order:
+
+        conn.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Order not found"
+        }), 404
+
     conn.execute("""
         UPDATE orders
-        SET delivery_partner_id = ?,
+        SET
+            delivery_partner_id = ?,
             status = 'Picked Up'
         WHERE id = ?
     """, (
@@ -1048,15 +1720,144 @@ def delivery_accept_order(partner_id, order_id):
 
 
 # =========================================================
-# START APP
+# DELIVERY EARNINGS
 # =========================================================
+
+@app.route(
+    "/api/delivery/<int:partner_id>/earnings"
+)
+def delivery_earnings(partner_id):
+
+    conn = get_db()
+
+    orders = conn.execute("""
+        SELECT *
+        FROM orders
+        WHERE delivery_partner_id = ?
+        AND status = 'Delivered'
+        ORDER BY id DESC
+    """, (
+        partner_id,
+    )).fetchall()
+
+    # Example delivery earning = delivery fee
+    total = sum(
+        float(order["delivery_fee"] or 0)
+        for order in orders
+    )
+
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "total_earnings": total,
+        "deliveries": [dict(order) for order in orders]
+    })
+
+
+# =========================================================
+# NOTIFICATIONS
+# =========================================================
+
+@app.route(
+    "/api/user/<int:user_id>/notifications"
+)
+def notifications(user_id):
+
+    conn = get_db()
+
+    rows = conn.execute("""
+        SELECT *
+        FROM notifications
+        WHERE user_id = ?
+        ORDER BY id DESC
+    """, (
+        user_id,
+    )).fetchall()
+
+    conn.close()
+
+    return jsonify([dict(row) for row in rows])
+
+
+# =========================================================
+# ADMIN SETTINGS
+# =========================================================
+
+@app.route(
+    "/api/admin/settings"
+)
+def admin_settings():
+
+    conn = get_db()
+
+    rows = conn.execute("""
+        SELECT *
+        FROM settings
+        ORDER BY setting_key
+    """).fetchall()
+
+    conn.close()
+
+    return jsonify({
+        row["setting_key"]: row["setting_value"]
+        for row in rows
+    })
+
+
+@app.route(
+    "/api/admin/settings",
+    methods=["PUT"]
+)
+def update_admin_settings():
+
+    data = request.get_json(silent=True) or {}
+
+    conn = get_db()
+
+    for key, value in data.items():
+
+        conn.execute("""
+            INSERT INTO settings (
+                setting_key,
+                setting_value
+            )
+            VALUES (?, ?)
+
+            ON CONFLICT(setting_key)
+            DO UPDATE SET
+                setting_value = excluded.setting_value
+        """, (
+            str(key),
+            str(value)
+        ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True
+    })
+
+
+# =========================================================
+# APP START
+# =========================================================
+
+# IMPORTANT:
+# Database initialize happens when Gunicorn imports this file.
+# This is required for Render deployment.
+
+init_db()
+
 
 if __name__ == "__main__":
 
-    init_db()
-
     port = int(
-        os.environ.get("PORT", 5000)
+        os.environ.get(
+            "PORT",
+            5000
+        )
     )
 
     app.run(
