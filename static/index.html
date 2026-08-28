@@ -1,1 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWIPTO - Food Delivery</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;
+  background:#f5f5f5;color:#222
+}
+header{
+  background:#ff5a1f;color:#fff;padding:14px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:100
+}
+.logo{font-size:26px;font-weight:bold}
+button{
+  border:0;border-radius:8px;padding:10px 14px;
+  cursor:pointer;font-weight:bold;margin:2px
+}
+.primary{background:#ff5a1f;color:#fff}
+.dark{background:#222;color:#fff}
+.card{
+  background:#fff;border-radius:12px;padding:15px;margin:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08)
+}
+.container{max-width:1100px;margin:auto;padding:10px}
+input,textarea,select{
+  width:100%;padding:12px;margin:6px 0;
+  border:1px solid #ddd;border-radius:8px
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:12px
+}
+.restaurant img{
+  width:100%;height:150px;object-fit:cover;border-radius:10px
+}
+.food{
+  display:flex;justify-content:space-between;
+  gap:10px;align-items:center
+}
+.hidden{display:none!important}
+.nav-btns button{margin-left:5px}
+.cart-count{
+  background:#fff;color:#ff5a1f;border-radius:50%;
+  padding:3px 8px;font-size:12px
+}
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  z-index:999;display:flex;justify-content:center;
+  align-items:center;padding:15px
+}
+.modal-box{
+  background:#fff;max-width:500px;width:100%;
+  max-height:90vh;overflow:auto;border-radius:14px;padding:20px
+}
+.close{float:right;background:#eee;color:#222}
+.status{
+  padding:7px 10px;border-radius:20px;
+  background:#fff3e0;display:inline-block;font-size:13px
+}
+.small{font-size:13px;color:#666}
+.price{font-size:18px;font-weight:bold}
+.section-title{margin:20px 12px 8px}
+.admin-stat{
+  font-size:24px;font-weight:bold;color:#ff5a1f
+}
+.footer{
+  margin-top:40px;background:#222;color:#fff;
+  text-align:center;padding:35px 20px
+}
+.owner-photo{
+  width:90px;height:90px;border-radius:50%;
+  object-fit:cover;border:3px solid #ff5a1f
+}
+
+@media(max-width:700px){
+  header{flex-direction:column;gap:8px}
+  .nav-btns{display:flex;flex-wrap:wrap;justify-content:center}
+  .nav-btns button{font-size:12px;padding:8px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🛵 SWIPTO</div>
+
+  <div class="nav-btns">
+    <button onclick="showHome()">Home</button>
+    <button onclick="showOrders()">Orders</button>
+    <button onclick="showCart()">
+      Cart <span id="cartCount" class="cart-count">0</span>
+    </button>
+    <button onclick="showLogin()">Login</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="homePage">
+
+    <div class="card">
+      <h2>🍔 Food Delivery in Narsampet</h2>
+      <input id="searchInput"
+        placeholder="Search food or restaurant..."
+        oninput="searchFood()">
+    </div>
+
+    <h2 class="section-title">🔥 Popular Foods</h2>
+    <div id="popularFoods" class="grid"></div>
+
+    <h2 class="section-title">🍴 Restaurants</h2>
+    <div id="restaurants" class="grid"></div>
+
+  </div>
+
+  <div id="cartPage" class="hidden"></div>
+  <div id="ordersPage" class="hidden"></div>
+  <div id="restaurantPage" class="hidden"></div>
+  <div id="deliveryPage" class="hidden"></div>
+  <div id="adminPage" class="hidden"></div>
+
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <img src="/static/Owner.jpg"
+       class="owner-photo"
+       onerror="this.style.display='none'">
+
+  <h2>🛵 SWIPTO</h2>
+  <h3>NIMMANABOINA RAJESH</h3>
+  <p>Founder & Owner</p>
+  <p>Narsampet Food Delivery Platform</p>
+</footer>
+
+<script>
+
+const API="";
+let user=JSON.parse(localStorage.getItem("swiptoUser")||"null");
+let cart=JSON.parse(localStorage.getItem("swiptoCart")||"[]");
+let currentCoupon=null;
+
+function saveCart(){
+  localStorage.setItem("swiptoCart",JSON.stringify(cart));
+  updateCartCount();
+}
+
+function updateCartCount(){
+  document.getElementById("cartCount").innerText=
+    cart.reduce((a,b)=>a+b.quantity,0);
+}
+
+function hidePages(){
+  [
+    "homePage",
+    "cartPage",
+    "ordersPage",
+    "restaurantPage",
+    "deliveryPage",
+    "adminPage"
+  ].forEach(id=>document.getElementById(id).classList.add("hidden"));
+}
+
+function showHome(){
+  hidePages();
+  document.getElementById("homePage").classList.remove("hidden");
+  loadHome();
+}
+
+function openModal(html){
+  document.getElementById("modalContent").innerHTML=html;
+  document.getElementById("modal").classList.remove("hidden");
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.add("hidden");
+}
+
+async function api(url,options={}){
+
+  const res=await fetch(API+url,{
+    headers:{"Content-Type":"application/json"},
+    ...options
+  });
+
+  const data=await res.json();
+
+  if(!res.ok){
+    throw new Error(data.message||"Something went wrong");
+  }
+
+  return data;
+}
+
+function esc(text){
+  return String(text||"")
+    .replace(/'/g,"\\'")
+    .replace(/"/g,"&quot;");
+}
+
+/* HOME */
+
+async function loadHome(){
+
+  try{
+
+    const [popular,restaurants]=await Promise.all([
+      api("/api/popular"),
+      api("/api/restaurants")
+    ]);
+
+    document.getElementById("popularFoods").innerHTML=
+      popular.map(foodCard).join("");
+
+    document.getElementById("restaurants").innerHTML=
+      restaurants.map(r=>`
+        <div class="card restaurant">
+          <img src="${r.image||'https://via.placeholder.com/400'}">
+          <h3>${r.name}</h3>
+          <div class="small">${r.category||""}</div>
+          <p>⭐ ${r.rating||4}</p>
+
+          <button class="primary"
+            onclick="openRestaurant(${r.id},'${esc(r.name)}')">
+            View Menu
+          </button>
+        </div>
+      `).join("");
+
+  }catch(e){
+    document.getElementById("popularFoods").innerHTML=
+      "<div class='card'>Unable to load foods.</div>";
+  }
+}
+
+function foodCard(food){
+
+  return `
+    <div class="card food">
+
+      <div>
+        <h3>${food.name}</h3>
+
+        <div class="small">
+          ${food.restaurant_name||""}
+        </div>
+
+        <div class="small">
+          ${food.description||""}
+        </div>
+
+        <p>
+          ${food.type==="Veg"?"🟢 Veg":"🔴 Non-Veg"}
+          ⭐ ${food.rating||4}
+        </p>
+
+        <div class="price">₹${food.price}</div>
+      </div>
+
+      <button class="primary"
+        onclick="addToCart(
+          ${food.id},
+          '${esc(food.name)}',
+          ${food.price},
+          ${food.restaurant_id}
+        )">
+        Add
+      </button>
+
+    </div>
+  `;
+}
+
+/* SEARCH */
+
+async function searchFood(){
+
+  const q=document.getElementById("searchInput").value.trim();
+
+  if(!q){
+    loadHome();
+    return;
+  }
+
+  try{
+
+    const foods=await api(
+      "/api/search?q="+encodeURIComponent(q)
+    );
+
+    document.getElementById("popularFoods").innerHTML=
+      foods.map(foodCard).join("") ||
+      "<div class='card'>No foods found.</div>";
+
+    document.getElementById("restaurants").innerHTML="";
+
+  }catch(e){}
+}
+
+/* RESTAURANT MENU */
+
+async function openRestaurant(id,name){
+
+  try{
+
+    const foods=await api(
+      "/api/restaurant/"+id+"/menu"
+    );
+
+    openModal(`
+      <h2>${name}</h2>
+
+      <button onclick="filterMenu(${id},'')">All</button>
+
+      <button onclick="filterMenu(${id},'Veg')">
+        🟢 Veg
+      </button>
+
+      <button onclick="filterMenu(${id},'Non-Veg')">
+        🔴 Non-Veg
+      </button>
+
+      <div id="menuList">
+        ${foods.map(foodCard).join("")}
+      </div>
+    `);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function filterMenu(id,type){
+
+  let url="/api/restaurant/"+id+"/menu";
+
+  if(type){
+    url+="?type="+type;
+  }
+
+  const foods=await api(url);
+
+  document.getElementById("menuList").innerHTML=
+    foods.map(foodCard).join("");
+}
+
+/* CART */
+
+function addToCart(id,name,price,restaurantId){
+
+  if(
+    cart.length &&
+    cart[0].restaurant_id!==restaurantId
+  ){
+
+    if(!confirm(
+      "You can order from one restaurant at a time. Clear current cart?"
+    )){
+      return;
+    }
+
+    cart=[];
+    currentCoupon=null;
+  }
+
+  let item=cart.find(x=>x.id===id);
+
+  if(item){
+    item.quantity++;
+  }else{
+    cart.push({
+      id,
+      name,
+      price:Number(price),
+      restaurant_id:restaurantId,
+      quantity:1
+    });
+  }
+
+  saveCart();
+
+  alert(name+" added to cart");
+}
+
+function showCart(){
+
+  hidePages();
+
+  const page=document.getElementById("cartPage");
+
+  page.classList.remove("hidden");
+
+  if(!cart.length){
+
+    page.innerHTML=`
+      <div class="card">
+        <h2>🛒 Your Cart</h2>
+        <p>Your cart is empty.</p>
+        <button class="primary" onclick="showHome()">
+          Order Food
+        </button>
+      </div>
+    `;
+
+    return;
+  }
+
+  const total=cart.reduce(
+    (s,x)=>s+x.price*x.quantity,0
+  );
+
+  const discount=currentCoupon ?
+    Number(currentCoupon.discount||0):0;
+
+  const finalTotal=Math.max(0,total-discount);
+
+  page.innerHTML=`
+
+    <div class="card">
+
+      <h2>🛒 Your Cart</h2>
+
+      ${cart.map((x,i)=>`
+
+        <div class="food">
+
+          <div>
+            <b>${x.name}</b>
+            <div>₹${x.price}</div>
+          </div>
+
+          <div>
+            <button onclick="changeQty(${i},-1)">−</button>
+            ${x.quantity}
+            <button onclick="changeQty(${i},1)">+</button>
+          </div>
+
+        </div>
+
+        <hr>
+
+      `).join("")}
+
+      <h3>Item Total: ₹${total}</h3>
+
+      ${
+        currentCoupon ?
+        `<p>🎉 Discount: ₹${discount}</p>
+         <h3>Final Total: ₹${finalTotal}</h3>`:
+        ""
+      }
+
+      <input id="couponInput"
+        placeholder="Coupon Code">
+
+      <button onclick="applyCoupon(${total})">
+        Apply Coupon
+      </button>
+
+      <div id="couponResult"></div>
+
+      <br>
+
+      <button class="primary" onclick="checkout()">
+        Proceed to Checkout
+      </button>
+
+      <button onclick="clearCart()">
+        Clear Cart
+      </button>
+
+    </div>
+  `;
+}
+
+function changeQty(index,change){
+
+  cart[index].quantity+=change;
+
+  if(cart[index].quantity<=0){
+    cart.splice(index,1);
+  }
+
+  currentCoupon=null;
+
+  saveCart();
+  showCart();
+}
+
+function clearCart(){
+
+  if(confirm("Clear your cart?")){
+
+    cart=[];
+    currentCoupon=null;
+
+    saveCart();
+    showCart();
+  }
+}
+
+/* COUPON */
+
+async function applyCoupon(total){
+
+  const code=document
+    .getElementById("couponInput")
+    .value.trim();
+
+  if(!code){
+    alert("Enter coupon code");
+    return;
+  }
+
+  try{
+
+    const result=await api(
+      "/api/coupon/apply",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          code,
+          amount:total
+        })
+      }
+    );
+
+    currentCoupon={
+      ...result,
+      code
+    };
+
+    document.getElementById("couponResult").innerHTML=
+      `<p>🎉 Coupon Applied! Discount ₹${result.discount}</p>`;
+
+    setTimeout(showCart,500);
+
+  }catch(e){
+
+    currentCoupon=null;
+
+    document.getElementById("couponResult").innerHTML=
+      `<p style="color:red">${e.message}</p>`;
+  }
+}
+
+/* LOGIN */
+
+function showLogin(){
+
+  openModal(`
+
+    <h2>Login / Register</h2>
+
+    <input id="userName"
+      placeholder="Your Name">
+
+    <input id="userPhone"
+      placeholder="Mobile Number">
+
+    <button class="primary"
+      onclick="customerLogin()">
+      Continue
+    </button>
+
+    <hr>
+
+    <button onclick="restaurantLoginForm()">
+      🍴 Restaurant Login
+    </button>
+
+    <button onclick="deliveryLoginForm()">
+      🛵 Delivery Partner
+    </button>
+
+    <button onclick="adminLoginForm()">
+      ⚙️ Admin
+    </button>
+  `);
+}
+
+async function customerLogin(){
+
+  try{
+
+    const result=await api(
+      "/api/register",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          name:document.getElementById("userName").value,
+          phone:document.getElementById("userPhone").value
+        })
+      }
+    );
+
+    user=result.user;
+
+    localStorage.setItem(
+      "swiptoUser",
+      JSON.stringify(user)
+    );
+
+    closeModal();
+
+    alert("Welcome "+user.name);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+/* CHECKOUT */
+
+function checkout(){
+
+  if(!user){
+    showLogin();
+    return;
+  }
+
+  openModal(`
+
+    <h2>Checkout</h2>
+
+    <textarea id="address"
+      placeholder="Enter delivery address">${user.address||""}</textarea>
+
+    <textarea id="instructions"
+      placeholder="Delivery instructions (optional)"></textarea>
+
+    <select id="paymentMode">
+      <option value="COD">
+        Cash on Delivery
+      </option>
+      <option value="UPI">
+        UPI
+      </option>
+    </select>
+
+    <button class="primary"
+      onclick="placeOrder()">
+      Place Order
+    </button>
+  `);
+}
+
+async function placeOrder(){
+
+  const address=document
+    .getElementById("address")
+    .value.trim();
+
+  const instructions=document
+    .getElementById("instructions")
+    .value.trim();
+
+  const payment_mode=document
+    .getElementById("paymentMode")
+    .value;
+
+  if(!address){
+    alert("Please enter delivery address");
+    return;
+  }
+
+  try{
+
+    const result=await api(
+      "/api/order",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+
+          customer_id:user.id,
+
+          restaurant_id:cart[0].restaurant_id,
+
+          items:cart.map(x=>({
+            id:x.id,
+            quantity:x.quantity
+          })),
+
+          payment_mode,
+
+          address,
+
+          instructions,
+
+          coupon_code:
+            currentCoupon ? currentCoupon.code : ""
+        })
+      }
+    );
+
+    user.address=address;
+
+    localStorage.setItem(
+      "swiptoUser",
+      JSON.stringify(user)
+    );
+
+    cart=[];
+    currentCoupon=null;
+
+    saveCart();
+
+    closeModal();
+
+    alert(
+      "🎉 Order Placed Successfully!\n\n"+
+      "Order ID: "+result.order_id+
+      "\nTotal: ₹"+result.grand_total
+    );
+
+    showOrders();
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+/* CUSTOMER ORDERS */
+
+async function showOrders(){
+
+  hidePages();
+
+  const page=document.getElementById("ordersPage");
+
+  page.classList.remove("hidden");
+
+  if(!user){
+
+    page.innerHTML=`
+      <div class="card">
+        <h2>📦 My Orders</h2>
+        <p>Please login first.</p>
+        <button class="primary" onclick="showLogin()">
+          Login
+        </button>
+      </div>
+    `;
+
+    return;
+  }
+
+  try{
+
+    const orders=await api(
+      "/api/orders/"+user.id
+    );
+
+    page.innerHTML=`
+
+      <h2>📦 My Orders</h2>
+
+      ${
+        orders.length ?
+
+        orders.map(order=>`
+
+          <div class="card">
+
+            <h3>Order #${order.id}</h3>
+
+            <p><b>
+              ${order.restaurant_name||""}
+            </b></p>
+
+            ${(order.items||[]).map(item=>`
+              <div>
+                ${item.food_name} × ${item.quantity}
+                = ₹${item.price*item.quantity}
+              </div>
+            `).join("")}
+
+            <hr>
+
+            <p>Total: ₹${order.grand_total}</p>
+
+            <div class="status">
+              📍 ${order.status||"Order Placed"}
+            </div>
+
+            <p class="small">
+              Restaurant: ${order.restaurant_status||"Pending"}
+              <br>
+              Delivery: ${order.delivery_status||"Not Assigned"}
+            </p>
+
+            <button onclick="whatsappOrder(${order.id})">
+              WhatsApp Order Details
+            </button>
+
+          </div>
+
+        `).join("")
+
+        :
+
+        "<div class='card'>No orders yet.</div>"
+      }
+    `;
+
+  }catch(e){
+
+    page.innerHTML=
+      "<div class='card'>"+e.message+"</div>";
+  }
+}
+
+async function whatsappOrder(orderId){
+
+  try{
+
+    const result=await api(
+      "/api/order/"+orderId+"/whatsapp-message"
+    );
+
+    if(navigator.clipboard){
+      await navigator.clipboard.writeText(result.message);
+    }
+
+    alert("Order message copied. Paste it in WhatsApp.");
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+/* RESTAURANT */
+
+function restaurantLoginForm(){
+
+  openModal(`
+
+    <h2>🍴 Restaurant Login</h2>
+
+    <input id="rPhone"
+      placeholder="Mobile Number">
+
+    <input id="rPassword"
+      type="password"
+      placeholder="Password">
+
+    <button class="primary"
+      onclick="restaurantLogin()">
+      Login
+    </button>
+  `);
+}
+
+async function restaurantLogin(){
+
+  try{
+
+    const result=await api(
+      "/api/restaurant/login",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          phone:document.getElementById("rPhone").value,
+          password:document.getElementById("rPassword").value
+        })
+      }
+    );
+
+    closeModal();
+
+    localStorage.setItem(
+      "swiptoRestaurant",
+      JSON.stringify(result.restaurant)
+    );
+
+    showRestaurantPanel(result.restaurant);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function showRestaurantPanel(restaurant){
+
+  hidePages();
+
+  const page=document.getElementById("restaurantPage");
+
+  page.classList.remove("hidden");
+
+  try{
+
+    const [orders,foods]=await Promise.all([
+      api("/api/restaurant/"+restaurant.id+"/orders"),
+      api("/api/restaurant/"+restaurant.id+"/foods")
+    ]);
+
+    page.innerHTML=`
+
+      <h2>🍴 ${restaurant.name}</h2>
+
+      <button onclick="showHome()">
+        ← Customer App
+      </button>
+
+      <div class="card">
+
+        <h3>➕ Add Food</h3>
+
+        <input id="newFoodName"
+          placeholder="Food Name">
+
+        <input id="newFoodPrice"
+          type="number"
+          placeholder="Price">
+
+        <select id="newFoodType">
+          <option>Veg</option>
+          <option>Non-Veg</option>
+        </select>
+
+        <textarea id="newFoodDescription"
+          placeholder="Description"></textarea>
+
+        <button class="primary"
+          onclick="addRestaurantFood(${restaurant.id})">
+          Add Food
+        </button>
+
+      </div>
+
+      <h2>📦 Orders</h2>
+
+      ${
+        orders.map(order=>`
+
+          <div class="card">
+
+            <h3>Order #${order.id}</h3>
+
+            <p>${order.customer_name||""}</p>
+
+            ${(order.items||[]).map(item=>`
+              <div>
+                ${item.food_name} × ${item.quantity}
+              </div>
+            `).join("")}
+
+            <p>Total ₹${order.grand_total}</p>
+
+            <div class="status">
+              ${order.status}
+            </div>
+
+            <br><br>
+
+            <button onclick="
+              updateRestaurantOrder(
+                ${order.id},
+                'Accepted',
+                ${restaurant.id}
+              )">
+              Accept
+            </button>
+
+            <button onclick="
+              updateRestaurantOrder(
+                ${order.id},
+                'Preparing',
+                ${restaurant.id}
+              )">
+              Preparing
+            </button>
+
+            <button onclick="
+              updateRestaurantOrder(
+                ${order.id},
+                'Ready for Pickup',
+                ${restaurant.id}
+              )">
+              Ready
+            </button>
+
+            <button onclick="
+              updateRestaurantOrder(
+                ${order.id},
+                'Rejected',
+                ${restaurant.id}
+              )">
+              Reject
+            </button>
+
+          </div>
+
+        `).join("")
+
+        ||
+
+        "<div class='card'>No orders.</div>"
+      }
+
+      <h2>🍔 Menu</h2>
+
+      ${foods.map(food=>`
+
+        <div class="card">
+
+          <b>${food.name}</b> ₹${food.price}
+
+          <p>
+            ${food.available ?
+              "🟢 Available" :
+              "🔴 Not Available"}
+          </p>
+
+          <button onclick="
+            toggleFood(
+              ${food.id},
+              ${food.available?0:1}
+            )">
+
+            ${food.available ?
+              "Mark Unavailable" :
+              "Mark Available"}
+
+          </button>
+
+        </div>
+
+      `).join("")}
+
+    `;
+
+  }catch(e){
+    page.innerHTML="<div class='card'>"+e.message+"</div>";
+  }
+}
+
+async function updateRestaurantOrder(orderId,status){
+
+  try{
+
+    await api(
+      "/api/restaurant/order/"+orderId+"/status",
+      {
+        method:"POST",
+        body:JSON.stringify({status})
+      }
+    );
+
+    const restaurant=JSON.parse(
+      localStorage.getItem("swiptoRestaurant")
+    );
+
+    showRestaurantPanel(restaurant);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function addRestaurantFood(restaurantId){
+
+  try{
+
+    await api(
+      "/api/restaurant/food",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          restaurant_id:restaurantId,
+          name:document.getElementById("newFoodName").value,
+          price:document.getElementById("newFoodPrice").value,
+          type:document.getElementById("newFoodType").value,
+          description:
+            document.getElementById("newFoodDescription").value
+        })
+      }
+    );
+
+    const restaurant=JSON.parse(
+      localStorage.getItem("swiptoRestaurant")
+    );
+
+    showRestaurantPanel(restaurant);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function toggleFood(foodId,available){
+
+  try{
+
+    await api(
+      "/api/restaurant/food/"+foodId,
+      {
+        method:"PUT",
+        body:JSON.stringify({available})
+      }
+    );
+
+    const restaurant=JSON.parse(
+      localStorage.getItem("swiptoRestaurant")
+    );
+
+    showRestaurantPanel(restaurant);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+/* DELIVERY */
+
+function deliveryLoginForm(){
+
+  openModal(`
+
+    <h2>🛵 Delivery Partner</h2>
+
+    <button onclick="deliveryRegisterForm()">
+      Register
+    </button>
+
+    <hr>
+
+    <input id="dPhone"
+      placeholder="Mobile Number">
+
+    <input id="dPassword"
+      type="password"
+      placeholder="Password">
+
+    <button class="primary"
+      onclick="deliveryLogin()">
+      Login
+    </button>
+  `);
+}
+
+function deliveryRegisterForm(){
+
+  openModal(`
+
+    <h2>🛵 Delivery Partner Registration</h2>
+
+    <input id="dRegName"
+      placeholder="Name">
+
+    <input id="dRegPhone"
+      placeholder="Mobile">
+
+    <input id="dRegPassword"
+      type="password"
+      placeholder="Password">
+
+    <input id="dVehicle"
+      placeholder="Vehicle Number">
+
+    <button class="primary"
+      onclick="deliveryRegister()">
+      Register
+    </button>
+  `);
+}
+
+async function deliveryRegister(){
+
+  try{
+
+    const result=await api(
+      "/api/delivery/register",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          name:document.getElementById("dRegName").value,
+          phone:document.getElementById("dRegPhone").value,
+          password:
+            document.getElementById("dRegPassword").value,
+          vehicle_number:
+            document.getElementById("dVehicle").value
+        })
+      }
+    );
+
+    alert("Registration successful");
+
+    closeModal();
+
+    localStorage.setItem(
+      "swiptoDelivery",
+      JSON.stringify(result.partner)
+    );
+
+    showDeliveryPanel(result.partner);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function deliveryLogin(){
+
+  try{
+
+    const result=await api(
+      "/api/delivery/login",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          phone:document.getElementById("dPhone").value,
+          password:document.getElementById("dPassword").value
+        })
+      }
+    );
+
+    closeModal();
+
+    localStorage.setItem(
+      "swiptoDelivery",
+      JSON.stringify(result.partner)
+    );
+
+    showDeliveryPanel(result.partner);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function showDeliveryPanel(partner){
+
+  hidePages();
+
+  const page=document.getElementById("deliveryPage");
+
+  page.classList.remove("hidden");
+
+  try{
+
+    const [available,history]=await Promise.all([
+      api("/api/delivery/orders"),
+      api("/api/delivery/"+partner.id+"/history")
+    ]);
+
+    page.innerHTML=`
+
+      <h2>🛵 Delivery Partner</h2>
+
+      <button onclick="showHome()">
+        ← Customer App
+      </button>
+
+      <div class="card">
+        <h3>${partner.name}</h3>
+        <p>Total Earnings: ₹${history.earnings||0}</p>
+      </div>
+
+      <h2>📦 Available Orders</h2>
+
+      ${
+        available.map(order=>`
+
+          <div class="card">
+
+            <h3>Order #${order.id}</h3>
+
+            <p>🏪 ${order.restaurant_name}</p>
+            <p>👤 ${order.customer_name}</p>
+            <p>📍 ${order.address}</p>
+            <p>₹${order.grand_total}</p>
+
+            <button class="primary"
+              onclick="
+                acceptDelivery(
+                  ${order.id},
+                  ${partner.id}
+                )">
+
+              Accept Delivery
+
+            </button>
+
+          </div>
+
+        `).join("")
+
+        ||
+
+        "<div class='card'>No delivery available.</div>"
+      }
+
+      <h2>📋 My Orders</h2>
+
+      ${(history.orders||[]).map(order=>`
+
+        <div class="card">
+
+          <h3>Order #${order.id}</h3>
+
+          <p>${order.restaurant_name}</p>
+
+          <div class="status">
+            ${order.delivery_status}
+          </div>
+
+          <br><br>
+
+          <button onclick="
+            updateDelivery(
+              ${order.id},
+              ${partner.id},
+              'Picked Up'
+            )">
+            Picked Up
+          </button>
+
+          <button onclick="
+            updateDelivery(
+              ${order.id},
+              ${partner.id},
+              'On the Way'
+            )">
+            On The Way
+          </button>
+
+          <button class="primary" onclick="
+            updateDelivery(
+              ${order.id},
+              ${partner.id},
+              'Delivered'
+            )">
+            Delivered
+          </button>
+
+        </div>
+
+      `).join("")}
+
+    `;
+
+  }catch(e){
+    page.innerHTML="<div class='card'>"+e.message+"</div>";
+  }
+}
+
+async function acceptDelivery(orderId,partnerId){
+
+  try{
+
+    await api(
+      "/api/delivery/order/"+orderId+"/accept",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          partner_id:partnerId
+        })
+      }
+    );
+
+    const partner=JSON.parse(
+      localStorage.getItem("swiptoDelivery")
+    );
+
+    showDeliveryPanel(partner);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function updateDelivery(orderId,partnerId,status){
+
+  try{
+
+    await api(
+      "/api/delivery/order/"+orderId+"/status",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          partner_id:partnerId,
+          status
+        })
+      }
+    );
+
+    const partner=JSON.parse(
+      localStorage.getItem("swiptoDelivery")
+    );
+
+    showDeliveryPanel(partner);
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+/* ADMIN */
+
+function adminLoginForm(){
+
+  openModal(`
+
+    <h2>⚙️ Admin Login</h2>
+
+    <input id="adminUser"
+      placeholder="Username">
+
+    <input id="adminPass"
+      type="password"
+      placeholder="Password">
+
+    <button class="primary"
+      onclick="adminLogin()">
+      Login
+    </button>
+  `);
+}
+
+async function adminLogin(){
+
+  try{
+
+    await api(
+      "/api/admin/login",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          username:
+            document.getElementById("adminUser").value,
+          password:
+            document.getElementById("adminPass").value
+        })
+      }
+    );
+
+    closeModal();
+
+    showAdminPanel();
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function showAdminPanel(){
+
+  hidePages();
+
+  const page=document.getElementById("adminPage");
+
+  page.classList.remove("hidden");
+
+  try{
+
+    const [dashboard,orders]=await Promise.all([
+      api("/api/admin/dashboard"),
+      api("/api/admin/orders")
+    ]);
+
+    page.innerHTML=`
+
+      <h2>⚙️ SWIPTO Admin Dashboard</h2>
+
+      <button onclick="showHome()">
+        ← Customer App
+      </button>
+
+      <div class="grid">
+
+        <div class="card">
+          <div class="small">Customers</div>
+          <div class="admin-stat">
+            ${dashboard.customers}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="small">Restaurants</div>
+          <div class="admin-stat">
+            ${dashboard.restaurants}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="small">
+            Delivery Partners
+          </div>
+          <div class="admin-stat">
+            ${dashboard.delivery_partners}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="small">
+            Total Orders
+          </div>
+          <div class="admin-stat">
+            ${dashboard.total_orders}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="small">Revenue</div>
+          <div class="admin-stat">
+            ₹${dashboard.revenue}
+          </div>
+        </div>
+
+      </div>
+
+      <h2>📦 All Orders</h2>
+
+      ${
+        orders.map(order=>`
+
+          <div class="card">
+
+            <h3>Order #${order.id}</h3>
+
+            <p>
+              Customer: ${order.customer_name||""}
+            </p>
+
+            <p>
+              Restaurant: ${order.restaurant_name||""}
+            </p>
+
+            <p>
+              Total: ₹${order.grand_total}
+            </p>
+
+            <div class="status">
+              ${order.status}
+            </div>
+
+          </div>
+
+        `).join("")
+
+        ||
+
+        "<div class='card'>No orders yet.</div>"
+      }
+
+      <div class="card">
+
+        <h3>🎟 Add Coupon</h3>
+
+        <input id="adminCoupon"
+          placeholder="Coupon Code">
+
+        <select id="adminCouponType">
+          <option value="flat">
+            Flat Amount
+          </option>
+          <option value="percent">
+            Percentage
+          </option>
+        </select>
+
+        <input id="adminCouponValue"
+          type="number"
+          placeholder="Discount Value">
+
+        <input id="adminCouponMin"
+          type="number"
+          placeholder="Minimum Order">
+
+        <button class="primary"
+          onclick="addCoupon()">
+          Add Coupon
+        </button>
+
+      </div>
+    `;
+
+  }catch(e){
+    page.innerHTML="<div class='card'>"+e.message+"</div>";
+  }
+}
+
+async function addCoupon(){
+
+  try{
+
+    await api(
+      "/api/admin/coupons",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          code:
+            document.getElementById("adminCoupon").value,
+
+          discount_type:
+            document.getElementById("adminCouponType").value,
+
+          discount_value:
+            document.getElementById("adminCouponValue").value,
+
+          min_order:
+            document.getElementById("adminCouponMin").value
+        })
+      }
+    );
+
+    alert("Coupon added successfully");
+
+    showAdminPanel();
+
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+/* START */
+
+updateCartCount();
+loadHome();
+
+</script>
+
+</body>
+</html>
