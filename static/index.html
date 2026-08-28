@@ -6,420 +6,120 @@
 <title>SWIPTO - Narsampet Food Delivery</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-:root{
-    --orange:#ff5a1f;
-    --dark:#252525;
-    --light:#f5f5f5;
-    --green:#2e8b57;
-}
-
-body{
-    background:#f4f4f4;
-    color:#292929;
-}
-
-button{
-    border:none;
-    cursor:pointer;
-}
-
-img{
-    width:100%;
-    object-fit:cover;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+:root{--orange:#ff5a1f;--dark:#252525;--light:#f5f5f5}
+body{background:#f4f4f4;color:#292929}
+button{border:none;cursor:pointer}
+img{width:100%;object-fit:cover}
 
 .header{
-    background:var(--orange);
-    color:white;
-    padding:18px 5%;
-    position:sticky;
-    top:0;
-    z-index:100;
-    box-shadow:0 2px 10px rgba(0,0,0,.15);
+background:var(--orange);color:white;padding:15px 5%;
+position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.15)
 }
-
 .topbar{
-    max-width:1200px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
+max-width:1200px;margin:auto;display:flex;align-items:center;gap:15px;flex-wrap:wrap
 }
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-size:28px;
-    font-weight:bold;
-}
-
-.logo{
-    width:58px;
-    height:58px;
-    border-radius:14px;
-    object-fit:cover;
-    background:white;
-}
-
-.location{
-    font-size:16px;
-}
-
-.searchbox{
-    flex:1;
-    min-width:250px;
-}
-
+.brand{display:flex;align-items:center;gap:10px;font-size:27px;font-weight:bold}
+.logo{width:52px;height:52px;border-radius:12px;background:white}
+.location{font-size:15px}
+.searchbox{flex:1;min-width:220px}
 .searchbox input{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:12px;
-    font-size:16px;
+width:100%;padding:14px;border:none;border-radius:10px;font-size:16px
 }
-
-.header-buttons{
-    display:flex;
-    gap:10px;
-}
-
+.header-buttons{display:flex;gap:8px}
 .header-btn{
-    background:rgba(255,255,255,.18);
-    color:white;
-    padding:12px 16px;
-    border-radius:10px;
-    font-size:15px;
+background:rgba(255,255,255,.18);color:white;padding:11px 14px;border-radius:9px
 }
 
 .hero{
-    background:linear-gradient(135deg,#ff5a1f,#ff8a3d);
-    color:white;
-    padding:65px 6%;
+background:linear-gradient(135deg,#ff5a1f,#ff8a3d);
+color:white;padding:55px 6%
 }
+.hero-inner{max-width:1200px;margin:auto}
+.hero h1{font-size:46px;margin-bottom:15px}
+.hero p{font-size:19px;line-height:1.5}
 
-.hero-inner{
-    max-width:1200px;
-    margin:auto;
-}
-
-.hero h1{
-    font-size:48px;
-    max-width:650px;
-    margin-bottom:18px;
-}
-
-.hero p{
-    font-size:21px;
-    max-width:650px;
-    line-height:1.5;
-}
-
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:35px 20px 100px;
-}
-
-.section-title{
-    font-size:28px;
-    margin-bottom:20px;
-}
-
-.filters{
-    display:flex;
-    gap:15px;
-    margin-bottom:30px;
-    flex-wrap:wrap;
-}
-
+.container{max-width:1200px;margin:auto;padding:30px 20px 100px}
+.section-title{font-size:27px;margin-bottom:18px}
+.filters{display:flex;gap:12px;margin-bottom:25px;flex-wrap:wrap}
 .filter-btn{
-    padding:13px 30px;
-    border-radius:14px;
-    background:white;
-    border:1px solid #ddd;
-    font-size:17px;
+padding:12px 25px;border-radius:12px;background:white;border:1px solid #ddd;font-size:16px
 }
+.filter-btn.active{background:var(--orange);color:white}
 
-.filter-btn.active{
-    background:var(--orange);
-    color:white;
+.restaurant-grid,.food-grid{
+display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px
 }
-
-.restaurant-grid,
-.food-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:22px;
-}
-
 .card{
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 4px 18px rgba(0,0,0,.09);
-    transition:.2s;
+background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08)
 }
-
-.card:hover{
-    transform:translateY(-3px);
-}
-
-.restaurant-image{
-    height:170px;
-}
-
-.card-body{
-    padding:18px;
-}
-
-.card h3{
-    margin-bottom:8px;
-    font-size:21px;
-}
-
-.card p{
-    color:#666;
-    margin-bottom:12px;
-}
-
-.rating{
-    color:#f2a900;
-    font-weight:bold;
-}
+.restaurant-image{height:170px}
+.card-body{padding:16px}
+.card h3{margin-bottom:7px;font-size:20px}
+.card p{color:#666;margin-bottom:10px}
+.rating{color:#e69b00;font-weight:bold}
 
 .food-card{
-    padding:20px;
-    min-height:210px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+padding:18px;min-height:210px;display:flex;flex-direction:column;justify-content:space-between
 }
-
-.food-name{
-    font-size:20px;
-    font-weight:bold;
-}
-
-.food-description{
-    color:#666;
-    margin:10px 0;
-    min-height:40px;
-}
-
-.food-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.price{
-    font-size:22px;
-    font-weight:bold;
-}
-
+.food-name{font-size:20px;font-weight:bold}
+.food-description{color:#666;margin:9px 0;min-height:38px}
+.food-bottom{display:flex;justify-content:space-between;align-items:center}
+.price{font-size:21px;font-weight:bold}
 .add-btn{
-    background:var(--orange);
-    color:white;
-    padding:12px 20px;
-    border-radius:10px;
-    font-weight:bold;
+background:var(--orange);color:white;padding:11px 18px;border-radius:9px;font-weight:bold
 }
 
 .cart-float{
-    position:fixed;
-    right:25px;
-    bottom:25px;
-    background:#222;
-    color:white;
-    padding:17px 25px;
-    border-radius:35px;
-    z-index:200;
-    font-size:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,.25);
+position:fixed;right:20px;bottom:20px;background:#222;color:white;
+padding:15px 22px;border-radius:30px;z-index:200;font-size:17px
 }
 
 .modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    z-index:500;
-    overflow:auto;
-    padding:20px;
+display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);
+z-index:500;overflow:auto;padding:20px
 }
-
 .modal-content{
-    background:white;
-    max-width:600px;
-    margin:40px auto;
-    border-radius:20px;
-    padding:25px;
+background:white;max-width:600px;margin:35px auto;border-radius:18px;padding:24px
 }
-
-.modal-content h2{
-    margin-bottom:20px;
+.close{float:right;font-size:28px;cursor:pointer}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;margin-bottom:6px;font-weight:bold}
+.form-group input,.form-group textarea,.form-group select{
+width:100%;padding:13px;border:1px solid #ddd;border-radius:9px;font-size:16px
 }
-
-.close{
-    float:right;
-    font-size:28px;
-    cursor:pointer;
-}
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:6px;
-    font-weight:bold;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    font-size:16px;
-}
-
-.checkout-btn,
-.primary-btn{
-    width:100%;
-    background:var(--orange);
-    color:white;
-    padding:15px;
-    border-radius:10px;
-    font-size:17px;
-    font-weight:bold;
+.primary-btn,.checkout-btn{
+width:100%;background:var(--orange);color:white;padding:14px;border-radius:9px;font-size:17px;font-weight:bold
 }
 
 .cart-item{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    padding:14px 0;
-    border-bottom:1px solid #eee;
+display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid #eee
 }
-
-.qty-box{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
+.qty-box{display:flex;align-items:center;gap:8px}
 .qty-btn{
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    background:var(--orange);
-    color:white;
-    font-size:18px;
+width:31px;height:31px;border-radius:50%;background:var(--orange);color:white;font-size:18px
 }
+.total-box{margin:18px 0;background:#f5f5f5;padding:16px;border-radius:11px}
+.total-row{display:flex;justify-content:space-between;margin:9px 0}
 
-.total-box{
-    margin:20px 0;
-    background:#f5f5f5;
-    padding:18px;
-    border-radius:12px;
-}
-
-.total-row{
-    display:flex;
-    justify-content:space-between;
-    margin:10px 0;
-}
-
-.footer{
-    background:#252525;
-    color:white;
-    padding:45px 20px;
-    text-align:center;
-}
-
+.footer{background:#252525;color:white;padding:40px 20px;text-align:center}
 .owner-img{
-    width:130px;
-    height:130px;
-    border-radius:50%;
-    object-fit:cover;
-    border:5px solid var(--orange);
-    margin:20px auto;
-    display:block;
+width:125px;height:125px;border-radius:50%;object-fit:cover;border:4px solid var(--orange);
+margin:18px auto;display:block
 }
 
-.panel-tabs{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
-}
-
-.panel-tab{
-    padding:10px 15px;
-    border-radius:8px;
-    background:#eee;
-}
-
-.panel-tab.active{
-    background:var(--orange);
-    color:white;
-}
-
-.order-card{
-    border:1px solid #ddd;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:12px;
-}
-
+.order-card{border:1px solid #ddd;padding:14px;border-radius:11px;margin-top:12px}
 .status{
-    display:inline-block;
-    padding:6px 10px;
-    background:#fff0e8;
-    color:#d84a11;
-    border-radius:20px;
-    margin-top:8px;
-    font-size:13px;
+display:inline-block;padding:6px 10px;background:#fff0e8;color:#d84a11;
+border-radius:20px;margin-top:7px;font-size:13px
 }
-
-.empty{
-    text-align:center;
-    padding:40px;
-    color:#777;
-}
+.empty{text-align:center;padding:35px;color:#777}
 
 @media(max-width:600px){
-    .hero h1{
-        font-size:38px;
-    }
-
-    .brand{
-        font-size:24px;
-    }
-
-    .topbar{
-        gap:12px;
-    }
-
-    .header-buttons{
-        width:100%;
-    }
-
-    .header-btn{
-        flex:1;
-    }
+.hero h1{font-size:34px}
+.brand{font-size:23px}
+.header-buttons{width:100%}
+.header-btn{flex:1}
 }
 </style>
 </head>
@@ -427,200 +127,182 @@ img{
 <body>
 
 <header class="header">
-    <div class="topbar">
+<div class="topbar">
 
-        <div class="brand">
-            <img src="/static/swipto-logo.png" class="logo" onerror="this.style.display='none'">
-            <span>SWIPTO</span>
-        </div>
+<div class="brand">
+<img src="/static/swipto-logo.png" class="logo" onerror="this.style.display='none'">
+<span>SWIPTO</span>
+</div>
 
-        <div class="location">📍 Narsampet</div>
+<div class="location">📍 Narsampet</div>
 
-        <div class="searchbox">
-            <input id="searchInput" type="text"
-            placeholder="Search for biryani, pizza, burger..."
-            oninput="searchFood()">
-        </div>
+<div class="searchbox">
+<input id="searchInput" type="text"
+placeholder="Search biryani, pizza, chicken..."
+oninput="searchFood()">
+</div>
 
-        <div class="header-buttons">
-            <button class="header-btn" onclick="openProfile()">👤 <span id="userName">Login</span></button>
-            <button class="header-btn" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
-        </div>
+<div class="header-buttons">
+<button class="header-btn" onclick="openProfile()">👤 <span id="userName">Login</span></button>
+<button class="header-btn" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
+</div>
 
-    </div>
+</div>
 </header>
 
 <section class="hero">
-    <div class="hero-inner">
-        <h1>Delicious Food<br>Delivered Fast 🍔</h1>
-        <p>Order your favourite food from the best restaurants in Narsampet.</p>
-    </div>
+<div class="hero-inner">
+<h1>Delicious Food Delivered Fast 🍔</h1>
+<p>Order your favourite food from the best restaurants in Narsampet.</p>
+</div>
 </section>
 
 <main class="container">
 
-    <h2 class="section-title">🍽 Explore Restaurants</h2>
+<h2 class="section-title">🍽 Explore Restaurants</h2>
 
-    <div class="filters">
-        <button class="filter-btn active" onclick="loadRestaurants()">All</button>
-        <button class="filter-btn" onclick="loadPopular('Veg')">🟢 Veg</button>
-        <button class="filter-btn" onclick="loadPopular('Non-Veg')">🔴 Non-Veg</button>
-    </div>
+<div class="filters">
+<button class="filter-btn active" onclick="loadRestaurants()">All</button>
+<button class="filter-btn" onclick="loadPopular('Veg')">🟢 Veg</button>
+<button class="filter-btn" onclick="loadPopular('Non-Veg')">🔴 Non-Veg</button>
+</div>
 
-    <div id="restaurantList" class="restaurant-grid"></div>
+<div id="restaurantList" class="restaurant-grid"></div>
 
-    <br><br>
+<br><br>
 
-    <h2 class="section-title">🔥 Popular Food</h2>
+<h2 id="foodTitle" class="section-title">🔥 Popular Food</h2>
 
-    <div id="foodList" class="food-grid"></div>
+<div id="foodList" class="food-grid"></div>
 
 </main>
 
 <button class="cart-float" onclick="openCart()">
-    🛒 Cart (<span id="cartCount2">0</span>)
+🛒 Cart (<span id="cartCount2">0</span>)
 </button>
 
 <footer class="footer">
+<div class="brand" style="justify-content:center">
+<img src="/static/swipto-logo.png" class="logo" onerror="this.style.display='none'">
+SWIPTO
+</div>
 
-    <div class="brand" style="justify-content:center;">
-        <img src="/static/swipto-logo.png" class="logo" onerror="this.style.display='none'">
-        SWIPTO
-    </div>
+<h3 style="margin-top:18px">Narsampet Food Delivery Platform</h3>
 
-    <h3 style="margin-top:20px;">Narsampet Food Delivery Platform</h3>
+<img src="/static/owner.jpg" class="owner-img" onerror="this.style.display='none'">
 
-    <img src="/static/owner.jpg"
-         class="owner-img"
-         onerror="this.style.display='none'">
-
-    <h2>NIMMANABOINA RAJESH</h2>
-    <p style="margin-top:10px;color:#ccc;">Founder & Owner</p>
-
+<h2>NIMMANABOINA RAJESH</h2>
+<p style="margin-top:8px;color:#ccc">Founder & Owner</p>
 </footer>
 
-
-<!-- PROFILE MODAL -->
-
+<!-- PROFILE -->
 <div id="profileModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('profileModal')">&times;</span>
+<div class="modal-content">
+<span class="close" onclick="closeModal('profileModal')">&times;</span>
 
-        <h2>👤 Customer Profile</h2>
+<h2>👤 Customer Profile</h2>
 
-        <div class="form-group">
-            <label>Your Name</label>
-            <input id="profileName" placeholder="Enter your name">
-        </div>
-
-        <div class="form-group">
-            <label>Mobile Number</label>
-            <input id="profilePhone" placeholder="Enter mobile number">
-        </div>
-
-        <button class="primary-btn" onclick="registerUser()">Save Profile</button>
-
-        <br><br>
-
-        <button class="primary-btn" style="background:#333;" onclick="loadMyOrders()">
-            📦 My Orders
-        </button>
-
-        <div id="myOrders"></div>
-
-    </div>
+<div class="form-group">
+<label>Your Name</label>
+<input id="profileName" placeholder="Enter your name">
 </div>
 
+<div class="form-group">
+<label>Mobile Number</label>
+<input id="profilePhone" placeholder="Enter mobile number">
+</div>
 
-<!-- CART MODAL -->
+<button class="primary-btn" onclick="registerUser()">Save Profile</button>
 
+<br><br>
+
+<button class="primary-btn" style="background:#333" onclick="loadMyOrders()">
+📦 My Orders
+</button>
+
+<div id="myOrders"></div>
+</div>
+</div>
+
+<!-- CART -->
 <div id="cartModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal('cartModal')">&times;</span>
+<div class="modal-content">
+<span class="close" onclick="closeModal('cartModal')">&times;</span>
 
-        <h2>🛒 Your Cart</h2>
+<h2>🛒 Your Cart</h2>
 
-        <div id="cartItems"></div>
+<div id="cartItems"></div>
 
-        <div class="total-box">
+<div class="total-box">
 
-            <div class="total-row">
-                <span>Item Total</span>
-                <span id="itemTotal">₹0</span>
-            </div>
-
-            <div class="total-row">
-                <span>Delivery Fee</span>
-                <span>₹25</span>
-            </div>
-
-            <div class="total-row">
-                <span>Platform Fee</span>
-                <span>₹5</span>
-            </div>
-
-            <hr>
-
-            <div class="total-row" style="font-size:20px;font-weight:bold;">
-                <span>Total</span>
-                <span id="grandTotal">₹0</span>
-            </div>
-
-        </div>
-
-        <button class="checkout-btn" onclick="openCheckout()">
-            Proceed to Checkout
-        </button>
-
-    </div>
+<div class="total-row">
+<span>Item Total</span>
+<span id="itemTotal">₹0</span>
 </div>
 
+<div class="total-row">
+<span>Delivery Fee</span>
+<span id="deliveryFeeText">₹25</span>
+</div>
 
-<!-- CHECKOUT MODAL -->
+<div class="total-row">
+<span>Platform Fee</span>
+<span id="platformFeeText">₹5</span>
+</div>
 
+<hr>
+
+<div class="total-row" style="font-size:20px;font-weight:bold">
+<span>Total</span>
+<span id="grandTotal">₹0</span>
+</div>
+
+</div>
+
+<button class="checkout-btn" onclick="openCheckout()">
+Proceed to Checkout
+</button>
+
+</div>
+</div>
+
+<!-- CHECKOUT -->
 <div id="checkoutModal" class="modal">
-    <div class="modal-content">
+<div class="modal-content">
 
-        <span class="close" onclick="closeModal('checkoutModal')">&times;</span>
+<span class="close" onclick="closeModal('checkoutModal')">&times;</span>
 
-        <h2>🚚 Checkout</h2>
+<h2>🚚 Checkout</h2>
 
-        <div class="form-group">
-            <label>Delivery Address</label>
-            <textarea id="deliveryAddress"
-            placeholder="Enter complete delivery address"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Payment Mode</label>
-
-            <select id="paymentMode">
-                <option value="COD">Cash on Delivery</option>
-                <option value="UPI">UPI</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Special Instructions</label>
-            <textarea id="instructions"
-            placeholder="Example: Less spicy"></textarea>
-        </div>
-
-        <button class="checkout-btn" onclick="placeOrder()">
-            🎉 Place Order
-        </button>
-
-    </div>
+<div class="form-group">
+<label>Delivery Address</label>
+<textarea id="deliveryAddress" placeholder="Enter complete delivery address"></textarea>
 </div>
 
+<div class="form-group">
+<label>Payment Mode</label>
+<select id="paymentMode">
+<option value="COD">Cash on Delivery</option>
+<option value="UPI">UPI (Coming Soon)</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Special Instructions</label>
+<textarea id="instructions" placeholder="Example: Less spicy"></textarea>
+</div>
+
+<button class="checkout-btn" onclick="placeOrder()">🎉 Place Order</button>
+
+</div>
+</div>
 
 <script>
-
 let cart = JSON.parse(localStorage.getItem("swiptoCart") || "[]");
-
 let user = JSON.parse(localStorage.getItem("swiptoUser") || "null");
-
-let currentFoods = [];
+let currentRestaurantId = null;
+let deliveryFee = 25;
+let platformFee = 5;
 
 function saveCart(){
     localStorage.setItem("swiptoCart", JSON.stringify(cart));
@@ -628,486 +310,340 @@ function saveCart(){
 }
 
 function updateCartCount(){
-
-    let count = cart.reduce((sum,item)=>sum + item.quantity,0);
-
+    const count = cart.reduce((sum,item)=>sum + item.quantity,0);
     document.getElementById("cartCount").innerText = count;
     document.getElementById("cartCount2").innerText = count;
 }
 
 function loadUser(){
-
     if(user){
         document.getElementById("userName").innerText = user.name;
+        document.getElementById("profileName").value = user.name || "";
+        document.getElementById("profilePhone").value = user.phone || "";
     }
 }
 
-async function loadRestaurants(){
+async function loadSettings(){
+    try{
+        const response = await fetch("/api/settings/public");
+        if(!response.ok) return;
 
-    setActiveButton("All");
+        const data = await response.json();
+        deliveryFee = Number(data.delivery_fee || 25);
+        platformFee = Number(data.platform_fee || 5);
+
+        document.getElementById("deliveryFeeText").innerText = "₹" + deliveryFee;
+        document.getElementById("platformFeeText").innerText = "₹" + platformFee;
+    }catch(e){}
+}
+
+function setActive(type){
+    document.querySelectorAll(".filter-btn").forEach(btn=>{
+        btn.classList.remove("active");
+
+        if(type==="All" && btn.innerText.trim()==="All"){
+            btn.classList.add("active");
+        }
+
+        if(type==="Veg" && btn.innerText.includes("Veg") && !btn.innerText.includes("Non-Veg")){
+            btn.classList.add("active");
+        }
+
+        if(type==="Non-Veg" && btn.innerText.includes("Non-Veg")){
+            btn.classList.add("active");
+        }
+    });
+}
+
+async function loadRestaurants(){
+    setActive("All");
+    currentRestaurantId = null;
 
     const box = document.getElementById("restaurantList");
-
     box.innerHTML = "Loading restaurants...";
 
     try{
-
         const response = await fetch("/api/restaurants");
         const restaurants = await response.json();
 
         box.innerHTML = "";
 
-        restaurants.forEach(r=>{
+        if(!restaurants.length){
+            box.innerHTML = "<div class='empty'>No restaurants available.</div>";
+            return;
+        }
 
+        restaurants.forEach(r=>{
             box.innerHTML += `
             <div class="card">
-
-                <img class="restaurant-image"
-                src="${r.image}"
-                alt="${r.name}">
-
+                <img class="restaurant-image" src="${r.image || ''}" alt="${escapeHtml(r.name)}">
                 <div class="card-body">
-
-                    <h3>${r.name}</h3>
-
-                    <p>${r.category || ""}</p>
-
+                    <h3>${escapeHtml(r.name)}</h3>
+                    <p>${escapeHtml(r.category || "")}</p>
                     <div class="rating">⭐ ${r.rating}</div>
-
                     <br>
-
-                    <button class="add-btn"
-                    onclick="showRestaurantMenu(${r.id}, '${safeText(r.name)}')">
+                    <button class="add-btn" onclick="showRestaurantMenu(${r.id}, '${jsEscape(r.name)}')">
                     View Menu
                     </button>
-
                 </div>
-
-            </div>
-            `;
-
+            </div>`;
         });
-
     }catch(error){
-
-        box.innerHTML =
-        "<div class='empty'>Unable to load restaurants.</div>";
-
+        box.innerHTML = "<div class='empty'>Unable to load restaurants.</div>";
     }
-
 }
 
 async function showRestaurantMenu(id,name){
-
-    window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
-
-    document.getElementById("foodList").innerHTML =
-    "Loading menu...";
+    currentRestaurantId = id;
+    document.getElementById("foodTitle").innerText = "🍽 " + name + " Menu";
+    const box = document.getElementById("foodList");
+    box.innerHTML = "Loading menu...";
 
     try{
-
-        const response =
-        await fetch(`/api/restaurant/${id}/menu`);
-
+        const response = await fetch(`/api/restaurant/${id}/menu`);
         const foods = await response.json();
-
-        currentFoods = foods;
-
-        document.querySelector(".section-title:last-of-type").innerText =
-        "🍽 " + name + " Menu";
-
         renderFoods(foods);
-
+        document.getElementById("foodTitle").scrollIntoView({behavior:"smooth"});
     }catch(error){
-
-        document.getElementById("foodList").innerHTML =
-        "<div class='empty'>Menu not available.</div>";
-
+        box.innerHTML = "<div class='empty'>Menu not available.</div>";
     }
-
 }
 
-async function loadPopular(type){
+async function loadPopular(type=""){
+    currentRestaurantId = null;
+    setActive(type || "All");
 
-    setActiveButton(type);
+    try{
+        const response = await fetch("/api/popular");
+        let foods = await response.json();
 
-    const response = await fetch("/api/popular");
+        if(type){
+            foods = foods.filter(f=>f.type===type);
+        }
 
-    let foods = await response.json();
+        document.getElementById("foodTitle").innerText =
+            type ? `🔥 ${type} Food` : "🔥 Popular Food";
 
-    if(type){
-        foods = foods.filter(f=>f.type === type);
+        renderFoods(foods);
+    }catch(error){
+        document.getElementById("foodList").innerHTML =
+            "<div class='empty'>Unable to load food.</div>";
     }
-
-    currentFoods = foods;
-
-    document.querySelector(".section-title:last-of-type").innerText =
-    type ? `🔥 ${type} Food` : "🔥 Popular Food";
-
-    renderFoods(foods);
 }
 
 function renderFoods(foods){
-
     const box = document.getElementById("foodList");
-
     box.innerHTML = "";
 
-    if(!foods.length){
-
-        box.innerHTML =
-        "<div class='empty'>No food found.</div>";
-
+    if(!foods || !foods.length){
+        box.innerHTML = "<div class='empty'>No food found.</div>";
         return;
     }
 
     foods.forEach(food=>{
-
-        const typeIcon =
-        food.type === "Veg" ? "🟢" : "🔴";
+        const icon = food.type==="Veg" ? "🟢" : "🔴";
 
         box.innerHTML += `
-
         <div class="card food-card">
-
             <div>
-
-                <div class="food-name">
-                ${typeIcon} ${food.name}
-                </div>
-
-                <div class="food-description">
-                ${food.description || ""}
-                </div>
-
-                <div class="rating">
-                ⭐ ${food.rating}
-                </div>
-
+                <div class="food-name">${icon} ${escapeHtml(food.name)}</div>
+                <div class="food-description">${escapeHtml(food.description || "")}</div>
+                <div class="rating">⭐ ${food.rating || 4}</div>
+                ${food.restaurant_name ? `<p style="margin-top:8px;font-size:13px">🏪 ${escapeHtml(food.restaurant_name)}</p>` : ""}
             </div>
 
             <div class="food-bottom">
-
                 <div class="price">₹${food.price}</div>
-
-                <button class="add-btn"
-                onclick="addToCart(${food.id}, '${safeText(food.name)}', ${food.price})">
+                <button class="add-btn" onclick="addToCart(${food.id}, '${jsEscape(food.name)}', ${food.price}, ${food.restaurant_id})">
                 ADD
                 </button>
-
             </div>
-
-        </div>
-
-        `;
-
+        </div>`;
     });
-
 }
 
-function safeText(text){
+function addToCart(id,name,price,restaurantId){
+    const existingRestaurantIds = [...new Set(cart.map(item=>item.restaurant_id))];
 
-    return String(text)
-    .replace(/'/g,"\\'")
-    .replace(/"/g,"&quot;");
+    if(existingRestaurantIds.length && !existingRestaurantIds.includes(restaurantId)){
+        const change = confirm("Items from another restaurant are in your cart. Clear cart and add this item?");
+        if(!change) return;
+        cart = [];
+    }
 
-}
-
-function addToCart(id,name,price){
-
-    let existing =
-    cart.find(item=>item.id === id);
+    const existing = cart.find(item=>item.id===id);
 
     if(existing){
-
         existing.quantity++;
-
     }else{
-
         cart.push({
-            id:id,
+            id:Number(id),
             name:name,
             price:Number(price),
-            quantity:1
+            quantity:1,
+            restaurant_id:Number(restaurantId)
         });
-
     }
 
     saveCart();
-
 }
 
 function openCart(){
-
     renderCart();
-
-    document.getElementById("cartModal").style.display="block";
-
+    document.getElementById("cartModal").style.display = "block";
 }
 
 function renderCart(){
-
-    const box =
-    document.getElementById("cartItems");
+    const box = document.getElementById("cartItems");
 
     if(!cart.length){
-
-        box.innerHTML =
-        "<div class='empty'>Your cart is empty 🛒</div>";
-
-        document.getElementById("itemTotal").innerText="₹0";
-        document.getElementById("grandTotal").innerText="₹0";
-
+        box.innerHTML = "<div class='empty'>Your cart is empty 🛒</div>";
+        document.getElementById("itemTotal").innerText = "₹0";
+        document.getElementById("grandTotal").innerText = "₹0";
         return;
     }
 
-    box.innerHTML="";
-
-    let total=0;
+    box.innerHTML = "";
+    let total = 0;
 
     cart.forEach(item=>{
-
         total += item.price * item.quantity;
 
         box.innerHTML += `
-
         <div class="cart-item">
-
             <div>
-
-                <b>${item.name}</b>
-
+                <b>${escapeHtml(item.name)}</b>
                 <div>₹${item.price}</div>
-
             </div>
 
             <div class="qty-box">
-
-                <button class="qty-btn"
-                onclick="changeQty(${item.id},-1)">−</button>
-
+                <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
                 <b>${item.quantity}</b>
-
-                <button class="qty-btn"
-                onclick="changeQty(${item.id},1)">+</button>
-
+                <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
             </div>
-
-        </div>
-
-        `;
-
+        </div>`;
     });
 
-    document.getElementById("itemTotal").innerText =
-    "₹"+total;
-
+    document.getElementById("itemTotal").innerText = "₹" + total;
     document.getElementById("grandTotal").innerText =
-    "₹"+(total+30);
-
+        "₹" + (total + deliveryFee + platformFee);
 }
 
 function changeQty(id,change){
-
-    const item =
-    cart.find(item=>item.id===id);
-
+    const item = cart.find(item=>item.id===id);
     if(!item) return;
 
     item.quantity += change;
 
-    if(item.quantity <= 0){
-
-        cart =
-        cart.filter(item=>item.id!==id);
-
+    if(item.quantity<=0){
+        cart = cart.filter(item=>item.id!==id);
     }
 
     saveCart();
     renderCart();
-
 }
 
 function openProfile(){
-
     if(user){
-
-        document.getElementById("profileName").value =
-        user.name || "";
-
-        document.getElementById("profilePhone").value =
-        user.phone || "";
-
+        document.getElementById("profileName").value = user.name || "";
+        document.getElementById("profilePhone").value = user.phone || "";
     }
 
-    document.getElementById("profileModal").style.display =
-    "block";
-
+    document.getElementById("profileModal").style.display = "block";
 }
 
 async function registerUser(){
+    const name = document.getElementById("profileName").value.trim();
+    const phone = document.getElementById("profilePhone").value.trim();
 
-    const name =
-    document.getElementById("profileName").value.trim();
-
-    const phone =
-    document.getElementById("profilePhone").value.trim();
-
-    if(name.length < 2 || phone.length < 10){
-
+    if(name.length<2 || phone.length<10){
         alert("Please enter valid name and mobile number.");
-
         return;
-
     }
 
     try{
-
-        const response =
-        await fetch("/api/register",{
-
+        const response = await fetch("/api/register",{
             method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-                name:name,
-                phone:phone
-            })
-
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({name:name,phone:phone,role:"customer"})
         });
 
-        const data =
-        await response.json();
+        const data = await response.json();
 
         if(!response.ok){
-
-            alert(data.message || "Registration failed");
-
+            alert(data.message || "Registration failed.");
             return;
-
         }
 
         user = data.user;
-
-        localStorage.setItem(
-        "swiptoUser",
-        JSON.stringify(user)
-        );
-
+        localStorage.setItem("swiptoUser",JSON.stringify(user));
         loadUser();
 
         alert("Profile saved successfully!");
-
     }catch(error){
-
         alert("Server connection error.");
-
     }
-
 }
 
 function openCheckout(){
-
     if(!cart.length){
-
         alert("Your cart is empty.");
-
         return;
-
     }
 
     if(!user){
-
         closeModal("cartModal");
-
         openProfile();
-
         alert("Please login first.");
-
         return;
-
     }
 
     closeModal("cartModal");
 
-    document.getElementById("checkoutModal").style.display =
-    "block";
-
+    document.getElementById("checkoutModal").style.display = "block";
 }
 
 async function placeOrder(){
-
     if(!user){
-
         alert("Please login first.");
-
         return;
-
     }
 
-    const address =
-    document.getElementById("deliveryAddress").value.trim();
-
-    const paymentMode =
-    document.getElementById("paymentMode").value;
-
-    const instructions =
-    document.getElementById("instructions").value.trim();
+    const address = document.getElementById("deliveryAddress").value.trim();
+    const paymentMode = document.getElementById("paymentMode").value;
+    const instructions = document.getElementById("instructions").value.trim();
 
     if(!address){
-
         alert("Please enter delivery address.");
-
         return;
-
     }
 
-    const restaurantId =
-    currentFoods.length ?
-    currentFoods[0].restaurant_id :
-    null;
+    if(paymentMode==="UPI"){
+        alert("Online payment is not enabled yet. Please select Cash on Delivery.");
+        return;
+    }
+
+    const restaurantId = cart.length ? cart[0].restaurant_id : null;
 
     try{
-
-        const response =
-        await fetch("/api/order",{
-
+        const response = await fetch("/api/order",{
             method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
+            headers:{"Content-Type":"application/json"},
             body:JSON.stringify({
-
                 customer_id:user.id,
-
                 restaurant_id:restaurantId,
-
                 items:cart,
-
                 payment_mode:paymentMode,
-
                 address:address,
-
                 instructions:instructions
-
             })
-
         });
 
-        const data =
-        await response.json();
+        const data = await response.json();
 
         if(!response.ok){
-
             alert(data.message || "Order failed.");
-
             return;
-
         }
 
         alert(
@@ -1126,159 +662,136 @@ Payment: ${paymentMode}
 Status: ${data.status}`
         );
 
-        cart=[];
-
+        cart = [];
         saveCart();
 
         closeModal("checkoutModal");
 
-        document.getElementById("deliveryAddress").value="";
-        document.getElementById("instructions").value="";
+        document.getElementById("deliveryAddress").value = "";
+        document.getElementById("instructions").value = "";
+
+        openProfile();
+        loadMyOrders();
 
     }catch(error){
-
         alert("Unable to place order. Please try again.");
-
     }
-
 }
 
 async function loadMyOrders(){
-
     if(!user){
-
         alert("Please login first.");
-
         return;
-
     }
 
-    const box =
-    document.getElementById("myOrders");
-
-    box.innerHTML="Loading orders...";
+    const box = document.getElementById("myOrders");
+    box.innerHTML = "Loading orders...";
 
     try{
-
-        const response =
-        await fetch(`/api/orders/${user.id}`);
-
-        const orders =
-        await response.json();
+        const response = await fetch(`/api/orders/${user.id}`);
+        const orders = await response.json();
 
         if(!orders.length){
-
-            box.innerHTML =
-            "<div class='empty'>No orders yet.</div>";
-
+            box.innerHTML = "<div class='empty'>No orders yet.</div>";
             return;
-
         }
 
-        box.innerHTML="<h3 style='margin-top:20px;'>📦 My Orders</h3>";
+        box.innerHTML = "<h3 style='margin-top:20px'>📦 My Orders</h3>";
 
         orders.forEach(order=>{
+            const items = order.items || [];
+            const itemText = items.map(i=>`${escapeHtml(i.food_name)} x${i.quantity}`).join(", ");
 
             box.innerHTML += `
-
             <div class="order-card">
-
                 <b>Order #${order.id}</b>
-
+                <p>🏪 ${escapeHtml(order.restaurant_name || "Restaurant")}</p>
+                <p>${itemText}</p>
                 <p>Total: ₹${order.grand_total}</p>
-
                 <p>Payment: ${order.payment_mode}</p>
-
-                <span class="status">
-                ${order.status}
-                </span>
-
-            </div>
-
-            `;
-
+                <span class="status">${escapeHtml(order.status)}</span>
+            </div>`;
         });
 
     }catch(error){
-
-        box.innerHTML =
-        "<div class='empty'>Unable to load orders.</div>";
-
+        box.innerHTML = "<div class='empty'>Unable to load orders.</div>";
     }
-
 }
 
-async function searchFood(){
+/* SEARCH FIX */
+let searchTimer = null;
 
-    const q =
-    document.getElementById("searchInput").value.trim();
+function searchFood(){
+    clearTimeout(searchTimer);
 
-    if(q.length === 0){
+    searchTimer = setTimeout(async ()=>{
+        const q = document.getElementById("searchInput").value.trim();
 
-        loadPopular();
+        if(!q){
+            loadPopular();
+            return;
+        }
 
-        return;
+        const box = document.getElementById("foodList");
+        box.innerHTML = "Searching...";
 
-    }
+        try{
+            const response = await fetch(
+                "/api/search?q=" + encodeURIComponent(q)
+            );
 
-    try{
+            if(!response.ok){
+                throw new Error("Search failed");
+            }
 
-        const response =
-        await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+            const foods = await response.json();
 
-        const foods =
-        await response.json();
+            document.getElementById("foodTitle").innerText =
+                `🔍 Search Results for "${q}"`;
 
-        renderFoods(foods);
+            currentRestaurantId = null;
 
-    }catch(error){
+            renderFoods(foods);
 
-        console.log(error);
-
-    }
-
+        }catch(error){
+            console.error(error);
+            box.innerHTML =
+                "<div class='empty'>Search failed. Please try again.</div>";
+        }
+    },300);
 }
 
 function closeModal(id){
-
-    document.getElementById(id).style.display="none";
-
+    document.getElementById(id).style.display = "none";
 }
 
-function setActiveButton(type){
-
-    document.querySelectorAll(".filter-btn")
-    .forEach(btn=>btn.classList.remove("active"));
-
-    document.querySelectorAll(".filter-btn")
-    .forEach(btn=>{
-
-        if(btn.innerText.includes(type) ||
-        (type==="All" && btn.innerText==="All")){
-
-            btn.classList.add("active");
-
-        }
-
-    });
-
+function escapeHtml(text){
+    return String(text || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
-window.onclick=function(event){
+function jsEscape(text){
+    return String(text || "")
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/\n/g," ");
+}
 
+window.onclick = function(event){
     if(event.target.classList.contains("modal")){
-
-        event.target.style.display="none";
-
+        event.target.style.display = "none";
     }
-
-}
+};
 
 updateCartCount();
 loadUser();
+loadSettings().then(()=>renderCart());
 loadRestaurants();
 loadPopular();
-
 </script>
 
 </body>
